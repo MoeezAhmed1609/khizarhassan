@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.33d45e61.css",
+    "main.js": "/static/js/main.0ffa09ee.js",
+    "static/media/nikeair.png": "/static/media/nikeair.8170d7094c12b0ea8a20.png",
+    "static/media/nikecamel.png": "/static/media/nikecamel.6259abc0585d3e98c7c2.png",
+    "static/media/paint.jpg": "/static/media/paint.40c18a5d875e449a2580.jpg",
+    "static/media/Wear.png": "/static/media/Wear.407d562833c20653ab97.png",
+    "index.html": "/index.html",
+    "main.33d45e61.css.map": "/static/css/main.33d45e61.css.map",
+    "main.0ffa09ee.js.map": "/static/js/main.0ffa09ee.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.33d45e61.css",
+    "static/js/main.0ffa09ee.js"
+  ]
+}
