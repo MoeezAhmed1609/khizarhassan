@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Typography,
   MenuItem,
   Card,
+  CircularProgress,
 } from "@mui/material";
 import "datejs";
 import { useSelector } from "react-redux";
@@ -56,6 +57,11 @@ const Shop = ({ handleAddToFavorites }) => {
       : filter === "Oldest"
       ? products.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
       : products;
+  useEffect(() => {
+    if (window.sessionStorage.getItem("category")) {
+      setMode(window.sessionStorage.getItem("category"));
+    }
+  }, [window.sessionStorage]);
   return (
     <>
       <Box sx={{ height: "18vh", width: "100%" }} />
@@ -70,6 +76,7 @@ const Shop = ({ handleAddToFavorites }) => {
         <Grid
           item
           xs={12}
+          sm={6}
           sx={{
             height: "60px",
             display: "flex",
@@ -78,11 +85,13 @@ const Shop = ({ handleAddToFavorites }) => {
           }}
         >
           <Typography variant="h5">{mode} Wears</Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <Box
             sx={{
               height: "40px",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: { xs: "center", sm: "flex-end" },
               alignItems: "center",
             }}
           >
@@ -202,15 +211,30 @@ const Shop = ({ handleAddToFavorites }) => {
             </Menu>
           </Box>
         </Grid>
-        {products?.map((product, i) => (
-          <Grid item xs={12} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
-            <ProductCard
-              handleAddToFavorites={handleAddToFavorites}
-              loading={loading}
-              product={product}
-            />
+        {products ? (
+          products?.map((product, i) => (
+            <Grid item xs={12} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
+              <ProductCard
+                handleAddToFavorites={handleAddToFavorites}
+                loading={loading}
+                product={product}
+              />
+            </Grid>
+          ))
+        ) : (
+          <Grid
+            item
+            xs={12}
+            sx={{
+              height: "80vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress />
           </Grid>
-        ))}
+        )}
       </Grid>
     </>
   );

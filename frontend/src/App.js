@@ -26,6 +26,7 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import About from "./pages/About";
 import { getAllBanners } from "./redux/actions/contentActions";
+import { Box } from "@mui/material";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);

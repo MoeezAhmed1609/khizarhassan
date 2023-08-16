@@ -46,7 +46,7 @@ const Orders = ({ user }) => {
   };
 
   return (
-    <div>
+    <Box sx={{ width: { xs: "96%", md: "75%" } }}>
       {user?.orders?.map((order, index) => (
         <Accordion
           expanded={expanded === `panel${index}`}
@@ -58,12 +58,13 @@ const Orders = ({ user }) => {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography sx={{ width: "33%", flexShrink: 0 }}>
+            <Typography sx={{ minWidth: "33%", flexShrink: 0 }}>
               Placed on: {order?.createdAt.split("T")[0]}
             </Typography>
             <Typography
               sx={{
                 color: order?.orderStatus === "Cancelled" ? "red" : "green",
+                marginLeft: { xs: "5px", sm: "0" },
               }}
             >
               Status: {order?.orderStatus}
@@ -188,7 +189,7 @@ const Orders = ({ user }) => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </div>
+    </Box>
   );
 };
 

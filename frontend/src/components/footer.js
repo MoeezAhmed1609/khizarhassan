@@ -1,6 +1,13 @@
 import React from "react";
 // Material Ui
-import { Box, Stack, Tooltip, IconButton, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Tooltip,
+  IconButton,
+  Typography,
+  Button,
+} from "@mui/material";
 import boomwear from "../assets/Wear.png";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -60,23 +67,20 @@ const Footer = () => {
     >
       <Box
         sx={{
-          height: "15vh",
+          minHeight: "15vh",
           width: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
           alignItems: "center",
           backgroundColor: "white",
           color: "black",
+          flexDirection: { xs: "column", sm: "row" },
         }}
       >
-        <Box sx={{ marginLeft: { xs: "0", md: "30px" } }}>
+        <Box>
           <img src={boomwear} alt="Boom Wear" style={{ height: "13vh" }} />
         </Box>
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{ marginRight: { xs: "0", md: "30px" } }}
-        >
+        <Stack direction="row" spacing={2}>
           <Typography
             sx={{ textTransform: "uppercase", marginTop: "8px" }}
             variant="subtitle1"
@@ -84,7 +88,7 @@ const Footer = () => {
             Follow us on
           </Typography>
           {socials.map((social, index) => (
-            <Link to={social.link} key={index}>
+            <Link to={social.link} key={index} target="_blank">
               <Tooltip title={social.title}>
                 <IconButton sx={{ color: "black" }}>{social.icon}</IconButton>
               </Tooltip>
@@ -98,14 +102,10 @@ const Footer = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "20px 0"
+          padding: "20px 0",
         }}
       >
-        <Stack
-          direction="column"
-          spacing={2}
-          sx={{ marginRight: { xs: "0", md: "30px" } }}
-        >
+        <Stack direction="column" spacing={2}>
           {pages.map((page, index) => (
             <Link to={page.link} key={index} style={{ textDecoration: "none" }}>
               <Button

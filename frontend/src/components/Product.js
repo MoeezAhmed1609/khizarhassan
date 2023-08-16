@@ -901,6 +901,7 @@ const Product = () => {
                   <Grid
                     item
                     xs={12}
+                    sm={6}
                     md={4}
                     key={index}
                     sx={{ padding: "16px 10px" }}

@@ -100,17 +100,26 @@ const Dashboard = () => {
                 },
               }}
             >
-              <Typography variant="h2" sx={{ fontWeight: 800 }}>
+              <Typography
+                sx={{ fontWeight: 800, fontSize: { xs: "8vh", sm: "10vh" } }}
+              >
                 Hey!
               </Typography>
               <Typography
-                variant="h2"
-                sx={{ fontWeight: 800, marginLeft: "10px" }}
+                sx={{
+                  fontWeight: 800,
+                  marginLeft: "10px",
+                  fontSize: { xs: "8vh", sm: "10vh" },
+                }}
               >
                 {user?.name}
               </Typography>
             </Box>
-            <Stack direction="row" spacing={2} sx={{ marginTop: "14px" }}>
+            <Stack
+              direction="row"
+              spacing={{ xs: 0, sm: 3 }}
+              sx={{ marginTop: "14px" }}
+            >
               {pages.map((page, i) => (
                 <Button
                   key={i}
@@ -120,7 +129,7 @@ const Dashboard = () => {
                     display: "block",
                     letterSpacing: "1.5px",
                     fontWeight: "100",
-                    margin: "0 15px",
+                    margin: { xs: "0 5px", sm: "0 15px" },
                     border:
                       mode === page.toLowerCase()
                         ? "1.5px solid black"

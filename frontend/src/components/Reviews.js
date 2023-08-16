@@ -38,7 +38,6 @@ const Reviews = () => {
       });
     }
   });
-  console.log(postedItems);
   // Create Review
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -100,17 +99,20 @@ const Reviews = () => {
               {pendingItems?.map((item, i) => (
                 <Grid item xs={12} sm={6} key={i} sx={{ padding: "16px 10px" }}>
                   <Card sx={{ boxShadow: "none" }}>
-                    <CardActionArea sx={{ display: "flex" }}>
+                    <CardActionArea
+                      sx={{ display: { xs: "block", sm: "flex" } }}
+                    >
                       <Link
                         style={{
                           textDecoration: "none",
                           color: "black",
+                          width: "100%",
                         }}
                         to={`/product/${item?.item?.product?._id}`}
                       >
                         <CardMedia
                           component="img"
-                          sx={{ width: "200px" }}
+                          sx={{ width: "100%", maxHeight: "240px" }}
                           image={item?.item?.product?.images[0]?.url}
                           alt={item?.item?.product?.name}
                         />
@@ -120,7 +122,7 @@ const Reviews = () => {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
-                          width: "100%",
+                          width: "95%",
                         }}
                       >
                         <Typography gutterBottom variant="h5">
@@ -170,17 +172,20 @@ const Reviews = () => {
               {postedItems?.map((item, i) => (
                 <Grid item xs={12} sm={6} key={i} sx={{ padding: "16px 10px" }}>
                   <Card sx={{ boxShadow: "none" }}>
-                    <CardActionArea sx={{ display: "flex" }}>
+                    <CardActionArea
+                      sx={{ display: { xs: "block", md: "flex" } }}
+                    >
                       <Link
                         style={{
                           textDecoration: "none",
                           color: "black",
+                          width: "100%",
                         }}
                         to={`/product/${item?.item?.product?._id}`}
                       >
                         <CardMedia
                           component="img"
-                          sx={{ width: "200px" }}
+                          sx={{ width: "100%", maxHeight: "240px" }}
                           image={item?.item?.product?.images[0]?.url}
                           alt={item?.item?.product?.name}
                         />
@@ -190,7 +195,7 @@ const Reviews = () => {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
-                          width: "100%",
+                          width: "95%",
                         }}
                       >
                         <Typography gutterBottom variant="h5">

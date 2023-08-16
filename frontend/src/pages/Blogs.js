@@ -20,12 +20,16 @@ const Blogs = () => {
         }}
       >
         {data.map((blog) => (
-          <Grid item xs={12} sx={{ padding: "10px" }}>
+          <Grid
+            item
+            xs={12}
+            sx={{ padding: "10px", height: {xs: '70vh', sm: "50vh"}, overflow: "hidden" }}
+          >
             <Link
               to={`/blog/${blog._id}`}
               style={{ color: "black", textDecoration: "none" }}
             >
-              <Grid container>
+              <Grid container sx={{ height: "50vh" }}>
                 <Grid item xs={12} sm={6} md={5}>
                   <img
                     src={blog.banner.url}
@@ -40,11 +44,16 @@ const Blogs = () => {
                   md={7}
                   sx={{
                     padding: "0 10px",
-                    height: "55vh",
+                    height: "50vh",
                     overflow: "hidden",
                   }}
                 >
-                  <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: { xs: "3vh", sm: "6.5vh" },
+                    }}
+                  >
                     {blog.title}
                   </Typography>
                   <Box
@@ -57,7 +66,13 @@ const Blogs = () => {
                       Published On: <b>{blog.createdAt}</b>
                     </Typography>
                   </Box>
-                  <RawHTMLRenderer html={blog.content} />
+                  <Box
+                    sx={{
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
+                    <RawHTMLRenderer html={blog.content} />
+                  </Box>
                 </Grid>
               </Grid>
             </Link>

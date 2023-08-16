@@ -91,7 +91,7 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
               <Typography
                 // gutterBottom
                 variant="subtitle1"
-                sx={{ fontWeight: "600", maxWidth:'75%' }}
+                sx={{ fontWeight: "600", maxWidth: "75%" }}
               >
                 {product.name}
               </Typography>
@@ -106,7 +106,11 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                 {product.totalReviews} Reviews
               </Typography>
               <Box sx={{ display: "flex" }}>
-                <Typography variant="body2" component="div" sx={{fontWeight: 800}}>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  sx={{ fontWeight: 800 }}
+                >
                   ${product.price}.00
                 </Typography>
                 <Typography

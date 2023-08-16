@@ -109,7 +109,7 @@ const Checkout = () => {
             container
             sx={{
               width: "100%",
-              height: "80vh",
+              minHeight: "80vh",
               padding: "0 5%",
               margin: "20px 0",
             }}
@@ -120,15 +120,15 @@ const Checkout = () => {
               sx={{
                 marginBottom: "26px",
                 textAlign: "center",
-                height: "8vh",
+                minHeight: "8vh",
               }}
             >
               <Typography variant="h5">Checkout</Typography>
             </Grid>
-            <Grid item xs={12} md={7} sx={{ height: "70vh" }}>
+            <Grid item xs={12} md={7} sx={{ minHeight: "70vh" }}>
               <Typography variant="h5">Delivery Details</Typography>
               <Grid container sx={{ margin: "30px 0" }}>
-                <Grid item xs={12} md={6} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Full Name"
                     type="text"
@@ -136,7 +136,7 @@ const Checkout = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Email"
                     type="email"
@@ -152,7 +152,7 @@ const Checkout = () => {
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} md={8} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={8} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Phone"
                     type="text"
@@ -160,7 +160,7 @@ const Checkout = () => {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={4} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Zip"
                     type="text"
@@ -188,11 +188,12 @@ const Checkout = () => {
             <Grid
               item
               xs={12}
+              sm={12}
               md={5}
               sx={{
                 height: "70vh",
                 padding: "0 30px",
-                marginTop: { xs: "20px", md: "0" },
+                margin: { xs: "15px 0", md: "0" },
               }}
             >
               <Typography variant="h5" sx={{ fontWeight: "normal" }}>

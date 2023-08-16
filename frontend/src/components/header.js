@@ -36,6 +36,7 @@ import StyledButton from "./styledButton";
 
 // Redux
 import { useSelector } from "react-redux";
+import Services from "./Services";
 
 const Header = () => {
   // Avatar
@@ -158,13 +159,21 @@ const Header = () => {
   const handleClose = () => setSearch(false);
   return (
     <AppBar
-      position="absolute"
-      sx={{ boxShadow: 0, background: "transparent", mt: 2 }}
+      position="fixed"
+      sx={{
+        boxShadow: 0,
+        background: "rgba(255, 255, 255, 0.95)",
+      }}
     >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: "90px",
+          }}
         >
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -252,7 +261,7 @@ const Header = () => {
             sx={{
               flexGrow: 0,
               width: "33.33%",
-              display: "flex",
+              display: { xs: "none", sm: "flex" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
@@ -353,6 +362,16 @@ const Header = () => {
                 </Tooltip>
               </Link>
             ))}
+          </Box>
+          <Box
+            sx={{
+              display: { xs: "flex", sm: "none" },
+              flexGrow: 0,
+              width: "33.33%",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Services />
           </Box>
         </Toolbar>
       </Container>

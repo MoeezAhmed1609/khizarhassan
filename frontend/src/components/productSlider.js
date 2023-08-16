@@ -19,7 +19,7 @@ export default function ProductSlider({ images }) {
         pagination={true}
         modules={[Navigation, Pagination]}
         style={{
-          height: "70vh",
+          minHeight: "70vh",
           width: "100%",
         }}
       >

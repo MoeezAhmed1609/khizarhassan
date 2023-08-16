@@ -22,7 +22,7 @@ import { useParams } from "react-router-dom";
 import { addToCart } from "../redux/reducers/cartReducer";
 import ProductSlider from "../components/productSlider";
 
-const Product = ({handleAddToFavorites}) => {
+const Product = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const product = useSelector((state) => state.product);
@@ -44,7 +44,13 @@ const Product = ({handleAddToFavorites}) => {
   }, [dispatch, id]);
   return (
     <>
-      <Box sx={{ height: "18vh", width: "100%" }}></Box>
+      <Box
+        sx={{
+          height: "18vh",
+          width: "100%",
+          display: { xs: "none", sm: "none", md: "block" },
+        }}
+      ></Box>
       {product.loading ? (
         <Box
           sx={{
@@ -63,13 +69,6 @@ const Product = ({handleAddToFavorites}) => {
             <Grid container>
               <Grid item xs={12} lg={6}>
                 <ProductSlider images={data?.images} />
-                {/* <FadeSlider
-                  width="100%"
-                  height="60vh"
-                  background={true}
-                  button={false}
-                  pagination={true}
-                /> */}
               </Grid>
               <Grid item xs={12} lg={6} sx={{ padding: "10px" }}>
                 <Typography component="h1" variant="subtitle1">

@@ -70,7 +70,11 @@ const Cart = ({ handleAddToFavorites }) => {
           >
             <Typography
               variant="h4"
-              sx={{ letterSpacing: "1.5px", fontWeight: "100" }}
+              sx={{
+                letterSpacing: "1.5px",
+                fontWeight: "100",
+                padding: { xs: "0", sm: "0 40px" },
+              }}
             >
               You don't have any wears in your cart,
               <Link
