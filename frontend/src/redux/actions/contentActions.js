@@ -8,14 +8,16 @@ import {
 } from "../constants/contentConstants";
 import axios from "axios";
 
-export const uploadBanner = (image) => async (dispatch) => {
+export const changeBanner = (id, banner, caption) => async (dispatch) => {
   dispatch({ type: UPLOAD_BANNER_REQUEST });
   const data = await axios({
-    url: "/api/v1/content/banner/add",
-    method: "POST",
+    url: "/api/v1/content/banner/update",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     data: {
-      image,
+      id,
+      banner,
+      caption,
     },
   })
     .then((res) => {

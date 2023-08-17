@@ -6,7 +6,6 @@ import {
   Menu,
   Typography,
   MenuItem,
-  Card,
   CircularProgress,
 } from "@mui/material";
 import "datejs";
@@ -42,8 +41,6 @@ const Shop = ({ handleAddToFavorites }) => {
       ? product?.category?.toLowerCase()?.includes("")
       : product?.category?.toLowerCase()?.includes(mode?.toLowerCase())
   );
-
-  console.log(Date.today().toString("yyyy-MM-dd"));
 
   products =
     filter === ""

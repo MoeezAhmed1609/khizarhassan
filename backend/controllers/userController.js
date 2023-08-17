@@ -187,7 +187,6 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
 // Add product to favorites
 exports.addToFavorites = catchAsyncError(async (req, res, next) => {
   let user = await User.findById(req.user.id);
-  console.log(req.body);
   user.favorites.push(req.body.id);
   await user.save();
   res

@@ -1,18 +1,12 @@
 const Banner = require("../models/bannerModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
-const cloudinary = require("cloudinary");
 
-exports.uploadBanner = catchAsyncError(async (req, res, next) => {
-  const result = await cloudinary.v2.uploader.upload(req.body.image, {
-    folder: "banners",
-  });
-  const banner = await Banner.create({
-    banner: {
-      public_id: result.public_id,
-      url: result.secure_url,
-    },
-  });
+exports.changeBanner = catchAsyncError(async (req, res, next) => {
+  let banner = await Banner.findById(req.body.id);
+  banner.banner = req.body.banner;
+  banner.caption = req.body.caption;
+  await banner.save();
   res.status(200).json({ banner });
 });
 

@@ -65,7 +65,6 @@ const TextEditor = ({ value, setValue }) => {
     }),
     []
   );
-  console.log({ value });
   return (
     <ReactQuill
       theme="snow"

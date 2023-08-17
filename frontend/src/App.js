@@ -1,6 +1,6 @@
 // Css import
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 // React Router Dom Import
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Components Import
@@ -26,7 +26,6 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import About from "./pages/About";
 import { getAllBanners } from "./redux/actions/contentActions";
-import { Box } from "@mui/material";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);

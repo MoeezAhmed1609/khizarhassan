@@ -1,7 +1,8 @@
 const express = require("express");
 const {
-  uploadBanner,
   getAllBanners,
+  changeBanner,
+  changeCaption,
 } = require("../controllers/contentController");
 const {
   isAuthenticatedUser,
@@ -10,11 +11,11 @@ const {
 // Router
 const router = express.Router();
 
-router.post(
-  "/content/banner/add",
+router.put(
+  "/content/banner/update",
   isAuthenticatedUser,
   isAuthorizedRole("Admin"),
-  uploadBanner
+  changeBanner
 );
 
 router.get("/content/banners", getAllBanners);

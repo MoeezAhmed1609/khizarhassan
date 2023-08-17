@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const { data } = useSelector((state) => state.blogs);
-  console.log(data);
   return (
     <>
       <Box sx={{ height: "18vh", width: "100%" }}></Box>

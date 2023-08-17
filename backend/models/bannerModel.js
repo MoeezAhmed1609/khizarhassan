@@ -4,24 +4,8 @@ const bannerSchema = new mongoose.Schema({
     type: String,
     default: "BoomWear Banner",
   },
-  banner: {
-    public_id: {
-      type: String,
-      required: [true, "Banner public id required!"],
-    },
-    url: { type: String, required: [true, "Banner url required!"] },
-  },
-  // background: {
-  //   public_id: {
-  //     type: String,
-  //     required: [true, "Banner background public id required!"],
-  //   },
-  //   url: { type: String, required: [true, "Banner background url required!"] },
-  // },
-  link: {
-    type: String,
-    required: [true, "Banner link is required"],
-  },
+  banner: { type: String, required: [true, "Banner url required!"] },
+  caption: { type: String, required: [true, "Banner url required!"] },
 });
 
-module.exports = mongoose.model("Banners", bannerSchema);
+module.exports = mongoose.model("Banner", bannerSchema);

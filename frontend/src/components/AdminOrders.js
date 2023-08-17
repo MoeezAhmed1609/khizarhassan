@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -52,9 +52,7 @@ const AdminOrders = () => {
       } else return null;
     });
   });
-  console.log({ processingOrders });
   // Change Order Status
-  const [statusModal, setStatusModal] = useState(false);
   const [status, setStatus] = useState("");
   const handleStatusChange = (id) => {
     dispatch(updateOrderStatus(id, status));

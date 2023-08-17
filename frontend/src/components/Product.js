@@ -61,7 +61,6 @@ const Product = () => {
   // Getting product reviews
   const reviewsData = useSelector((state) => state?.product);
   const reviews = reviewsData?.data?.reviews;
-  console.log({ reviews });
   useEffect(() => {
     if (product) {
       setName(product?.name);

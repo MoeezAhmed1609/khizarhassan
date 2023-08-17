@@ -10,20 +10,15 @@ import {
   CardContent,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-// Components Imports
-import FadeSlider from "../components/fadeSlider";
 // Metadata Import
 import Metadata from "../components/metadata";
 // Redux Imports
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../redux/actions/productsActions";
-import banner from "../assets/banner.mp4";
-import text from "../assets/banner-text.png";
 import StyledButton from "../components/styledButton";
 import menswear from "../assets/menswear.webp";
 import womenswear from "../assets/womenswear.webp";
 import kidswear from "../assets/kidswear.webp";
-import userbg from "../assets/user-bg.jpg";
 import boomwear from "../assets/Wear.png";
 
 import { Link } from "react-router-dom";
@@ -33,6 +28,7 @@ const Home = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
   const [blogLength, setBlogLength] = useState(4);
   const { loading, data } = useSelector((state) => state.products);
+  const ban = useSelector((state) => state.banners.data);
   // Blogs
   const blogs = useSelector((state) => state.blogs.data);
   // Categories
@@ -53,7 +49,6 @@ const Home = ({ handleAddToFavorites }) => {
       perma: "Kids",
     },
   ];
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
@@ -66,7 +61,7 @@ const Home = ({ handleAddToFavorites }) => {
       setBlogLength(1);
     }
   }, [window.innerWidth, blogLength]);
-  console.log(blogLength);
+
   return (
     <>
       <Metadata title="Get your desired footwears | BoomWear Official Store" />
@@ -79,7 +74,8 @@ const Home = ({ handleAddToFavorites }) => {
         }}
       >
         <video width="100%" autoPlay loop muted>
-          <source src={banner} type="video/mp4" />
+          <source src={ban && ban[0]?.banner} type="video/mp4" />
+          <source src={"https://res.cloudinary.com/dbpozpcln/video/upload/v1692194988/banner/banner_yasc0o.mp4"} type="video/mp4" />
         </video>
         <Box
           sx={{
@@ -94,7 +90,11 @@ const Home = ({ handleAddToFavorites }) => {
             flexDirection: "column",
           }}
         >
-          <img src={text} style={{ width: "50%" }} alt="banner text" />
+          <img
+            src={ban && ban[0]?.caption}
+            style={{ width: "50%" }}
+            alt="banner text"
+          />
           <Link
             to={"/shop"}
             style={{
@@ -460,7 +460,7 @@ const Home = ({ handleAddToFavorites }) => {
               background: "white",
             }}
           >
-            <img src={boomwear} style={{ height: "25vh" }} />
+            <img src={boomwear} style={{ height: "25vh" }} alt='boom wear' />
           </Box>
         </Grid>
       </Grid>

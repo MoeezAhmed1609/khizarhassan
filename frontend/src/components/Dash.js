@@ -18,7 +18,6 @@ const Dash = () => {
     });
   });
 
-  // console.log({ users });
   const boxes = [
     {
       title: "Total Products",
