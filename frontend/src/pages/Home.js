@@ -10,8 +10,6 @@ import {
   CardContent,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-// Metadata Import
-import Metadata from "../components/metadata";
 // Redux Imports
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../redux/actions/productsActions";
@@ -64,7 +62,6 @@ const Home = ({ handleAddToFavorites }) => {
 
   return (
     <>
-      <Metadata title="Get your desired footwears | BoomWear Official Store" />
       {/* Video Banner */}
       <Box
         sx={{
@@ -75,7 +72,12 @@ const Home = ({ handleAddToFavorites }) => {
       >
         <video width="100%" autoPlay loop muted>
           <source src={ban && ban[0]?.banner} type="video/mp4" />
-          <source src={"https://res.cloudinary.com/dbpozpcln/video/upload/v1692194988/banner/banner_yasc0o.mp4"} type="video/mp4" />
+          <source
+            src={
+              "https://res.cloudinary.com/dbpozpcln/video/upload/v1692194988/banner/banner_yasc0o.mp4"
+            }
+            type="video/mp4"
+          />
         </video>
         <Box
           sx={{
@@ -91,7 +93,9 @@ const Home = ({ handleAddToFavorites }) => {
           }}
         >
           <img
-            src={ban && ban[0]?.caption}
+            src={
+              "https://res.cloudinary.com/dbpozpcln/image/upload/v1692195829/banner/banner-text_tjisxq.png"
+            }
             style={{ width: "50%" }}
             alt="banner text"
           />
@@ -460,7 +464,7 @@ const Home = ({ handleAddToFavorites }) => {
               background: "white",
             }}
           >
-            <img src={boomwear} style={{ height: "25vh" }} alt='boom wear' />
+            <img src={boomwear} style={{ height: "25vh" }} alt="boom wear" />
           </Box>
         </Grid>
       </Grid>

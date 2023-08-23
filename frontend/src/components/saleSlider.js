@@ -10,30 +10,22 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper";
 
 // MUI
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Box,
-  Typography,
-  Rating,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export default function SaleSlider({
-  products,
-}) {
+export default function SaleSlider({ products }) {
   return (
     <Swiper
       navigation={true}
       modules={[Navigation]}
       style={{ height: "60vh", width: "100%" }}
     >
-      {products?.products?.map((product) => (
+      {products?.products?.map((product, i) => (
         <SwiperSlide>
           <Link
             to={`/product/${product._id}`}
             style={{ textDecoration: "none", color: "black" }}
+            key={i}
           >
             <Box
               sx={{
