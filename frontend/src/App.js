@@ -18,7 +18,7 @@ import Checkout from "./pages/Checkout";
 import { store } from "./redux/store";
 import { getUserDetails, addToFavorites } from "./redux/actions/userActions";
 import { getAllProducts } from "./redux/actions/productsActions";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Shop from "./pages/Shop";
 import ScrollToTop from "./components/ScrollToTop";
 import { getAllBlogs } from "./redux/actions/blogActions";
@@ -28,6 +28,7 @@ import About from "./pages/About";
 import { getAllBanners } from "./redux/actions/contentActions";
 
 function App() {
+  const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
   // Add to favorites
   const handleAddToFavorites = (id) => {
@@ -45,15 +46,15 @@ function App() {
   };
 
   useEffect(() => {
-    // Get logged in user information
-    store.dispatch(getUserDetails());
     // Get all banners
-    store.dispatch(getAllBanners());
+    dispatch(getAllBanners());
     // Get all products
-    store.dispatch(getAllProducts());
+    dispatch(getAllProducts());
     // Get all blogs
-    store.dispatch(getAllBlogs());
-  }, [store.dispatch]);
+    dispatch(getAllBlogs());
+    // Get logged in user information
+    dispatch(getUserDetails());
+  }, []);
   return (
     <>
       <Router>
