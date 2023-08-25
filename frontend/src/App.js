@@ -53,7 +53,7 @@ function App() {
     // Get all blogs
     dispatch(getAllBlogs());
     // Get logged in user information
-    // dispatch(getUserDetails());
+    dispatch(getUserDetails());
   }, []);
   return (
     <>
