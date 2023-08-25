@@ -15,6 +15,9 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "backend/config/.env" });
 }
 
+// MongoDB connection
+connectMongoDB();
+
 // Cloudinary configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -23,7 +26,6 @@ cloudinary.config({
 });
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  connectMongoDB();
   console.log("Server listening on port " + process.env.PORT);
 });
 
