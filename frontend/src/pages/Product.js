@@ -18,11 +18,12 @@ import ProductTabs from "../components/tabs";
 // React Redux
 import { useSelector, useDispatch } from "react-redux";
 import { getProductDetails } from "../redux/actions/productsActions";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../redux/reducers/cartReducer";
 import ProductSlider from "../components/productSlider";
 
 const Product = ({ handleAddToFavorites }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const product = useSelector((state) => state.product);
@@ -37,7 +38,7 @@ const Product = ({ handleAddToFavorites }) => {
       return;
     }
     dispatch(addToCart({ product: data, size }));
-    window.location.replace("/cart");
+    navigate("/cart");
   };
   useEffect(() => {
     dispatch(getProductDetails(id));

@@ -58,10 +58,17 @@ const Home = ({ handleAddToFavorites }) => {
     } else if (window.innerWidth < 430) {
       setBlogLength(1);
     }
-  }, [window.innerWidth, blogLength]);
+  }, [blogLength]);
 
   return (
     <>
+      <Box
+        sx={{
+          height: "18.5vh",
+          width: "100%",
+          display: { xs: "block", sm: "none" },
+        }}
+      ></Box>
       {/* Video Banner */}
       <Box
         sx={{
@@ -96,7 +103,7 @@ const Home = ({ handleAddToFavorites }) => {
             src={
               "https://res.cloudinary.com/dbpozpcln/image/upload/v1692195829/banner/banner-text_tjisxq.png"
             }
-            style={{ width: "50%" }}
+            className="banner-caption"
             alt="banner text"
           />
           <Link
@@ -123,7 +130,7 @@ const Home = ({ handleAddToFavorites }) => {
                 </>
               }
               mode={"light"}
-              width={"50%"}
+              width={{ xs: "100%", sm: "50%" }}
             />
           </Link>
         </Box>
@@ -337,7 +344,9 @@ const Home = ({ handleAddToFavorites }) => {
                   to={`/blog/${blog?._id}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
-                  <Card sx={{ width: "100%", height: "55vh" }}>
+                  <Card
+                    sx={{ width: "100%", height: { xs: "65vh", sm: "55vh" } }}
+                  >
                     <CardActionArea>
                       <CardMedia
                         component="img"

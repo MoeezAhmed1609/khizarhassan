@@ -2,7 +2,7 @@
 import "./App.css";
 import { useEffect } from "react";
 // React Router Dom Import
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 // Components Import
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -54,7 +54,7 @@ function App() {
     dispatch(getAllBlogs());
     // Get logged in user information
     dispatch(getUserDetails());
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <Router>

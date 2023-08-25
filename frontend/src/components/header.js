@@ -204,8 +204,15 @@ const Header = () => {
               }}
             >
               {pages.map((page, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
-                  <Link to={page.link} style={{ textDecoration: "none" }}>
+                <MenuItem
+                  key={index}
+                  onClick={handleCloseNavMenu}
+                  sx={{ width: "40vw", display: 'flex', justifyContent:'center' }}
+                >
+                  <Link
+                    to={page.link}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
                 </MenuItem>

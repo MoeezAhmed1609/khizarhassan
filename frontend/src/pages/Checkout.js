@@ -13,11 +13,12 @@ import {
 import HelpIcon from "@mui/icons-material/Help";
 import StyledTextField from "../components/styledTextField";
 import StyledButton from "../components/styledButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import { createOrder } from "../redux/actions/userActions";
 
 const Checkout = () => {
+  const navigate = useNavigate()
   // Getting User
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   // Getting cart items
@@ -82,10 +83,10 @@ const Checkout = () => {
   };
   useEffect(() => {
     if (!isAuthenticated && loading === false) {
-      window.location.replace("/account");
+      navigate("/account", { replace: true });
     }
     if (cart?.length === 0) {
-      window.location.replace("/shop");
+      navigate("/shop", { replace: true });
     }
   }, [isAuthenticated]);
   return (

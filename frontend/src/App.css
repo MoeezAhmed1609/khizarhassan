@@ -50,3 +50,14 @@ input[type="radio"]:checked + label {
   color: #54aee6;
   font-size: larger;
 }
+
+/* banner image */
+.banner-caption {
+  width: 50%
+}
+
+@media only screen and (max-width: 450px) {
+  .banner-caption {
+    width: 75%
+  }
+}

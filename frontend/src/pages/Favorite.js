@@ -12,12 +12,13 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromFavorites } from "../redux/actions/userActions";
 import StyledButton from "../components/styledButton";
 
 const Favorite = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   // Remove from favorites
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Favorite = () => {
 
   useEffect(() => {
     if (loading === false && !isAuthenticated) {
-      window.location.replace("/account");
+      navigate("/account", { replace: true });
     }
   }, []);
   return (

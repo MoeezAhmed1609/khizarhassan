@@ -6,15 +6,16 @@ import { loginUser, registerUser } from "../redux/actions/userActions";
 import isEmail from "validator/lib/isEmail";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Account = () => {
+  const navigate = useNavigate()
   const [mode, setMode] = useState("login");
   // Getting user
   const { isAuthenticated, error } = useSelector((state) => state.user);
   useEffect(() => {
     if (isAuthenticated) {
-      window.location.replace("/dashboard");
+      navigate("/dashboard", { replace: true });
     }
   }, [isAuthenticated]);
   return (
