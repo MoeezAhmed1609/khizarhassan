@@ -4,18 +4,20 @@ const errorMiddleware = require("./middlewares/error");
 const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const path = require("path");
+const compression = require('compression');
 
 const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
-    limit: "10mb",
+    limit: "5mb",
     extended: true,
     parameterLimit: 10000,
   })
 );
 app.use(fileUpload());
+app.use(compression())
 
 // Routes Imports
 const products = require("./routes/productRoutes");
