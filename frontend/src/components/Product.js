@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -13,33 +13,24 @@ import {
   CardContent,
   CardActions,
   Pagination,
-  FormControl,
-  Select,
-  MenuItem,
-  InputLabel,
-  Chip,
-  InputAdornment,
-  Input,
   Rating,
-  Badge,
   Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
-import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
-  createProduct,
   deleteProduct,
   getAllProductReviews,
-  getProductDetails,
-  updateProduct,
 } from "../redux/actions/productsActions";
+import CreateProduct from "./CreateProduct";
+import UpdateProduct from "./UpdateProduct";
 
 const Product = () => {
   const [expanded, setExpanded] = React.useState(false);
@@ -53,791 +44,14 @@ const Product = () => {
   const productsCount = data?.productsCount;
   // Search
   const [search, setSearch] = useState("");
-  // Categories
-  const categories = ["Mens", "Woman", "Kids"];
-  // Getting product details for update
-  const details = useSelector((state) => state.product);
-  const product = details?.data?.product;
-  // Getting product reviews
-  const reviewsData = useSelector((state) => state?.product);
-  const reviews = reviewsData?.data?.reviews;
-  useEffect(() => {
-    if (product) {
-      setName(product?.name);
-      setDescription(product?.description);
-      setPrice(product?.price);
-      setDiscount(product?.discount);
-      setOldImages(product?.images);
-      setCategory(product?.category);
-      setSizes(product?.sizes);
-    }
-  }, [product]);
-  // Create Product
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(0);
-  const [discount, setDiscount] = useState("");
-  const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState([]);
-  const [category, setCategory] = useState("");
-  const [sizes, setSizes] = useState([]);
-  const [size, setSize] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
   // Pagination
   const [page, setPage] = useState(1);
   const perPage = 6;
-
-  // Image Uploader
-  const hiddenFileInput = useRef(null);
-  const handleImageClick = (event) => {
-    hiddenFileInput.current.click();
-  };
-
-  const handleImageChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImages((images) => [...images, reader.result]);
-      }
-    };
-    reader?.readAsDataURL(e.target.files[0]);
-  };
-
-  const handleImageRemove = (image) => {
-    const array = [...images];
-    const index = array.indexOf(image);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setImages(array);
-    }
-  };
-
-  const handleChipDelete = (chip) => {
-    const array = [...sizes];
-    const index = array.indexOf(chip);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setSizes(array);
-    }
-  };
-  const fields = [
-    {
-      create: true,
-      code: (
-        <StyledTextField
-          title={"Products Name"}
-          type={"text"}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      ),
-      xs: 4,
-      update: true,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledTextField
-          title={"Product Price"}
-          type={"number"}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledTextField
-          title={"Product Discount"}
-          type={"number"}
-          value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
-        />
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-            sx={{
-              "& .MuiInputBase-input": {
-                border: "1.5px solid black",
-                backgroundColor: "white",
-                "&:focus": {
-                  border: "1.5px solid black",
-                  boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
-                },
-              },
-            }}
-          >
-            {categories.map((category, i) => (
-              <MenuItem value={category.toLowerCase()} key={i}>
-                {category}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <textarea
-          style={{
-            height: "48px",
-            width: "100%",
-            border: "1.5px solid black",
-            borderRadius: "4px",
-            padding: "4px 6px",
-            fontFamily: "sans-serif",
-          }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter product description here..."
-        />
-      ),
-      xs: 8,
-    },
-    {
-      create: true,
-      code: (
-        <>
-          <Box
-            sx={{
-              height: "75px",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              border: "1.5px solid black",
-              borderRadius: "4px",
-              justifyContent: "space-between",
-              padding: "5px",
-            }}
-          >
-            <Box sx={{ height: "75px", display: "flex", alignItems: "center" }}>
-              {images.length > 0 ? (
-                images?.map((image, i) => (
-                  <Badge
-                    key={i}
-                    overlap="circular"
-                    badgeContent={
-                      <IconButton
-                        sx={{ height: "20px", width: "20px" }}
-                        onClick={() => handleImageRemove(image)}
-                      >
-                        <CloseIcon sx={{ fontSize: "20px" }} />
-                      </IconButton>
-                    }
-                  >
-                    <img
-                      src={image}
-                      alt="Product"
-                      style={{ height: "68px", margin: "0 3px" }}
-                    />
-                  </Badge>
-                ))
-              ) : (
-                <Typography variant="subtitle1" sx={{ paddingLeft: "10px" }}>
-                  No images
-                </Typography>
-              )}
-            </Box>
-            <input
-              type="file"
-              ref={hiddenFileInput}
-              accept="image/*"
-              onChange={handleImageChange}
-              style={{ display: "none" }}
-            />
-            <StyledButton
-              title={"Upload"}
-              mode={"dark"}
-              width={"25%"}
-              onClick={handleImageClick}
-            />
-          </Box>
-        </>
-      ),
-      xs: 6,
-      update: false,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <>
-          <Box
-            sx={{
-              height: "75px",
-              width: "100%",
-              display: "flex",
-              border: "1.5px solid black",
-              borderRadius: "4px",
-              padding: "5px",
-            }}
-          >
-            <Box sx={{ width: "30%", height: "75px", marginRight: "8px" }}>
-              <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-                <InputLabel htmlFor="standard-adornment-password">
-                  Size
-                </InputLabel>
-                <Input
-                  id="standard-adornment-password"
-                  type="text"
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => setSizes((sizes) => [...sizes, size])}
-                      >
-                        <Typography
-                          sx={{
-                            backgroundColor: "black",
-                            color: "white",
-                            padding: "6px",
-                            borderRadius: "5px",
-                            marginTop: "-11px",
-                          }}
-                        >
-                          Add
-                        </Typography>
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-            <Box
-              sx={{
-                height: "75px",
-                width: "70%",
-                display: "flex",
-                alignItems: "center",
-                gap: "0 4px",
-                overflowX: "auto",
-              }}
-            >
-              {sizes?.length > 0 ? (
-                sizes?.map((size, i) => (
-                  <>
-                    <Chip
-                      label={
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography sx={{ fontSize: "11px" }}>
-                            {size}
-                          </Typography>
-                          <IconButton
-                            sx={{
-                              height: "13px",
-                              width: "13px",
-                              marginLeft: "4px",
-                            }}
-                            onClick={() => handleChipDelete(size)}
-                          >
-                            <CloseIcon sx={{ fontSize: "11px" }} />
-                          </IconButton>
-                        </Box>
-                      }
-                      key={i}
-                    />
-                  </>
-                ))
-              ) : (
-                <Chip label={"No described sizes!"} />
-              )}
-            </Box>
-          </Box>
-        </>
-      ),
-      xs: 6,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledButton
-          title="Create Product"
-          mode={"dark"}
-          validation={!name || !price || !discount || !category || !description}
-          onClick={() => handleCreateProduct()}
-        />
-      ),
-      xs: 12,
-    },
-  ];
   const dispatch = useDispatch();
-  const handleCreateProduct = () => {
-    if (name.length === 0 || name.length < 6) {
-      setIsError(true);
-      setErrorMessage("Enter a proper product name!");
-      return;
-    }
-    if (price === 0 || price > 99999) {
-      setIsError(true);
-      setErrorMessage("Enter a valid price! (1 - 99999)");
-      return;
-    }
-    if (discount <= price) {
-      setIsError(true);
-      setErrorMessage(`Enter a valid discount price! (greater than ${price})`);
-      return;
-    }
-    if (description.length === 0 || description.length < 20) {
-      setIsError(true);
-      setErrorMessage(
-        "Enter a proper product description! (at least 20 letters required)"
-      );
-      return;
-    }
-    if (images.length === 0) {
-      setIsError(true);
-      setErrorMessage("Upload at least one product image!");
-      return;
-    }
-    if (sizes.length === 0 || sizes.length < 3) {
-      setIsError(true);
-      setErrorMessage("Add at least 3 sizes!");
-      return;
-    }
-    const product = {
-      name,
-      description,
-      price,
-      discount,
-      category,
-      sizes,
-    };
-    dispatch(createProduct(product, images));
-  };
 
-  // Update
-  const [id, setId] = useState(product?._id || "");
-  const handleGetProductDetails = () => {
-    dispatch(getProductDetails(id));
-    setName(product?.name);
-  };
-  const handleOldImageRemove = (image) => {
-    const array = [...oldImages];
-    const index = array.indexOf(image);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setOldImages(array);
-    }
-  };
-  const handleUpdateProduct = () => {
-    if (name.length === 0 && name.length < 6) {
-      setIsError(true);
-      setErrorMessage("Enter a proper product name!");
-      return;
-    }
-    if (price === 0 && price > 99999) {
-      setIsError(true);
-      setErrorMessage("Enter a valid price! (1 - 99999)");
-      return;
-    }
-    if (discount <= price) {
-      setIsError(true);
-      setErrorMessage(`Enter a valid discount price! (greater than ${price})`);
-      return;
-    }
-    if (description.length === 0 && description.length < 20) {
-      setIsError(true);
-      setErrorMessage(
-        "Enter a proper product description! (at least 20 letters required)"
-      );
-      return;
-    }
-    // if (images.length === 0 && oldImages.length === 0) {
-    //   setIsError(true);
-    //   setErrorMessage("Upload at least one product image!");
-    //   return;
-    // }
-    if (sizes.length === 0 && sizes.length < 3) {
-      setIsError(true);
-      setErrorMessage("Add at least 3 sizes!");
-      return;
-    }
-    const product = {
-      name,
-      description,
-      price,
-      discount,
-      category,
-      sizes,
-      oldImages,
-    };
-    dispatch(updateProduct(id, product, images));
-    setTimeout(window.location.reload(), 5000);
-  };
-  const updateFields = [
-    {
-      code: (
-        <>
-          <StyledTextField
-            title={"Product ID"}
-            type={"text"}
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-          />
-        </>
-      ),
-      xs: 8,
-    },
-    {
-      code: (
-        <>
-          <StyledButton
-            title={"Find"}
-            validation={!id}
-            mode={"dark"}
-            onClick={() => handleGetProductDetails()}
-          />
-        </>
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      code: (
-        <StyledTextField
-          title={"Products Name"}
-          type={"text"}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      ),
-      xs: 4,
-      update: true,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledTextField
-          title={"Product Price"}
-          type={"number"}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledTextField
-          title={"Product Discount"}
-          type={"number"}
-          value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
-        />
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-            sx={{
-              "& .MuiInputBase-input": {
-                border: "1.5px solid black",
-                backgroundColor: "white",
-                "&:focus": {
-                  border: "1.5px solid black",
-                  boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
-                },
-              },
-            }}
-          >
-            {categories.map((category, i) => (
-              <MenuItem value={category.toLowerCase()} key={i}>
-                {category}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      ),
-      xs: 4,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <textarea
-          style={{
-            height: "48px",
-            width: "100%",
-            border: "1.5px solid black",
-            borderRadius: "4px",
-            padding: "4px 6px",
-            fontFamily: "sans-serif",
-          }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter product description here..."
-        />
-      ),
-      xs: 8,
-    },
-    {
-      create: true,
-      code: (
-        <>
-          <Box
-            sx={{
-              height: "75px",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              border: "1.5px solid black",
-              borderRadius: "4px",
-              justifyContent: "space-between",
-              padding: "5px",
-            }}
-          >
-            <Box sx={{ height: "75px", display: "flex", alignItems: "center" }}>
-              {oldImages?.length > 0 ? (
-                oldImages?.map((image, i) => (
-                  <Badge
-                    key={i}
-                    overlap="circular"
-                    badgeContent={
-                      <IconButton
-                        sx={{ height: "20px", width: "20px" }}
-                        onClick={() => handleOldImageRemove(image)}
-                      >
-                        <CloseIcon sx={{ fontSize: "20px" }} />
-                      </IconButton>
-                    }
-                  >
-                    <img
-                      src={image?.url}
-                      alt="Product"
-                      style={{ height: "68px", margin: "0 3px" }}
-                    />
-                  </Badge>
-                ))
-              ) : (
-                <Typography variant="subtitle1" sx={{ paddingLeft: "10px" }}>
-                  No images
-                </Typography>
-              )}
-            </Box>
-          </Box>
-        </>
-      ),
-      xs: 6,
-      update: false,
-    },
-    {
-      create: true,
-      code: (
-        <>
-          <Box
-            sx={{
-              height: "75px",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              border: "1.5px solid black",
-              borderRadius: "4px",
-              justifyContent: "space-between",
-              padding: "5px",
-            }}
-          >
-            <Box sx={{ height: "75px", display: "flex", alignItems: "center" }}>
-              {images.length > 0 ? (
-                images?.map((image, i) => (
-                  <Badge
-                    key={i}
-                    overlap="circular"
-                    badgeContent={
-                      <IconButton
-                        sx={{ height: "20px", width: "20px" }}
-                        onClick={() => handleImageRemove(image)}
-                      >
-                        <CloseIcon sx={{ fontSize: "20px" }} />
-                      </IconButton>
-                    }
-                  >
-                    <img
-                      src={image}
-                      alt="Product"
-                      style={{ height: "68px", margin: "0 3px" }}
-                    />
-                  </Badge>
-                ))
-              ) : (
-                <Typography variant="subtitle1" sx={{ paddingLeft: "10px" }}>
-                  No images
-                </Typography>
-              )}
-            </Box>
-            <input
-              type="file"
-              ref={hiddenFileInput}
-              accept="image/*"
-              onChange={handleImageChange}
-              style={{ display: "none" }}
-            />
-            <StyledButton
-              title={"Upload"}
-              mode={"dark"}
-              width={"25%"}
-              onClick={handleImageClick}
-            />
-          </Box>
-        </>
-      ),
-      xs: 6,
-      update: false,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <>
-          <Box
-            sx={{
-              height: "75px",
-              width: "100%",
-              display: "flex",
-              border: "1.5px solid black",
-              borderRadius: "4px",
-              padding: "5px",
-            }}
-          >
-            <Box sx={{ width: "30%", height: "75px", marginRight: "8px" }}>
-              <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-                <InputLabel htmlFor="standard-adornment-password">
-                  Size
-                </InputLabel>
-                <Input
-                  id="standard-adornment-password"
-                  type="text"
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={(e) => setSizes((sizes) => [...sizes, size])}
-                      >
-                        <Typography
-                          sx={{
-                            backgroundColor: "black",
-                            color: "white",
-                            padding: "6px",
-                            borderRadius: "5px",
-                            marginTop: "-11px",
-                          }}
-                        >
-                          Add
-                        </Typography>
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-            <Box
-              sx={{
-                height: "75px",
-                width: "70%",
-                display: "flex",
-                alignItems: "center",
-                gap: "0 4px",
-                overflowX: "auto",
-              }}
-            >
-              {sizes?.length > 0 ? (
-                sizes?.map((size, i) => (
-                  <>
-                    <Chip
-                      label={
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography sx={{ fontSize: "11px" }}>
-                            {size}
-                          </Typography>
-                          <IconButton
-                            sx={{
-                              height: "13px",
-                              width: "13px",
-                              marginLeft: "4px",
-                            }}
-                            onClick={() => handleChipDelete(size)}
-                          >
-                            <CloseIcon sx={{ fontSize: "11px" }} />
-                          </IconButton>
-                        </Box>
-                      }
-                      key={i}
-                    />
-                  </>
-                ))
-              ) : (
-                <Chip label={"No described sizes!"} />
-              )}
-            </Box>
-          </Box>
-        </>
-      ),
-      xs: 12,
-    },
-    {
-      create: true,
-      update: true,
-      code: (
-        <StyledButton
-          title="Update Product"
-          mode={"dark"}
-          validation={
-            !name || !price || !discount || !category || !description || !id
-          }
-          onClick={() => handleUpdateProduct()}
-        />
-      ),
-      xs: 12,
-    },
-  ];
+  // Getting product reviews
+  const reviewsData = useSelector((state) => state?.product);
+  const reviews = reviewsData?.data?.reviews;
 
   // Delete product
   const handleDeleteProduct = (id) => {
@@ -850,6 +64,7 @@ const Product = () => {
   const handleSearchProductReviews = () => {
     dispatch(getAllProductReviews(searchQuery));
   };
+  console.log({ products });
 
   return (
     <>
@@ -914,33 +129,34 @@ const Product = () => {
                           <CardMedia
                             component="img"
                             height="200px"
-                            image={product?.images[0]?.url}
-                            alt={product?.name}
+                            image={product?.variants[0]?.images[0]?.url}
+                            alt={product?.variants[0]?.size}
+                            sx={{ objectFit: "contain" }}
                           />
-                          <CardContent>
+                          <CardContent sx={{ paddingX: "8px" }}>
+                            <Typography
+                              gutterBottom
+                              variant="subtitle1"
+                              component="div"
+                            >
+                              {product?.name}
+                            </Typography>
                             <Box
                               sx={{
                                 display: "flex",
                                 justifyContent: "space-between",
                               }}
                             >
-                              <Typography
-                                gutterBottom
-                                variant="subtitle1"
-                                component="div"
-                              >
-                                {product?.name}
-                              </Typography>
                               <Typography variant="subtitle1">
-                                ${product?.price}.00
+                                Rs.{product?.variants[0]?.price}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                sx={{ textTransform: "capitalize" }}
+                              >
+                                {product?.category}
                               </Typography>
                             </Box>
-                            <Typography
-                              variant="subtitle1"
-                              sx={{ textTransform: "capitalize" }}
-                            >
-                              {product?.category}
-                            </Typography>
                           </CardContent>
                         </Link>
                         <CardActions sx={{ gap: "0 6px" }}>
@@ -994,20 +210,7 @@ const Product = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: "10px 30px" }}>
-            <Grid container>
-              {isError && (
-                <Grid item sx={{ height: "50px" }} xs={12}>
-                  <Typography variant="subtitle2" sx={{ color: "red" }}>
-                    {errorMessage}
-                  </Typography>
-                </Grid>
-              )}
-              {fields?.map((field, i) => (
-                <Grid item sm={field.xs} key={i} sx={{ padding: "10px" }}>
-                  {field.code}
-                </Grid>
-              ))}
-            </Grid>
+            <CreateProduct />
           </AccordionDetails>
         </Accordion>
         {/* Update Product */}
@@ -1025,7 +228,8 @@ const Product = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container>
+            <UpdateProduct />
+            {/* <Grid container>
               {isError && (
                 <Grid item sx={{ height: "50px" }} xs={12}>
                   <Typography variant="subtitle2" sx={{ color: "red" }}>
@@ -1038,7 +242,7 @@ const Product = () => {
                   {field.code}
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
           </AccordionDetails>
         </Accordion>
         {/* Product Reviews */}

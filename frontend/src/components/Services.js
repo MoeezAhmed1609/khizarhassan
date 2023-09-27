@@ -107,7 +107,7 @@ const Services = () => {
   return (
     <Box sx={{ position: "relative" }}>
       <IconButton onClick={() => setShow(!show)}>
-        <SettingsIcon />
+        <SettingsIcon sx={{ color: "white" }} />
       </IconButton>
       {show && (
         <Box
@@ -127,7 +127,7 @@ const Services = () => {
             }}
             onClick={() => handleOpen()}
           >
-            <SearchIcon />
+            <SearchIcon sx={{ color: "black" }} />
           </IconButton>
           <Modal open={search} onClose={handleClose}>
             <Box sx={style}>

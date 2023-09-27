@@ -6,32 +6,29 @@ const cloudinary = require("cloudinary");
 
 // Create Product | Admin
 exports.createProduct = catchAsyncError(async (req, res) => {
-  const { name, description, price, discount, category, sizes } =
-    req.body.product;
-  let images = [];
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
-    images = req.body.images;
-  }
-  const imagesLinks = [];
-  for (let i = 0; i < images.length; i++) {
-    const result = await cloudinary.v2.uploader.upload(images[i], {
-      folder: "products",
-    });
-    imagesLinks.push({
-      public_id: result.public_id,
-      url: result.secure_url,
-    });
-  }
+  const {
+    name,
+    description,
+    usage,
+    category,
+    quantity,
+    variants,
+    related,
+    sale,
+    best,
+    brand
+  } = req.body.product;
   const product = await Product.create({
     name,
     description,
-    price,
-    discount,
+    usage,
     category,
-    sizes,
-    images: imagesLinks,
+    quantity,
+    variants,
+    related,
+    sale,
+    best,
+    brand,
     admin: req.user.id,
   });
   res.status(200).json({ message: "Product created successfully!", product });

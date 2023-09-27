@@ -96,132 +96,184 @@ const Reviews = () => {
         {mode === "pending" ? (
           <Grid item xs={12}>
             <Grid container>
-              {pendingItems?.map((item, i) => (
-                <Grid item xs={12} sm={6} key={i} sx={{ padding: "16px 10px" }}>
-                  <Card sx={{ boxShadow: "none" }}>
-                    <CardActionArea
-                      sx={{ display: { xs: "block", sm: "flex" } }}
-                    >
-                      <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          width: "100%",
-                        }}
-                        to={`/product/${item?.item?.product?._id}`}
+              {pendingItems?.length > 0 ? (
+                pendingItems?.map((item, i) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    key={i}
+                    sx={{ padding: "16px 10px" }}
+                  >
+                    <Card sx={{ boxShadow: "none" }}>
+                      <CardActionArea
+                        sx={{ display: { xs: "block", sm: "flex" } }}
                       >
-                        <CardMedia
-                          component="img"
-                          sx={{ width: "100%", maxHeight: "240px" }}
-                          image={item?.item?.product?.images[0]?.url}
-                          alt={item?.item?.product?.name}
-                        />
-                      </Link>
-                      <CardContent
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "95%",
-                        }}
-                      >
-                        <Typography gutterBottom variant="h5">
-                          {item?.item?.product?.name}
-                        </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{ marginTop: "-10px" }}
-                        >
-                          ${item?.item?.product?.price}.00
-                        </Typography>
-                        <Rating
-                          name="simple-controlled"
-                          value={rating}
-                          onChange={(event, newValue) => {
-                            setRating(newValue);
+                        <Link
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            width: "100%",
                           }}
-                        />
-                        <StyledTextField
-                          title={"Comment"}
-                          type={"text"}
-                          variant={"standard"}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                        <StyledButton
-                          title={"Post Review"}
-                          mode={"dark"}
-                          validation={!rating || !comment}
-                          onClick={() =>
-                            handleCreateReview(
-                              item?.orderId,
-                              item?.item?.product?._id,
-                              item?.item?._id
-                            )
-                          }
-                        />
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
+                          to={`/product/${item?.item?.product?._id}`}
+                        >
+                          <CardMedia
+                            component="img"
+                            sx={{ width: "100%", maxHeight: "240px" }}
+                            image={item?.item?.product?.images[0]?.url}
+                            alt={item?.item?.product?.name}
+                          />
+                        </Link>
+                        <CardContent
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "95%",
+                          }}
+                        >
+                          <Typography gutterBottom variant="h5">
+                            {item?.item?.product?.name}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ marginTop: "-10px" }}
+                          >
+                            ${item?.item?.product?.price}.00
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newValue) => {
+                              setRating(newValue);
+                            }}
+                          />
+                          <StyledTextField
+                            title={"Comment"}
+                            type={"text"}
+                            variant={"standard"}
+                            onChange={(e) => setComment(e.target.value)}
+                          />
+                          <StyledButton
+                            title={"Post Review"}
+                            mode={"dark"}
+                            validation={!rating || !comment}
+                            onClick={() =>
+                              handleCreateReview(
+                                item?.orderId,
+                                item?.item?.product?._id,
+                                item?.item?._id
+                              )
+                            }
+                          />
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <Box
+                  sx={{
+                    height: "25vh",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{ letterSpacing: "1.5px", fontWeight: "100" }}
+                  >
+                    No pending reviews!
+                  </Typography>
+                </Box>
+              )}
             </Grid>
           </Grid>
         ) : mode === "posted" ? (
           <Grid item xs={12}>
             <Grid container>
-              {postedItems?.map((item, i) => (
-                <Grid item xs={12} sm={6} key={i} sx={{ padding: "16px 10px" }}>
-                  <Card sx={{ boxShadow: "none" }}>
-                    <CardActionArea
-                      sx={{ display: { xs: "block", md: "flex" } }}
-                    >
-                      <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          width: "100%",
-                        }}
-                        to={`/product/${item?.item?.product?._id}`}
+              {postedItems?.length > 0 ? (
+                postedItems?.map((item, i) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    key={i}
+                    sx={{ padding: "16px 10px" }}
+                  >
+                    <Card sx={{ boxShadow: "none" }}>
+                      <CardActionArea
+                        sx={{ display: { xs: "block", md: "flex" } }}
                       >
-                        <CardMedia
-                          component="img"
-                          sx={{ width: "100%", maxHeight: "240px" }}
-                          image={item?.item?.product?.images[0]?.url}
-                          alt={item?.item?.product?.name}
-                        />
-                      </Link>
-                      <CardContent
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "95%",
-                        }}
-                      >
-                        <Typography gutterBottom variant="h5">
-                          {item?.item?.product?.name}
-                        </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{ marginTop: "-10px" }}
+                        <Link
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            width: "100%",
+                          }}
+                          to={`/product/${item?.item?.product?._id}`}
                         >
-                          ${item?.item?.product?.price}.00
-                        </Typography>
-                        <Rating
-                          name="simple-controlled"
-                          value={item?.item?.rating}
-                          readOnly
-                        />
-                        <Box sx={{ width: "100%", textAlign: "center" }}>
-                          <Typography variant="body1">
-                            {item?.item?.comment}
+                          <CardMedia
+                            component="img"
+                            sx={{ width: "100%", maxHeight: "240px" }}
+                            image={item?.item?.product?.images[0]?.url}
+                            alt={item?.item?.product?.name}
+                          />
+                        </Link>
+                        <CardContent
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "95%",
+                          }}
+                        >
+                          <Typography gutterBottom variant="h5">
+                            {item?.item?.product?.name}
                           </Typography>
-                        </Box>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ marginTop: "-10px" }}
+                          >
+                            ${item?.item?.product?.price}.00
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item?.item?.rating}
+                            readOnly
+                          />
+                          <Box sx={{ width: "100%", textAlign: "center" }}>
+                            <Typography variant="body1">
+                              {item?.item?.comment}
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <Box
+                  sx={{
+                    height: "25vh",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{ letterSpacing: "1.5px", fontWeight: "100" }}
+                  >
+                    No posted reviews!
+                  </Typography>
+                </Box>
+              )}
             </Grid>
           </Grid>
         ) : null}

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 // Link import
 import { Link } from "react-router-dom";
 
@@ -74,6 +74,15 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                 </IconButton>
               </Tooltip>
             </Box>
+            <CardMedia
+              sx={{
+                height: "38vh",
+                backgroundSize: "contain",
+                marginBottom: "6px",
+              }}
+              image={product?.variants[0]?.images[0]?.url}
+              title={product?.variants[0]?.size}
+            />
             <CardContent
               sx={{
                 textAlign: "center",
@@ -82,51 +91,56 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                backgroundColor: "#ededed",
+                backgroundColor: "#e63146",
               }}
             >
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{ color: "white", textTransform: "capitalize" }}
+              >
                 {product?.category}
               </Typography>
               <Typography
-                // gutterBottom
                 variant="subtitle1"
-                sx={{ fontWeight: "600", maxWidth: "75%" }}
+                sx={{ color: "white", fontWeight: "600", maxWidth: "75%" }}
               >
-                {product.name}
+                {product?.name}
               </Typography>
               <Rating
                 name="read-only"
-                value={product.ratings}
+                value={product?.ratings}
                 readOnly
                 size="small"
-                sx={{ color: "black" }}
+                sx={{ color: "white" }}
+                emptyIcon={
+                  <StarBorderIcon
+                    sx={{ color: "white", fontSize: "inherit" }}
+                  />
+                }
               />
-              <Typography sx={{ fontSize: "12px" }} color="text.secondary">
-                {product.totalReviews} Reviews
+              <Typography sx={{ fontSize: "12px", color: "white" }}>
+                {product?.totalReviews} Reviews
               </Typography>
               <Box sx={{ display: "flex" }}>
                 <Typography
                   variant="body2"
                   component="div"
-                  sx={{ fontWeight: 800 }}
+                  sx={{ fontWeight: 800, color: "white" }}
                 >
-                  ${product.price}.00
+                  Rs.{product?.variants[0]?.price}
                 </Typography>
                 <Typography
                   variant="body2"
-                  sx={{ textDecoration: "line-through", marginLeft: "8px" }}
-                  color="text.secondary"
+                  sx={{
+                    textDecoration: "line-through",
+                    marginLeft: "8px",
+                    color: "white",
+                  }}
                 >
-                  ${product.discount}.00
+                  Rs.{product?.variants[0]?.discount}
                 </Typography>
               </Box>
             </CardContent>
-            <CardMedia
-              sx={{ height: "35vh" }}
-              image={product.images[0].url}
-              title="nike"
-            />
           </>
         )}
       </Card>

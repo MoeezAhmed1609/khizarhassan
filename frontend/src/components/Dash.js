@@ -7,11 +7,11 @@ const Dash = () => {
   const productsCount = useSelector(
     (state) => state.products.data.productsCount
   );
-  const users = useSelector((state) => state.users.users.data.users);
+  const users = useSelector((state) => state.users?.users?.data?.users);
   // Calculation
   let totalOrders = 0;
   let totalSales = 0;
-  users.filter((user) => {
+  users?.filter((user) => {
     totalOrders += user.orders.length;
     user.orders.filter((order) => {
       totalSales += order.totalPrice;

@@ -17,6 +17,7 @@ import ProductCard from "../components/card";
 const Shop = ({ handleAddToFavorites }) => {
   // Category mode
   const [mode, setMode] = useState("All");
+  const [brand, setBrand] = useState("All");
   const [filter, setFilter] = useState("");
   //   Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,6 +28,14 @@ const Shop = ({ handleAddToFavorites }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [anchorElBrand, setAnchorElBrand] = React.useState(null);
+  const openBrand = Boolean(anchorElBrand);
+  const handleClickBrand = (event) => {
+    setAnchorElBrand(event.currentTarget);
+  };
+  const handleCloseBrand = () => {
+    setAnchorElBrand(null);
+  };
   const [anchorElSort, setAnchorElSort] = React.useState(null);
   const openSort = Boolean(anchorElSort);
   const handleClickSort = (event) => {
@@ -36,19 +45,30 @@ const Shop = ({ handleAddToFavorites }) => {
     setAnchorElSort(null);
   };
   const { data, loading } = useSelector((state) => state.products);
-  let products = data?.products?.filter((product) =>
-    mode === "All"
-      ? product?.category?.toLowerCase()?.includes("")
-      : product?.category?.toLowerCase()?.includes(mode?.toLowerCase())
-  );
-
+  const categories = useSelector((state) => state.category?.data);
+  const brands = useSelector((state) => state.brands?.data);
+  let products = data?.products
+    ?.filter((product) =>
+      mode === "All"
+        ? product?.category?.toLowerCase()?.includes("")
+        : product?.category?.toLowerCase()?.includes(mode?.toLowerCase())
+    )
+    ?.filter((product) =>
+      brand === "All"
+        ? product?.brand?.toLowerCase()?.includes("")
+        : product?.brand?.toLowerCase()?.includes(brand?.toLowerCase())
+    );
   products =
     filter === ""
       ? products
       : filter === "Low-High"
-      ? products.sort((a, b) => Number(a.price) - Number(b.price))
+      ? products.sort(
+          (a, b) => Number(a.variants[0]?.price) - Number(b.variants[0]?.price)
+        )
       : filter === "High-Low"
-      ? products.sort((a, b) => Number(b.price) - Number(a.price))
+      ? products.sort(
+          (a, b) => Number(b.variants[0]?.price) - Number(a.variants[0]?.price)
+        )
       : filter === "Newest"
       ? products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       : filter === "Oldest"
@@ -81,7 +101,9 @@ const Shop = ({ handleAddToFavorites }) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">{mode} Wears</Typography>
+          <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+            Listing {mode} Products
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Box
@@ -120,30 +142,55 @@ const Shop = ({ handleAddToFavorites }) => {
               >
                 All
               </MenuItem>
+              {categories?.map((cat, i) => (
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setMode(cat?.title?.toLowerCase());
+                  }}
+                >
+                  {cat?.title}
+                </MenuItem>
+              ))}
+            </Menu>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={openBrand ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openBrand ? "true" : undefined}
+              onClick={handleClickBrand}
+              sx={{ color: "black" }}
+            >
+              Brand: {brand}
+              {openBrand ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorElBrand}
+              open={openBrand}
+              onClose={handleCloseBrand}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
               <MenuItem
                 onClick={() => {
                   handleClose();
-                  setMode("Mens");
+                  setBrand("All");
                 }}
               >
-                Mens Wear
+                All
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setMode("Woman");
-                }}
-              >
-                Woman Wear
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  setMode("Kids");
-                }}
-              >
-                Kids Wear
-              </MenuItem>
+              {brands?.map((cat, i) => (
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setBrand(cat?.title?.toLowerCase());
+                  }}
+                >
+                  {cat?.title}
+                </MenuItem>
+              ))}
             </Menu>
             <Button
               id="demo-positioned-button"

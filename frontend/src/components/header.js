@@ -29,7 +29,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import SearchIcon from "@mui/icons-material/Search";
 
 // components import
-import boomwear from "../assets/Wear.png";
+import xtrack from "../assets/xtrack.png";
 import { Link } from "react-router-dom";
 import StyledTextField from "./styledTextField";
 import StyledButton from "./styledButton";
@@ -77,7 +77,7 @@ const Header = () => {
     {
       title: "Account",
       icon: isAuthenticated ? (
-        <Avatar {...stringAvatar(user?.name)} />
+        <Avatar {...stringAvatar(user?.name)} sx={{ background: "#e63146" }} />
       ) : (
         <PersonOutlineOutlinedIcon />
       ),
@@ -90,7 +90,7 @@ const Header = () => {
           badgeContent={cart?.length || 0}
           sx={{
             "& .css-fvc8ir-MuiBadge-badge": {
-              backgroundColor: "black",
+              backgroundColor: "#e63146",
               color: "white",
             },
           }}
@@ -107,7 +107,7 @@ const Header = () => {
           badgeContent={user?.favorites?.length || 0}
           sx={{
             "& .css-fvc8ir-MuiBadge-badge": {
-              backgroundColor: "black",
+              backgroundColor: "#e63146",
               color: "white",
             },
           }}
@@ -162,7 +162,7 @@ const Header = () => {
       position="fixed"
       sx={{
         boxShadow: 0,
-        background: "rgba(255, 255, 255, 0.95)",
+        background: "black",
       }}
     >
       <Container maxWidth="xl">
@@ -172,7 +172,7 @@ const Header = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            height: "90px",
+            height: "12.26vh",
           }}
         >
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -183,7 +183,7 @@ const Header = () => {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: "white" }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -207,11 +207,15 @@ const Header = () => {
                 <MenuItem
                   key={index}
                   onClick={handleCloseNavMenu}
-                  sx={{ width: "40vw", display: 'flex', justifyContent:'center' }}
+                  sx={{
+                    width: "40vw",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                 >
                   <Link
                     to={page.link}
-                    style={{ textDecoration: "none", color: "black" }}
+                    style={{ textDecoration: "none", color: "white" }}
                   >
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
@@ -240,11 +244,12 @@ const Header = () => {
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
-                    color: "black",
+                    color: "white",
                     display: "block",
                     letterSpacing: "1.5px",
-                    fontWeight: "100",
+                    fontWeight: "600",
                     margin: "0 15px",
+                    fontFamily: "Poppins,sans-serif",
                   }}
                 >
                   {page.name}
@@ -261,7 +266,7 @@ const Header = () => {
             }}
           >
             <Link to={"/"}>
-              <img src={boomwear} alt="boomwear" style={{ height: "60px" }} />
+              <img src={xtrack} alt="boomwear" style={{ height: "7vh" }} />
             </Link>
           </Box>
           <Box
@@ -273,7 +278,10 @@ const Header = () => {
               alignItems: "center",
             }}
           >
-            <IconButton sx={{ margin: "0 10px" }} onClick={() => handleOpen()}>
+            <IconButton
+              sx={{ margin: "0 10px", color: "white" }}
+              onClick={() => handleOpen()}
+            >
               <SearchIcon />
             </IconButton>
             <Modal open={search} onClose={handleClose}>
@@ -359,11 +367,11 @@ const Header = () => {
             {services.map((service, index) => (
               <Link
                 key={index}
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: "white" }}
                 to={service.link}
               >
                 <Tooltip title={service.title}>
-                  <IconButton sx={{ margin: "0 10px" }}>
+                  <IconButton sx={{ margin: "0 10px", color: "white" }}>
                     {service.icon}
                   </IconButton>
                 </Tooltip>

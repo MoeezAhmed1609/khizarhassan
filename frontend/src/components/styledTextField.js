@@ -19,7 +19,7 @@ const StyledTextField = ({
       variant={variant || "outlined"}
       sx={{
         width: width || "100%",
-        marginBottom: bottom || "22px",
+        marginBottom: bottom || "10px",
         "& label.Mui-focused": {
           color: "black",
         },

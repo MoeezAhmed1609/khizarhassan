@@ -11,10 +11,8 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 
 // Components Import
-import DisplaySlider from "../components/displaySlider";
-import FadeSlider from "../components/fadeSlider";
 import ProductTabs from "../components/tabs";
-
+import StyledButton from "../components/styledButton";
 // React Redux
 import { useSelector, useDispatch } from "react-redux";
 import { getProductDetails } from "../redux/actions/productsActions";
@@ -47,7 +45,7 @@ const Product = ({ handleAddToFavorites }) => {
     <>
       <Box
         sx={{
-          height: "18vh",
+          height: "13vh",
           width: "100%",
           display: { xs: "none", sm: "none", md: "block" },
         }}
@@ -62,17 +60,24 @@ const Product = ({ handleAddToFavorites }) => {
             alignItems: "center",
           }}
         >
-          <CircularProgress />
+          <CircularProgress color="inherit" />
         </Box>
       ) : (
         <>
           <Box sx={{ width: "100%", minHeight: "80vh" }}>
             <Grid container>
               <Grid item xs={12} lg={6}>
-                <ProductSlider images={data?.images} />
+                <ProductSlider images={data?.variants[0]?.images} />
               </Grid>
               <Grid item xs={12} lg={6} sx={{ padding: "10px" }}>
-                <Typography component="h1" variant="subtitle1">
+                <Typography
+                  component="h1"
+                  variant="subtitle1"
+                  sx={{
+                    textTransform: "capitalize",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
                   {data?.category}
                 </Typography>
                 <Typography
@@ -81,6 +86,7 @@ const Product = ({ handleAddToFavorites }) => {
                     fontSize: "8vh",
                     fontWeight: "500",
                     marginTop: "-10px",
+                    fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   {data?.name}
@@ -88,22 +94,81 @@ const Product = ({ handleAddToFavorites }) => {
                 <Typography
                   component="h1"
                   variant="h4"
-                  sx={{ fontWeight: 700 }}
+                  sx={{
+                    fontWeight: 700,
+                    fontFamily: "Poppins, sans-serif",
+                    color: "#e63146",
+                  }}
                 >
-                  ${data?.price}.00
+                  Rs.{data?.variants[0]?.price}
                 </Typography>
                 <Typography
                   component="h1"
                   variant="subtitle1"
-                  sx={{ textDecoration: "line-through" }}
+                  sx={{
+                    textDecoration: "line-through",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
                 >
-                  ${data?.discount}.00
+                  Rs.{data?.variants[0]?.discount}
                 </Typography>
-                <Typography sx={{ marginTop: "15px" }} variant="body1">
-                  Select your size:
+                <Typography
+                  sx={{ marginTop: "15px", fontFamily: "Poppins, sans-serif" }}
+                  variant="body1"
+                >
+                  Select your variants:
                 </Typography>
                 <Grid container>
-                  {data?.sizes?.map((size, i) => (
+                  {data?.variants?.map((size, i) => (
+                    <Grid
+                      item
+                      md={3}
+                      xs={6}
+                      key={i}
+                      sx={{ padding: "4px 8px" }}
+                    >
+                      <input
+                        type="radio"
+                        id={i}
+                        name="fav_language"
+                        value={size?.size}
+                        style={{ display: "none" }}
+                        onChange={() => setSize(size?.size)}
+                      />
+                      <label for={i}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            border: "1.5px solid black",
+                            borderRadius: "7px",
+                            textAlign: "center",
+                            height: "40px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            cursor: "pointer",
+                          }}
+                          className="radioBtn"
+                        >
+                          {size?.size}
+                        </Box>
+                      </label>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Grid container>
+                  <Grid item xs={12} sx={{ padding: "4px 8px" }}>
+                    <Typography
+                      sx={{
+                        marginTop: "15px",
+                        fontFamily: "Poppins, sans-serif",
+                      }}
+                      variant="body1"
+                    >
+                      Select your flavors:
+                    </Typography>
+                  </Grid>
+                  {data?.variants[0].flavors?.map((size, i) => (
                     <Grid
                       item
                       md={3}
@@ -151,46 +216,15 @@ const Product = ({ handleAddToFavorites }) => {
                     margin: "15px 0",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "70%",
-                      borderRadius: "30px",
-                      height: "60px",
-                      backgroundColor: "black",
-                      boxShadow: "none",
-                      color: "#fff",
-                      border: "1.5px solid black",
-                      "&:hover,& .css-hnghlo-MuiButtonBase-root-MuiButton-root":
-                        {
-                          backgroundColor: "white",
-                          color: "black",
-                        },
-                    }}
+                  <StyledButton
+                    title={"Add to Cart"}
                     onClick={() => handleAddToCart()}
-                  >
-                    Add To Cart
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "70%",
-                      borderRadius: "30px",
-                      height: "60px",
-                      backgroundColor: "white",
-                      color: "black",
-                      boxShadow: "none",
-                      border: "1.5px solid black",
-                      "&:hover,& .css-hnghlo-MuiButtonBase-root-MuiButton-root":
-                        {
-                          backgroundColor: "black",
-                          color: "#fff",
-                        },
-                    }}
+                  />
+                  <StyledButton
+                    title={"Add to Favorites"}
                     onClick={() => handleAddToFavorites(data?._id)}
-                  >
-                    Add To Favorite
-                  </Button>
+                    mode="dark"
+                  />
                 </Box>
               </Grid>
             </Grid>

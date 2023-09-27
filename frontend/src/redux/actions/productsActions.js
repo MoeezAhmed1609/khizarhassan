@@ -20,6 +20,7 @@ import {
   GET_PRODUCT_REVIEWS_SUCCESS,
   GET_PRODUCT_REVIEWS_FAIL,
 } from "../constants/productsConstants";
+import toast from "react-hot-toast";
 
 // Get All Products
 export const getAllProducts = () => async (dispatch) => {
@@ -36,7 +37,7 @@ export const getAllProducts = () => async (dispatch) => {
 };
 
 // Create new product
-export const createProduct = (product, images) => async (dispatch) => {
+export const createProduct = (product) => async (dispatch) => {
   dispatch({ type: CREATE_PRODUCT_REQUEST });
   const data = await axios({
     url: "/api/v1/products/create",
@@ -44,14 +45,16 @@ export const createProduct = (product, images) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     data: {
       product,
-      images,
     },
   })
     .then((res) => {
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: res.data });
+      toast.success("Product Created, reloading!");
+      window.setTimeout(window.location.reload(), 2000);
     })
     .catch((err) => {
       dispatch({ type: CREATE_PRODUCT_FAIL, payload: err });
+      toast.error("Something went wrong, Reload!");
     });
 };
 

@@ -2,7 +2,9 @@
 import "./App.css";
 import { useEffect } from "react";
 // React Router Dom Import
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// React Toast
+import { Toaster } from "react-hot-toast";
 // Components Import
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -26,6 +28,8 @@ import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import About from "./pages/About";
 import { getAllBanners } from "./redux/actions/contentActions";
+import { getAllCategories } from "./redux/actions/categoryActions";
+import { getAllBrands } from "./redux/actions/brandsActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,12 +58,17 @@ function App() {
     dispatch(getAllBlogs());
     // Get logged in user information
     dispatch(getUserDetails());
-  }, [dispatch]);
+    // Get all categories
+    dispatch(getAllCategories());
+    // get All brands
+    dispatch(getAllBrands());
+  }, []);
   return (
     <>
       <Router>
         <ScrollToTop />
         <Header />
+        <Toaster />
         <Routes>
           <Route
             path="/"

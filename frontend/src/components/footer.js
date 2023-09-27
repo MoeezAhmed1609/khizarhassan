@@ -8,7 +8,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import boomwear from "../assets/Wear.png";
+import xtrack from "../assets/xtrack.png";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -40,17 +40,17 @@ const Footer = () => {
   ];
   const pages = [
     {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Shop",
-      link: "/shop",
-    },
-    {
-      name: "About",
+      name: "About Us",
       link: "/about",
     },
+    {
+      name: "Terms & Conditions",
+      link: "/terms-conditions",
+    },
+    // {
+    //   name: "",
+    //   link: "/",
+    // },
     {
       name: "Blogs",
       link: "/blogs",
@@ -62,7 +62,6 @@ const Footer = () => {
         width: "100%",
         height: "auto",
         backgroundColor: "black",
-        color: "white",
       }}
     >
       <Box
@@ -72,17 +71,17 @@ const Footer = () => {
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
-          backgroundColor: "white",
-          color: "black",
+          backgroundColor: "black",
+          color: "white",
           flexDirection: { xs: "column", sm: "row" },
         }}
       >
         <Box>
-          <img src={boomwear} alt="Boom Wear" style={{ height: "13vh" }} />
+          <img src={xtrack} alt="Boom Wear" style={{ height: "8vh" }} />
         </Box>
         <Stack direction="row" spacing={2}>
           <Typography
-            sx={{ textTransform: "uppercase", marginTop: "8px" }}
+            sx={{ textTransform: "uppercase", marginTop: "8px", fontFamily: "Poppins, sans-serif", }}
             variant="subtitle1"
           >
             Follow us on
@@ -90,7 +89,7 @@ const Footer = () => {
           {socials.map((social, index) => (
             <Link to={social.link} key={index} target="_blank">
               <Tooltip title={social.title}>
-                <IconButton sx={{ color: "black" }}>{social.icon}</IconButton>
+                <IconButton sx={{ color: "white" }}>{social.icon}</IconButton>
               </Tooltip>
             </Link>
           ))}
@@ -103,9 +102,10 @@ const Footer = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "20px 0",
+          flexDirection: "column",
         }}
       >
-        <Stack direction="column" spacing={2}>
+        <Stack direction={"row"} spacing={2}>
           {pages.map((page, index) => (
             <Link to={page.link} key={index} style={{ textDecoration: "none" }}>
               <Button
@@ -115,8 +115,9 @@ const Footer = () => {
                   color: "white",
                   display: "block",
                   letterSpacing: "1.5px",
-                  fontWeight: "100",
+                  fontWeight: "bold",
                   margin: "0 15px",
+                  fontFamily: "Poppins, sans-serif",
                 }}
               >
                 {page.name}

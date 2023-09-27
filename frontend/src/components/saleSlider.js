@@ -20,7 +20,7 @@ export default function SaleSlider({ products }) {
       modules={[Navigation]}
       style={{ height: "60vh", width: "100%" }}
     >
-      {products?.products?.map((product, i) => (
+      {products?.map((product, i) => (
         <SwiperSlide>
           <Link
             to={`/product/${product._id}`}
@@ -31,9 +31,10 @@ export default function SaleSlider({ products }) {
               sx={{
                 width: "100%",
                 height: "60vh",
-                backgroundImage: `url(${product?.images[0].url})`,
-                backgroundSize: "70%",
-                backgroundPosition: "center",
+                backgroundImage: `url(${product?.variants[0]?.images[0]?.url})`,
+                backgroundSize: "45vh",
+                backgroundPositionX: "center",
+                backgroundPositionY: "85%",
                 backgroundRepeat: "no-repeat",
                 display: "flex",
                 flexDirection: "column",
@@ -42,24 +43,33 @@ export default function SaleSlider({ products }) {
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "800", maxWidth: "75%", paddingTop: "15px" }}
+                sx={{
+                  fontWeight: "800",
+                  maxWidth: "75%",
+                  paddingTop: "15px",
+                  fontFamily: "Poppins,sans-serif", color: 'white'
+                }}
               >
                 {product.name}
               </Typography>
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: "flex", alignItems: 'center' }}>
                 <Typography
-                  variant="body1"
+                  variant="h5"
                   component="div"
-                  sx={{ fontWeight: 800 }}
+                  sx={{ fontWeight: 800, fontFamily: "Poppins,sans-serif", color: 'balck' }}
                 >
-                  ${product.price}.00
+                  Rs.{product.variants[0].price}
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ textDecoration: "line-through", marginLeft: "8px" }}
+                  sx={{
+                    textDecoration: "line-through",
+                    marginLeft: "8px",
+                    fontFamily: "Poppins,sans-serif", color: 'white'
+                  }}
                   color="text.secondary"
                 >
-                  ${product.discount}.00
+                  Rs.{product.variants[0].discount}
                 </Typography>
               </Box>
             </Box>

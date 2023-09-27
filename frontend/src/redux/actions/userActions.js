@@ -46,44 +46,53 @@ import {
   CREATE_REVIEW_SUCCESS,
   CREATE_REVIEW_FAIL,
 } from "../constants/userConstants";
+import toast from "react-hot-toast";
 
 // Login User
 export const loginUser = (email, password) => async (dispatch) => {
-  try {
-    dispatch({ type: LOGIN_USER_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/login",
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        email,
-        password,
-      },
+  dispatch({ type: LOGIN_USER_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/login",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      email,
+      password,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: LOGIN_USER_SUCCESS, payload: res?.data });
+      toast.success("Login Successful, Reloading!");
+      setTimeout(window.location.reload(), 2500);
+    })
+    .catch((err) => {
+      dispatch({ type: LOGIN_USER_FAIL, payload: err.message });
+      toast.error("Something went wrong, Reload!");
     });
-    dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: LOGIN_USER_FAIL, payload: error.message });
-  }
 };
 
 // Register user
 export const registerUser = (name, email, password) => async (dispatch) => {
-  try {
-    dispatch({ type: REGISTER_USER_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/register",
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        name,
-        email,
-        password,
-      },
+  dispatch({ type: REGISTER_USER_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/register",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      name,
+      email,
+      password,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: REGISTER_USER_SUCCESS, payload: res?.data });
+      toast.success("Registered Successfully, Reloading!");
+      setTimeout(window.location.reload(), 5000);
+    })
+    .catch((err) => {
+      dispatch({ type: REGISTER_USER_FAIL, payload: err.message });
+      toast.error("Something went wrong, Reload!");
     });
-    dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: REGISTER_USER_FAIL, payload: error.message });
-  }
 };
 
 // Get Logged in user details
@@ -102,53 +111,63 @@ export const getUserDetails = () => async (dispatch) => {
 
 // Logout user
 export const logoutUser = () => async (dispatch) => {
-  try {
-    dispatch({ type: LOGOUT_USER_REQUEST });
-    const data = await axios.get("/api/v1/user/logout");
-    dispatch({ type: LOGOUT_USER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: LOGOUT_USER_FAIL, error: error.message });
-  }
+  dispatch({ type: LOGOUT_USER_REQUEST });
+  const data = await axios
+    .get("/api/v1/user/logout")
+    .then((res) => {
+      dispatch({ type: LOGOUT_USER_SUCCESS, payload: res?.data });
+      toast.success("Logout Successfully!");
+    })
+    .catch((err) => {
+      dispatch({ type: LOGOUT_USER_FAIL, error: err.message });
+      toast.error("Something went wrong, Reload!");
+    });
 };
 
 // Update user profile
 export const updateUser = (name, email) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_PROFILE_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/profile/update",
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        name,
-        email,
-      },
+  dispatch({ type: UPDATE_PROFILE_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/profile/update",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      name,
+      email,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: res?.data });
+      toast.success("Logout Successfully!");
+    })
+    .catch((err) => {
+      dispatch({ type: UPDATE_PROFILE_FAIL, payload: err.message });
+      toast.error("Something went wrong, Reload!");
     });
-    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: UPDATE_PROFILE_FAIL, payload: error.message });
-  }
 };
 
 // Update password
 export const updatePassword =
   (oldPassword, newPassword, confirmPassword) => async (dispatch) => {
-    try {
-      dispatch({ type: UPDATE_PASSWORD_REQUEST });
-      const data = await axios({
-        url: "/api/v1/user/password/update",
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        data: {
-          oldPassword,
-          newPassword,
-          confirmPassword,
-        },
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
+    const data = await axios({
+      url: "/api/v1/user/password/update",
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        oldPassword,
+        newPassword,
+        confirmPassword,
+      },
+    })
+      .then((res) => {
+        dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: res?.data });
+        toast.success("Password Changed Successfully!");
+      })
+      .catch((err) => {
+        dispatch({ type: UPDATE_PASSWORD_FAIL, payload: err.message });
+        toast.error("Something went wrong, Reload!");
       });
-      dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: UPDATE_PASSWORD_FAIL, payload: error.message });
-    }
   };
 
 // Get All Favorites
@@ -178,9 +197,11 @@ export const addToFavorites = (productId) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: CREATE_FAVORITES_SUCCESS, payload: res.data });
+      toast.success("Added to Favorites!");
     })
     .catch((err) => {
       dispatch({ type: CREATE_FAVORITES_FAIL, payload: err.message });
+      toast.error("Something went wrong, Reload!");
     });
 };
 
@@ -196,9 +217,11 @@ export const removeFromFavorites = (productId) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: REMOVE_FAVORITES_SUCCESS, payload: res.data });
+      toast.success("Removed from favorites!");
     })
     .catch((err) => {
       dispatch({ type: REMOVE_FAVORITES_FAIL, payload: err.message });
+      toast.error("Something went wrong, Reload!");
     });
 };
 

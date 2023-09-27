@@ -9,35 +9,53 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Product Description is required!"],
   },
-  price: {
-    type: String,
-    required: [true, "Product Price is required!"],
-  },
-  discount: {
+  usage: {
     type: String,
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
   category: {
     type: String,
     required: [true, "Product Category required!"],
   },
-  sizes: [
+  brand: String,
+  quantity: { type: Number, required: true },
+  variants: [
     {
-      type: String,
-      required: true,
+      size: {
+        type: String,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: [true, "Product Quantity is required!"],
+      },
+      price: {
+        type: Number,
+        required: [true, "Product Price is required!"],
+      },
+      discount: {
+        type: Number,
+      },
+      images: [
+        {
+          public_id: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      flavors: [
+        {
+          type: String,
+        },
+      ],
     },
   ],
+  sale: Boolean,
+  best: Boolean,
   reviews: [
     {
       rating: {

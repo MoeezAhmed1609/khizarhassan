@@ -51,6 +51,7 @@ import AdminOrders from "../components/AdminOrders";
 import Reviews from "../components/Reviews";
 import Blogs from "../components/Blogs";
 import Content from "../components/Content";
+import Category from "../components/Category";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const Dashboard = () => {
   }, [dispatch]);
   return (
     <>
-      <Box sx={{ height: "18vh", width: "100%" }}></Box>
+      <Box sx={{ height: "10vh", width: "100%" }}></Box>
       {loading ? (
         <Box
           sx={{
@@ -118,7 +119,7 @@ const Dashboard = () => {
             <Stack
               direction="row"
               spacing={{ xs: 0, sm: 3 }}
-              sx={{ marginTop: "14px" }}
+              sx={{ marginTop: "0px" }}
             >
               {pages.map((page, i) => (
                 <Button
@@ -159,7 +160,6 @@ const Dashboard = () => {
             </Stack>
             <Box
               sx={{
-                margin: "20px 0",
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
@@ -219,6 +219,7 @@ const Admin = ({ user }) => {
   const options = [
     "Dashboard",
     "Product",
+    "Category Brands",
     "Users",
     "Orders",
     "Blogs",
@@ -263,6 +264,8 @@ const Admin = ({ user }) => {
           <Dash user={user} />
         ) : mode === "product" ? (
           <Product user={user} />
+        ) : mode === "category brands" ? (
+          <Category user={user} />
         ) : mode === "users" ? (
           <Users user={user} />
         ) : mode === "orders" ? (

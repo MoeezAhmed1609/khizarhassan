@@ -9,18 +9,17 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 // Redux Imports
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../redux/actions/productsActions";
 import StyledButton from "../components/styledButton";
-import menswear from "../assets/menswear.webp";
-import womenswear from "../assets/womenswear.webp";
-import kidswear from "../assets/kidswear.webp";
-import boomwear from "../assets/Wear.png";
+import xtrack from "../assets/X.png";
 
 import { Link } from "react-router-dom";
 import SaleSlider from "../components/saleSlider";
+import MainBanner from "../components/MainBanner";
+import CategoriesSlider from "../components/CategoriesSlider";
+import BestSellersSlider from "../components/BestSellersSlider";
 
 const Home = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
@@ -29,24 +28,16 @@ const Home = ({ handleAddToFavorites }) => {
   const ban = useSelector((state) => state.banners.data);
   // Blogs
   const blogs = useSelector((state) => state.blogs.data);
-  // Categories
-  const categories = [
-    {
-      url: menswear,
-      title: "Mens wear",
-      perma: "Mens",
-    },
-    {
-      url: womenswear,
-      title: "Women wear",
-      perma: "Woman",
-    },
-    {
-      url: kidswear,
-      title: "Kids wear",
-      perma: "Kids",
-    },
-  ];
+  // data's
+  const categories = useSelector((state) => state.category);
+  const brands = useSelector((state) => state.brands);
+
+  // on Sale products
+  const saleProducts = data?.products?.filter(
+    (product) => product?.sale === true
+  );
+  console.log({saleProducts})
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
@@ -64,77 +55,57 @@ const Home = ({ handleAddToFavorites }) => {
     <>
       <Box
         sx={{
-          height: "18.5vh",
+          height: "12.3vh",
           width: "100%",
-          display: { xs: "block", sm: "none" },
+          // display: { xs: "block", sm: "none" },
         }}
       ></Box>
-      {/* Video Banner */}
-      <Box
+      {/* Tagline Box */}
+      <Grid
+        container
         sx={{
-          height: { xs: "46vh", sm: "98vh" },
-          overflow: "hidden",
-          position: "relative",
+          minHeight: "6vh",
+          width: "100%",
+          background: "#e63146",
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        <video width="100%" autoPlay loop muted>
-          <source src={ban && ban[0]?.banner} type="video/mp4" />
-          <source
-            src={
-              "https://res.cloudinary.com/dbpozpcln/video/upload/v1692194988/banner/banner_yasc0o.mp4"
-            }
-            type="video/mp4"
-          />
-        </video>
-        <Box
-          sx={{
-            position: "absolute",
-            height: { xs: "46vh", sm: "98vh" },
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: "99",
-            top: "0",
-            flexDirection: "column",
-          }}
-        >
-          <img
-            src={
-              "https://res.cloudinary.com/dbpozpcln/image/upload/v1692195829/banner/banner-text_tjisxq.png"
-            }
-            className="banner-caption"
-            alt="banner text"
-          />
-          <Link
-            to={"/shop"}
-            style={{
-              textDecoration: "none",
-              color: "black",
-              width: "50%",
-              display: "flex",
-              justifyContent: "center",
-            }}
+        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
           >
-            <StyledButton
-              title={
-                <>
-                  <Typography
-                    sx={{
-                      fontSize: "2.6vh",
-                    }}
-                  >
-                    SHOP COLLECTIONS
-                  </Typography>
-                  <ArrowForwardIcon sx={{ marginLeft: 1 }} />
-                </>
-              }
-              mode={"light"}
-              width={{ xs: "100%", sm: "50%" }}
-            />
-          </Link>
-        </Box>
-      </Box>
+            Low Price Guaranteed
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+          >
+            100% Authentic Products
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+          >
+            Free Shipping Nationwide
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+          >
+            Ask Any Query: +923272026242
+          </Typography>
+        </Grid>
+      </Grid>
+      {/* Banner Slider */}
+      <MainBanner />
       {/* Categories */}
       <Box sx={{ minHeight: "85vh", padding: "25px 0" }}>
         <Box
@@ -145,96 +116,40 @@ const Home = ({ handleAddToFavorites }) => {
             justifyContent: "center",
             alignItems: " center",
             flexDirection: "column",
-            marginBottom: "20px",
+            marginBottom: "30px",
           }}
         >
           <Typography
             sx={{
-              fontSize: { xs: "9vh", sm: "15vh" },
+              fontSize: { xs: "44px", sm: "14vh" },
               fontWeight: "900",
               fontStyle: "italic",
               color: "black",
+              textTransform: "uppercase",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
-            UNBELIEVABLE
+            Guaranteed
           </Typography>
           <Typography
             sx={{
-              fontSize: "6vh",
+              fontSize: { xs: "24px", sm: "6vh" },
               fontWeight: "900",
               fontStyle: "italic",
-              color: "black",
-              marginTop: "-20px",
+              color: "#e63146",
+              marginTop: { xs: "-10px", sm: "-20px" },
+              fontFamily: "Poppins, sans-serif",
             }}
           >
-            SPEED. COMFORT.
+            AUTHENTIC. LOW PRICED.
           </Typography>
         </Box>
-        <Grid
-          container
-          sx={{
-            minHeight: "50vh",
-            padding: "15px",
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
-        >
-          {categories.map((cat, i) => (
-            <Grid
-              item
-              key={i}
-              xs={12}
-              sm={4}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: { xs: "10px 0", sm: "0" },
-              }}
-            >
-              <Link
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                }}
-                to={"/shop"}
-                onClick={() =>
-                  window.sessionStorage.setItem("category", cat.perma)
-                }
-              >
-                <Box
-                  sx={{
-                    height: "180px",
-                    width: "180px",
-                    borderRadius: "50%",
-                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-                    backgroundImage: `url(${cat.url})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "bottom",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                ></Box>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    marginTop: "15px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {cat.title}
-                </Typography>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
+        <CategoriesSlider cards={categories?.data} />
       </Box>
       {/* Sale Wrapper */}
       <Grid
         container
-        sx={{ minHeight: "60vh", width: "100%", background: "#f3f4ef" }}
+        sx={{ minHeight: "60vh", width: "100%", background: "#e63146" }}
       >
         <Grid
           item
@@ -256,6 +171,8 @@ const Home = ({ handleAddToFavorites }) => {
               textTransform: "uppercase",
               letterSpacing: -2,
               textAlign: "center",
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
             }}
           >
             What's on sale
@@ -266,6 +183,8 @@ const Home = ({ handleAddToFavorites }) => {
               fontWeight: "800",
               textTransform: "uppercase",
               letterSpacing: -2,
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
             }}
           >
             Get extra 20% off
@@ -273,7 +192,7 @@ const Home = ({ handleAddToFavorites }) => {
           <Link
             to="/shop"
             style={{
-              color: "black",
+              color: "white",
               textDecoration: "none",
               width: "100%",
               display: "flex",
@@ -294,19 +213,94 @@ const Home = ({ handleAddToFavorites }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                backgroundColor: "#ededed",
+                backgroundColor: "#e63146",
               }}
             >
               <CircularProgress />
             </Box>
           ) : (
             <SaleSlider
-              products={data}
+              products={saleProducts}
               loading={loading}
               handleAddToFavorites={handleAddToFavorites}
             />
           )}
         </Grid>
+      </Grid>
+      {/* Best Sellers Wrapper */}
+      <Grid
+        container
+        sx={{
+          minHeight: "60vh",
+          width: "100%",
+          padding: { xs: "14px", sm: "22px" },
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            height: "12vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "15px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              fontWeight: "900",
+              textTransform: "uppercase",
+              fontFamily: "Poppins, san-serif",
+            }}
+          >
+            Our Best Sellers
+          </Typography>
+        </Grid>
+        <BestSellersSlider category={"proteins"} />
+        <BestSellersSlider category={"weight gainers"} />
+        <BestSellersSlider category={"pre workouts"} />
+        <BestSellersSlider category={"fat loss products"} />
+        <BestSellersSlider category={"accessories"} />
+      </Grid>
+      {/* Shop by brands */}
+      <Grid
+        container
+        sx={{
+          minHeight: "60vh",
+          width: "100%",
+          padding: { xs: "14px", sm: "22px" },
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            height: "12vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "15px",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              fontWeight: "900",
+              textTransform: "uppercase",
+              fontFamily: "Poppins, san-serif",
+            }}
+          >
+            Shop by Brands
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <CategoriesSlider cards={brands?.data} />
+        </Grid>
+        {/* <BestSellersSlider /> */}
       </Grid>
       {/* Blogs Wrapper */}
       <Grid container sx={{ minHeight: "60vh", width: "100%" }}>
@@ -330,6 +324,7 @@ const Home = ({ handleAddToFavorites }) => {
                 textAlign: "center",
                 fontWeight: "900",
                 textTransform: "uppercase",
+                fontFamily: "Poppins, san-serif",
               }}
             >
               Our Latest Blogs
@@ -358,11 +353,6 @@ const Home = ({ handleAddToFavorites }) => {
                         <Typography variant="h6" sx={{ fontWeight: "600" }}>
                           {blog?.title}
                         </Typography>
-                        {/* <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles,
-                        with over 6,000 species, ranging across all continents
-                        except Antarctica
-                      </Typography> */}
                       </CardContent>
                     </CardActionArea>
                   </Card>
@@ -402,7 +392,7 @@ const Home = ({ handleAddToFavorites }) => {
         sx={{
           minHeight: "60vh",
           width: "100%",
-          background: "black",
+          background: "#e63146",
         }}
       >
         <Grid
@@ -445,13 +435,13 @@ const Home = ({ handleAddToFavorites }) => {
               style={{ textDecoration: "none", width: "40%" }}
               to="/account"
             >
-              <StyledButton title={"Sign In"} mode={"light"} />
+              <StyledButton title={"Sign In"} mode={"dark"} />
             </Link>
             <Link
               style={{ textDecoration: "none", width: "40%" }}
               to="/account"
             >
-              <StyledButton title={"Join Us"} mode={"light"} />
+              <StyledButton title={"Join Us"} mode={"dark"} />
             </Link>
           </Box>
         </Grid>
@@ -470,10 +460,11 @@ const Home = ({ handleAddToFavorites }) => {
             sx={{
               height: "26vh",
               width: "auto",
-              background: "white",
+              background: "black",
+              padding: "24px",
             }}
           >
-            <img src={boomwear} style={{ height: "25vh" }} alt="boom wear" />
+            <img src={xtrack} style={{ height: "25vh" }} alt="boom wear" />
           </Box>
         </Grid>
       </Grid>

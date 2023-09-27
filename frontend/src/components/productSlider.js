@@ -19,23 +19,37 @@ export default function ProductSlider({ images }) {
         pagination={true}
         modules={[Navigation, Pagination]}
         style={{
-          minHeight: "70vh",
+          height: "65vh",
           width: "100%",
+          marginTop: "15px",
         }}
       >
         {images?.map((image, i) => (
           <SwiperSlide
             key={i}
-            style={{ backgroundImage: `url(${image?.url})` }}
+            style={{
+              backgroundImage: `url(${image?.url})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundOrigin: "content-box",
+            }}
           />
         ))}
       </Swiper>
-      <Box sx={{ height: "20vh", width: "100%", display: "flex", alignItems: 'center', marginTop: '10px', }}>
+      <Box
+        sx={{
+          height: "16vh",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          marginTop: "10px",
+        }}
+      >
         {images?.map((image, i) => (
           <img
             src={image?.url}
             alt={"Product"}
-            style={{ height: "18vh", margin: '10px' }}
+            style={{ height: "14vh", margin: "10px" }}
             key={i}
           />
         ))}
