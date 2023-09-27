@@ -1,20 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.9cb3b05e.css",
-    "main.js": "/static/js/main.47b738c9.js",
-    "static/media/nikeair.png": "/static/media/nikeair.8170d7094c12b0ea8a20.png",
-    "static/media/nikecamel.png": "/static/media/nikecamel.6259abc0585d3e98c7c2.png",
-    "static/media/menswear.webp": "/static/media/menswear.2147f7e2752a3467e0f6.webp",
-    "static/media/womenswear.webp": "/static/media/womenswear.91ed27c7193ed2d1fcf2.webp",
-    "static/media/kidswear.webp": "/static/media/kidswear.fa7754aa662d8c26feea.webp",
+    "main.css": "/static/css/main.6f0a99c6.css",
+    "main.js": "/static/js/main.f2ea4453.js",
+    "static/media/xtrack.png": "/static/media/xtrack.99a4ea8fc5cf62367b99.png",
     "static/media/paint.jpg": "/static/media/paint.40c18a5d875e449a2580.jpg",
-    "static/media/Wear.png": "/static/media/Wear.407d562833c20653ab97.png",
+    "static/media/X.png": "/static/media/X.d3c7979c868169e4cccc.png",
     "index.html": "/index.html",
-    "main.9cb3b05e.css.map": "/static/css/main.9cb3b05e.css.map",
-    "main.47b738c9.js.map": "/static/js/main.47b738c9.js.map"
+    "main.6f0a99c6.css.map": "/static/css/main.6f0a99c6.css.map",
+    "main.f2ea4453.js.map": "/static/js/main.f2ea4453.js.map"
   },
   "entrypoints": [
-    "static/css/main.9cb3b05e.css",
-    "static/js/main.47b738c9.js"
+    "static/css/main.6f0a99c6.css",
+    "static/js/main.f2ea4453.js"
   ]
 }
