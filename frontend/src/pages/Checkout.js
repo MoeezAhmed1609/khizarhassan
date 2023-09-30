@@ -16,50 +16,65 @@ import StyledButton from "../components/styledButton";
 import { Link, useNavigate } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import { createOrder } from "../redux/actions/userActions";
+import RawHTMLRenderer from "../components/HtmlRenderer";
+import toast from "react-hot-toast";
 
 const Checkout = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Getting User
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   // Getting cart items
   const { cart } = useSelector((state) => state.cart);
   let subtotal = 0;
-  const shipping = 10;
+  let shipping = 0;
   cart?.filter((item) => {
-    subtotal += Number(item?.product?.price);
+    let price = item?.product?.variants.findIndex((object) => {
+      return object?.size === item?.size;
+    });
+    subtotal += Number(item?.product?.variants[price]?.price * item?.quantity);
+    shipping += item?.product?.shipping;
   });
-  const tax = Math.round((subtotal / 100) * 13);
-  const total = subtotal + shipping + tax;
+  const total = subtotal + shipping;
   //   Delivery Details
   const dispatch = useDispatch();
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [zip, setZip] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [placed, setPlaced] = useState(false);
+  const [method, setMethod] = useState("Cash on Delivery");
+
+  const note =
+    method === "Cash on Delivery"
+      ? "<p>Cash on delivery service is not available in Villages, Self Collection or Incomplete Address (Without House Number). In this condition you can pay through Bank Transfer, Easypaisa or Jazzcash.</p>"
+      : method === "EasyPaisa"
+      ? "<p>Please share screenshot of transaction slip with your Order ID at Whatsapp 0333-2117276 or Email at xtrack.pk@gmail.com.<br /> Easypaisa account details:<br /> Account Title: Khizar Hasan<br /> Mobile Number: 0333-2117276</p>"
+      : method === "Bank Transfer"
+      ? "<p>Please share screenshot of transaction slip with your Order ID at Whatsapp 0333-2117276 or Email at xtrack.pk@gmail.com.<br /> Your order will not be dispatch until the amount have cleared in our bank account.<br /> Bank account details:<br /> Account Title: Khizar Hasan<br /> Account Number: 0172 0106782669<br /> IBAN Number: 0333-2117276<br /> BANK: 0333-2117276</p>"
+      : null;
+
   const handleCreateOrder = () => {
+    if (!name || !email || !address || !phone || !method) {
+      toast.error("Fill complete form!");
+      return;
+    }
     if (name.length < 4) {
-      setIsError(true);
-      setErrorMessage("Full Name needed!");
+      toast.error("Full Name needed!");
       return;
     }
     if (isEmail(email) === false) {
-      setIsError(true);
-      setErrorMessage("Invalid Email!");
+      toast.error("Invalid Email!");
       return;
     }
     if (phone.length !== 11) {
-      setIsError(true);
-      setErrorMessage("Enter a valid phone number!");
+      toast.error("Enter a valid phone number!");
       return;
     }
     const items = [];
     cart?.filter((item) => {
       const data = {
         size: item?.size,
+        flavor: item?.flavor,
+        quantity: item.quantity,
         product: item?.product?._id,
       };
       items.push(data);
@@ -68,18 +83,16 @@ const Checkout = () => {
       shipping: {
         address,
         phone,
-        zip,
         email,
         name,
       },
       items,
       itemsPrice: subtotal,
       shippingPrice: shipping,
-      taxPrice: tax,
       totalPrice: total,
+      payment: method,
     };
     dispatch(createOrder(data));
-    setPlaced(true);
   };
   useEffect(() => {
     if (!isAuthenticated && loading === false) {
@@ -91,7 +104,7 @@ const Checkout = () => {
   }, [isAuthenticated]);
   return (
     <>
-      <Box sx={{ height: "18vh", width: "100%" }}></Box>
+      <Box sx={{ height: "13vh", width: "100%" }}></Box>
       {!cart ? (
         <Box
           sx={{
@@ -119,15 +132,25 @@ const Checkout = () => {
               item
               xs={12}
               sx={{
-                marginBottom: "26px",
+                marginBottom: "8px",
                 textAlign: "center",
                 minHeight: "8vh",
               }}
             >
-              <Typography variant="h5">Checkout</Typography>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: "Poppins, sans-serif", fontWeight: "800" }}
+              >
+                Checkout
+              </Typography>
             </Grid>
             <Grid item xs={12} md={7} sx={{ minHeight: "70vh" }}>
-              <Typography variant="h5">Delivery Details</Typography>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: "Poppins, sans-serif", fontWeight: "800" }}
+              >
+                Delivery Details
+              </Typography>
               <Grid container sx={{ margin: "30px 0" }}>
                 <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
                   <StyledTextField
@@ -153,7 +176,7 @@ const Checkout = () => {
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={8} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={12} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Phone"
                     type="text"
@@ -161,137 +184,245 @@ const Checkout = () => {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ padding: "0 8px" }}>
-                  <StyledTextField
-                    title="Zip"
-                    type="text"
-                    value={zip}
-                    onChange={(e) => setZip(e.target.value)}
-                  />
+                <Grid item xs={12} sm={12} sx={{ padding: "0 8px" }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "800",
+                    }}
+                  >
+                    Select Payment Method
+                  </Typography>
                 </Grid>
-                {isError && (
-                  <Grid item xs={12} sx={{ padding: "0 16px" }}>
-                    <Typography variant="subtitle2" sx={{ color: "red" }}>
-                      {errorMessage}
-                    </Typography>
-                  </Grid>
-                )}
+                <Grid item sm={4} xs={12} sx={{ padding: "4px 8px" }}>
+                  <Button
+                    sx={{
+                      width: "100%",
+                      border: `1.5px solid ${
+                        method === "Cash on Delivery" ? "#e63146" : "black"
+                      }`,
+                      borderRadius: "7px",
+                      textAlign: "center",
+                      height: "40px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      color:
+                        method === "Cash on Delivery" ? "#e63146" : "black",
+                      fontSize: "15px",
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => {
+                      setMethod("Cash on Delivery");
+                    }}
+                  >
+                    Cash on Delivery
+                  </Button>
+                </Grid>
+                <Grid item sm={4} xs={12} sx={{ padding: "4px 8px" }}>
+                  <Button
+                    sx={{
+                      width: "100%",
+                      border: `1.5px solid ${
+                        method === "EasyPaisa" ? "#e63146" : "black"
+                      }`,
+                      borderRadius: "7px",
+                      textAlign: "center",
+                      height: "40px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      color: method === "EasyPaisa" ? "#e63146" : "black",
+                      fontSize: "15px",
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => {
+                      setMethod("EasyPaisa");
+                    }}
+                  >
+                    EasyPaisa
+                  </Button>
+                </Grid>
+                <Grid item sm={4} xs={12} sx={{ padding: "4px 8px" }}>
+                  <Button
+                    sx={{
+                      width: "100%",
+                      border: `1.5px solid ${
+                        method === "Bank Transfer" ? "#e63146" : "black"
+                      }`,
+                      borderRadius: "7px",
+                      textAlign: "center",
+                      height: "40px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      color: method === "Bank Transfer" ? "#e63146" : "black",
+                      fontSize: "15px",
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => {
+                      setMethod("Bank Transfer");
+                    }}
+                  >
+                    Bank Transfer
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sx={{ padding: "4px 8px" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Pay with {method}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    <RawHTMLRenderer html={note} />
+                  </Typography>
+                </Grid>
                 <Grid item xs={12} sx={{ padding: "8px" }}>
                   <StyledButton
                     title="Place Order"
                     mode="dark"
-                    validation={!name || !email || !address || !phone || !zip}
                     onClick={() => handleCreateOrder()}
                   />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={5}
-              sx={{
-                height: "70vh",
-                padding: "0 30px",
-                margin: { xs: "15px 0", md: "0" },
-              }}
-            >
-              <Typography variant="h5" sx={{ fontWeight: "normal" }}>
-                Summary:
-              </Typography>
+            <Grid item md={5} xs={12} sx={{ padding: "0 8px" }}>
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Subtotal{" "}
-                  <Tooltip title="The subtotal reflects the total price of your order before any applicable discounts. It does not include shipping costs and taxes.">
-                    <IconButton sx={{ height: "20px", width: "20px" }}>
-                      <HelpIcon sx={{ height: "18px", color: "black" }} />
-                    </IconButton>
-                  </Tooltip>
-                </Typography>
-                <Typography variant="subtitle1">${subtotal}.00</Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Estimated Shipping & Handling
-                </Typography>
-                <Typography variant="subtitle1">${shipping}.00</Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Estimated Tax (13%)
-                  <Tooltip title="The actual tax will be calculated based on the applicable state and local sales taxes when your order is shipped.">
-                    <IconButton sx={{ height: "20px", width: "20px" }}>
-                      <HelpIcon sx={{ height: "18px", color: "black" }} />
-                    </IconButton>
-                  </Tooltip>
-                </Typography>
-                <Typography variant="subtitle1">${tax}.00</Typography>
-              </Box>
-              <Divider sx={{ background: "#ececec", marginTop: "10px" }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  margin: "20px 0",
-                }}
-              >
-                <Typography variant="subtitle1">Total</Typography>
-                <Typography variant="subtitle1">${total}.00</Typography>
-              </Box>
-              <Divider sx={{ background: "#ececec", marginTop: "10px" }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
                   width: "100%",
-                  margin: "15px 0",
-                  gap: "0 10px",
+                  border: "1.5px solid black",
+                  borderRadius: "5px",
+                  padding: "18px 10px",
                 }}
               >
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    width: "50%",
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "bold", fontFamily: "Poppins, sans-serif" }}
+                >
+                  Summary:
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "12px",
                   }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Total Products
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    {cart?.length} {cart?.length === 1 ? "Item" : "Items"}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Subtotal{" "}
+                    <Tooltip title="The subtotal reflects the total price of your order before any applicable discounts. It does not include shipping costs and taxes.">
+                      <IconButton sx={{ height: "15px", width: "20px" }}>
+                        <HelpIcon sx={{ height: "14px", color: "black" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{subtotal}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Shipping
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{shipping}
+                  </Typography>
+                </Box>
+                <Divider sx={{ background: "#ececec", marginY: "8px" }} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Total
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{total}
+                  </Typography>
+                </Box>
+                <Divider sx={{ background: "#ececec", marginY: "8px" }} />
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
                   to="/cart"
                 >
-                  <StyledButton title="View Cart" mode="dark" />
+                  <StyledButton title={"View Cart"} />
                 </Link>
+                <br />
                 <Link
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    width: "50%",
-                  }}
+                  style={{ textDecoration: "none", color: "black" }}
                   to="/shop"
                 >
-                  <StyledButton title="Add more wears" mode="light" />
+                  <StyledButton mode={"dark"} title={"Add More!"} />
                 </Link>
               </Box>
             </Grid>
           </Grid>
-          {placed && (
+          {/* {placed && (
             <Box
               sx={{
                 position: "absolute",
@@ -339,7 +470,7 @@ const Checkout = () => {
                 </Box>
               </Box>
             </Box>
-          )}
+          )} */}
         </>
       )}
     </>

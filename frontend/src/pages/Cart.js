@@ -13,10 +13,12 @@ import {
   Tooltip,
   IconButton,
   Divider,
+  CardActions,
 } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import HelpIcon from "@mui/icons-material/Help";
+import StyledButton from "../components/styledButton";
 
 import { Link } from "react-router-dom";
 
@@ -24,17 +26,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { removeFromCart } from "../redux/reducers/cartReducer";
 
-const Cart = ({ handleAddToFavorites }) => {
+const Cart = () => {
   // Getting cart items
   const { cart } = useSelector((state) => state.cart);
   let subtotal = 0;
-  const shipping = 10;
+  let totalPieces = 0;
+  let shipping = 0;
+  let indexed;
   cart?.filter((item) => {
-    subtotal += Number(item?.product?.price);
+    indexed = item?.product?.variants.findIndex((object) => {
+      return object?.size === item?.size;
+    });
+    subtotal += Number(
+      item?.product?.variants[indexed]?.price * item?.quantity
+    );
+    totalPieces += item?.quantity;
+    shipping += item?.product?.shipping;
   });
-  const tax = Math.round((subtotal / 100) * 13);
-  const total = subtotal + shipping + tax;
-
+  const total = subtotal + shipping;
   // Remove from cart
   const dispatch = useDispatch();
   const handleRemoveFromCart = (id) => {
@@ -43,7 +52,7 @@ const Cart = ({ handleAddToFavorites }) => {
 
   return (
     <>
-      <Box sx={{ height: "18vh", width: "100%" }}></Box>
+      <Box sx={{ height: "14vh", width: "100%" }}></Box>
       {!cart ? (
         <Box
           sx={{
@@ -74,6 +83,7 @@ const Cart = ({ handleAddToFavorites }) => {
                 letterSpacing: "1.5px",
                 fontWeight: "100",
                 padding: { xs: "0", sm: "0 40px" },
+                fontFamily: "Poppins, sans-serif",
               }}
             >
               You don't have any wears in your cart,
@@ -86,6 +96,7 @@ const Cart = ({ handleAddToFavorites }) => {
                   backgroundColor: "black",
                   padding: "6px 10px",
                   borderRadius: "4px",
+                  fontFamily: "Poppins, sans-serif",
                 }}
               >
                 Add Some!
@@ -107,216 +118,242 @@ const Cart = ({ handleAddToFavorites }) => {
             <Grid
               item
               xs={12}
-              sx={{ marginBottom: "26px", textAlign: "center" }}
+              sx={{ marginBottom: "35px", textAlign: "center" }}
             >
-              <Typography variant="h5">Your Cart</Typography>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: "Poppins, sans-serif", fontWeight: "800" }}
+              >
+                Your Cart
+              </Typography>
             </Grid>
-            {cart?.map((item, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card sx={{ maxWidth: 345, boxShadow: "none" }}>
+            {cart?.map((item, i) => (
+              <Grid item xs={12} md={3} key={i}>
+                <Card sx={{ boxShadow: "none" }}>
                   <CardActionArea>
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        right: "4px",
-                        top: "4px",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Tooltip title="Remove From Cart" placement="left">
-                        <IconButton
-                          aria-label="cart"
-                          size="medium"
-                          sx={{ color: "black" }}
-                          onClick={() =>
-                            handleRemoveFromCart(item?.product?._id)
-                          }
+                    <CardMedia
+                      component="img"
+                      height="200px"
+                      image={
+                        item?.product?.variants[indexed]?.images[0]?.url
+                      }
+                      alt={item?.product?.variants[indexed]?.size}
+                      sx={{ objectFit: "contain" }}
+                    />
+                    <CardContent sx={{ paddingX: "8px" }}>
+                      <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        component="div"
+                        sx={{
+                          height: "10vh",
+                          fontFamily: "Poppins, sans-serif",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item?.product?.name}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontFamily: "Poppins, sans-serif" }}
                         >
-                          <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Add to Favorites" placement="left">
-                        <IconButton
-                          aria-label="favorite"
-                          size="medium"
-                          sx={{ color: "black" }}
-                          onClick={() =>
-                            handleAddToFavorites(item?.product?._id)
-                          }
+                          {item?.size}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{
+                            textTransform: "capitalize",
+                            fontFamily: "Poppins, sans-serif",
+                          }}
                         >
-                          <FavoriteBorderOutlinedIcon fontSize="inherit" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Link
-                      style={{ textDecoration: "none", color: "black" }}
-                      to={`/product/${item?.product?._id}`}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="auto"
-                        image={item?.product?.images[0]?.url}
-                        alt={item?.product?.name}
+                          {item?.flavor}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle1"
+                          sx={{
+                            textTransform: "capitalize",
+                            fontFamily: "Poppins, sans-serif",
+                          }}
+                        >
+                          {item?.quantity}{" "}
+                          {item?.quantity === 1 ? "Piece" : "Pieces"}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontFamily: "Poppins, sans-serif" }}
+                        >
+                          Rs.{item?.product?.variants[indexed]?.price}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardActions sx={{ gap: "0 6px" }}>
+                      <StyledButton
+                        title="Remove"
+                        mode="light"
+                        onClick={() => handleRemoveFromCart(item?.product?._id)}
                       />
-
-                      <CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography gutterBottom variant="h5" component="div">
-                            {item?.product?.name}
-                          </Typography>
-                          <Typography variant="subtitle1">
-                            ${item?.product?.price}.00
-                          </Typography>
-                        </Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography variant="subtitle1">
-                            Size: {item?.size}
-                          </Typography>
-                          <Typography variant="subtitle1">
-                            {item?.product?.category}
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                    </Link>
+                    </CardActions>
                   </CardActionArea>
                 </Card>
               </Grid>
             ))}
-            <Grid
-              item
-              md={4}
-              xs={12}
-              sx={{
-                border: "1.5px solid black",
-                borderRadius: "5px",
-                padding: "15px",
-              }}
-            >
-              <Typography variant="h5" sx={{ fontWeight: "normal" }}>
-                Summary:
-              </Typography>
+            <Grid item md={3} xs={12} sx={{ padding: "0 8px" }}>
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Subtotal{" "}
-                  <Tooltip title="The subtotal reflects the total price of your order before any applicable discounts. It does not include shipping costs and taxes.">
-                    <IconButton sx={{ height: "20px", width: "20px" }}>
-                      <HelpIcon sx={{ height: "18px", color: "black" }} />
-                    </IconButton>
-                  </Tooltip>
-                </Typography>
-                <Typography variant="subtitle1">${subtotal}.00</Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Estimated Shipping & Handling
-                </Typography>
-                <Typography variant="subtitle1">${shipping}.00</Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "30px",
-                }}
-              >
-                <Typography variant="subtitle1">
-                  Estimated Tax (13%)
-                  <Tooltip title="The actual tax will be calculated based on the applicable state and local sales taxes when your order is shipped.">
-                    <IconButton sx={{ height: "20px", width: "20px" }}>
-                      <HelpIcon sx={{ height: "18px", color: "black" }} />
-                    </IconButton>
-                  </Tooltip>
-                </Typography>
-                <Typography variant="subtitle1">${tax}.00</Typography>
-              </Box>
-              <Divider sx={{ background: "#ececec", marginTop: "10px" }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  margin: "20px 0",
-                }}
-              >
-                <Typography variant="subtitle1">Total</Typography>
-                <Typography variant="subtitle1">${total}.00</Typography>
-              </Box>
-              <Divider sx={{ background: "#ececec", marginTop: "10px" }} />
-              <Link
-                style={{ textDecoration: "none", color: "black" }}
-                to="/checkout"
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    borderRadius: "28px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "12px 0",
-                    cursor: "pointer",
-                    backgroundColor: "black",
-                    color: "white",
-                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.2);",
-                    "&:hover,& .css-hnghlo-MuiButtonBase-root-MuiButton-root": {
-                      color: "black",
-                      backgroundColor: "white",
-                    },
-                    width: "100%",
-                    textTransform: "uppercase",
-                    marginTop: "20px",
-                  }}
-                  className="swiper-btn"
-                >
-                  Proceed to Checkout
-                </Button>
-              </Link>
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: "28px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "12px 0",
-                  cursor: "pointer",
-                  color: "black",
-                  backgroundColor: "white",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.2);",
-                  "&:hover,& .css-hnghlo-MuiButtonBase-root-MuiButton-root": {
-                    backgroundColor: "black",
-                    color: "white",
-                  },
                   width: "100%",
-                  textTransform: "uppercase",
-                  marginTop: "20px",
+                  border: "1.5px solid black",
+                  borderRadius: "5px",
+                  padding: "18px 10px",
                 }}
-                className="swiper-btn"
               >
-                Add more wears
-              </Button>
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "bold", fontFamily: "Poppins, sans-serif" }}
+                >
+                  Summary:
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "12px",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Total Products
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    {cart?.length} {cart?.length === 1 ? "Item" : "Items"}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Total Quantity
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    {totalPieces} {totalPieces === 1 ? "Piece" : "Pieces"}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Subtotal{" "}
+                    <Tooltip title="The subtotal reflects the total price of your order before any applicable discounts. It does not include shipping costs and taxes.">
+                      <IconButton sx={{ height: "15px", width: "20px" }}>
+                        <HelpIcon sx={{ height: "14px", color: "black" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{subtotal}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Shipping
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{shipping}
+                  </Typography>
+                </Box>
+                <Divider sx={{ background: "#ececec", marginY: "8px" }} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Total
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Rs.{total}
+                  </Typography>
+                </Box>
+                <Divider sx={{ background: "#ececec", marginY: "8px" }} />
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/checkout"
+                >
+                  <StyledButton title={"Proceed to Checkout"} />
+                </Link>
+                <br />
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/shop"
+                >
+                  <StyledButton mode={"dark"} title={"Add More!"} />
+                </Link>
+              </Box>
             </Grid>
           </Grid>
         </>

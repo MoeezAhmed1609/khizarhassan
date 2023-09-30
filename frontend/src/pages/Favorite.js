@@ -84,55 +84,59 @@ const Favorite = () => {
             >
               <Typography variant="h5">Favorites</Typography>
             </Grid>
-            {user?.favorites?.map((favorite, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card sx={{ maxWidth: 345, boxShadow: "none" }}>
+            {user?.favorites?.map((product, index) => (
+              <Grid item xs={12} md={3} key={index}>
+                <Card sx={{ boxShadow: "none" }}>
                   <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="300px"
-                      image={favorite?.images[0]?.url}
-                      alt={favorite?.name}
-                    />
                     <Link
                       style={{ textDecoration: "none", color: "black" }}
-                      to={`/product/${favorite?._id}`}
+                      to={`/product/${product?._id}`}
                     >
-                      <CardContent>
+                      <CardMedia
+                        component="img"
+                        height="200px"
+                        image={product?.variants[0]?.images[0]?.url}
+                        alt={product?.variants[0]?.size}
+                        sx={{ objectFit: "contain" }}
+                      />
+                      <CardContent sx={{ paddingX: "8px" }}>
+                        <Typography
+                          gutterBottom
+                          variant="subtitle1"
+                          component="div"
+                        >
+                          {product?.name}
+                        </Typography>
                         <Box
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
                           }}
                         >
-                          <Typography gutterBottom variant="h5" component="div">
-                            {favorite?.name}
-                          </Typography>
                           <Typography variant="subtitle1">
-                            ${favorite?.price}.00
+                            Rs.{product?.variants[0]?.price}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ textTransform: "capitalize" }}
+                          >
+                            {product?.category}
                           </Typography>
                         </Box>
-                        <Typography variant="subtitle1">
-                          {favorite?.category}
-                        </Typography>
                       </CardContent>
                     </Link>
-                    <CardActions sx={{ gap: "0 10px" }}>
+                    <CardActions sx={{ gap: "0 6px" }}>
                       <Link
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          width: "50%",
-                        }}
-                        to={`/product/${favorite?._id}`}
+                        to={`/product/${product?._id}`}
+                        style={{ width: "50%", textDecoration: "none" }}
                       >
-                        <StyledButton title="Get Your Size" mode="dark" />
+                        <StyledButton title="Add to Cart" mode="dark" />
                       </Link>
                       <StyledButton
-                        title="Remove Favorite"
+                        title="Remove"
                         mode="light"
                         width={"50%"}
-                        onClick={() => handleRemoveFromFavorites(favorite?._id)}
+                        onClick={() => handleRemoveFromFavorites(product?._id)}
                       />
                     </CardActions>
                   </CardActionArea>

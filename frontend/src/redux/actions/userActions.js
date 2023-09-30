@@ -63,7 +63,9 @@ export const loginUser = (email, password) => async (dispatch) => {
     .then((res) => {
       dispatch({ type: LOGIN_USER_SUCCESS, payload: res?.data });
       toast.success("Login Successful, Reloading!");
-      setTimeout(window.location.reload(), 2500);
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: LOGIN_USER_FAIL, payload: err.message });
@@ -87,7 +89,9 @@ export const registerUser = (name, email, password) => async (dispatch) => {
     .then((res) => {
       dispatch({ type: REGISTER_USER_SUCCESS, payload: res?.data });
       toast.success("Registered Successfully, Reloading!");
-      setTimeout(window.location.reload(), 5000);
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: REGISTER_USER_FAIL, payload: err.message });
@@ -138,7 +142,10 @@ export const updateUser = (name, email) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: res?.data });
-      toast.success("Logout Successfully!");
+      toast.success("Updated Successfully, Reloading!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: UPDATE_PROFILE_FAIL, payload: err.message });
@@ -162,7 +169,10 @@ export const updatePassword =
     })
       .then((res) => {
         dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: res?.data });
-        toast.success("Password Changed Successfully!");
+        toast.success("Password Changed Successfully, Reloading!");
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       })
       .catch((err) => {
         dispatch({ type: UPDATE_PASSWORD_FAIL, payload: err.message });
@@ -228,21 +238,28 @@ export const removeFromFavorites = (productId) => async (dispatch) => {
 // Create Order
 // Update user profile
 export const createOrder = (info) => async (dispatch) => {
-  try {
-    dispatch({ type: CREATE_ORDER_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/orders/new",
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        data: info,
-      },
+  dispatch({ type: CREATE_ORDER_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/orders/new",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      data: info,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: CREATE_ORDER_SUCCESS, payload: res?.data });
+      window.localStorage.setItem("cart", JSON.stringify([]));
+      toast.success("Order Created!");
+      window.setTimeout(function () {
+        window.location.replace("/dashboard");
+      }, 2000);
+    })
+    .catch((err) => {
+      dispatch({ type: CREATE_ORDER_FAIL, payload: err.message });
+      toast.error("Something went wrong!");
+      console.log(err);
     });
-    window.localStorage.setItem("cart", JSON.stringify([]));
-    dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: CREATE_ORDER_FAIL, payload: error.message });
-  }
 };
 
 // Admin Routes Actions
@@ -301,21 +318,27 @@ export const deleteUser = (id) => async (dispatch) => {
 
 // Update user order status
 export const updateOrderStatus = (id, status) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_ORDER_STATUS_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/orders/status",
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        id,
-        status,
-      },
+  dispatch({ type: UPDATE_ORDER_STATUS_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/orders/status",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      id,
+      status,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: UPDATE_ORDER_STATUS_SUCCESS, payload: res?.data });
+      toast.success("Order status updated!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+    })
+    .catch((err) => {
+      dispatch({ type: UPDATE_ORDER_STATUS_FAIL, payload: err.message });
+      toast.error("Something went wrong!");
     });
-    dispatch({ type: UPDATE_ORDER_STATUS_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: UPDATE_ORDER_STATUS_FAIL, payload: error });
-  }
 };
 
 // Create product Review

@@ -14,7 +14,9 @@ const Dash = () => {
   users?.filter((user) => {
     totalOrders += user.orders.length;
     user.orders.filter((order) => {
-      totalSales += order.totalPrice;
+      console.log({ order });
+      totalSales += order.orderStatus === "Cancelled" ? 0 : order.totalPrice;
+      // totalSales += order.totalPrice;
     });
   });
 

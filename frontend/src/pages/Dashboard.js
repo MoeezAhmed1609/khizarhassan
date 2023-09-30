@@ -5,34 +5,6 @@ import {
   CircularProgress,
   Stack,
   Typography,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Modal,
-  IconButton,
-  Grid,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Table,
-  TableContainer,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Pagination,
-  FormControl,
-  Select,
-  MenuItem,
-  Rating,
-  InputLabel,
-  Chip,
-  InputAdornment,
-  Input,
-  Badge,
-  Tooltip,
 } from "@mui/material";
 
 // Redux
@@ -77,7 +49,7 @@ const Dashboard = () => {
             alignItems: "center",
           }}
         >
-          <CircularProgress />
+          <CircularProgress color="inherit" />
         </Box>
       ) : isAuthenticated ? (
         <>

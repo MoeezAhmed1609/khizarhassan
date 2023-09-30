@@ -220,8 +220,16 @@ exports.addToCart = catchAsyncError(async (req, res, next) => {
 // Create a new order
 exports.createOrder = catchAsyncError(async (req, res, next) => {
   let user = await User.findById(req.user.id);
-  const { shipping, items, itemsPrice, shippingPrice, taxPrice, totalPrice } =
+  const { shipping, items, itemsPrice, shippingPrice, taxPrice, totalPrice, payment } =
     req.body.data;
+  for (let i = 0; i < items.length; i++) {
+    const product = await Product.findById(items[i]?.product);
+    let index = product?.variants.findIndex((object) => {
+      return object?.size === items[i]?.size;
+    });
+    product.variants[index].quantity -= items[i]?.quantity;
+    await product.save();
+  }
   user.orders.push({
     shipping,
     items,
@@ -230,8 +238,8 @@ exports.createOrder = catchAsyncError(async (req, res, next) => {
     shippingPrice,
     taxPrice,
     totalPrice,
+    payment,
   });
-  user.cart = [];
   await user.save();
   res.status(200).json({ message: "Order Created!", user: user });
 });

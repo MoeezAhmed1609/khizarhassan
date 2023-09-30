@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Rating, colors } from "@mui/material";
+import RawHTMLRenderer from "./HtmlRenderer";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +54,7 @@ export default function ProductTabs({ data }) {
           xs: "100%",
           md: "80%",
         },
+        minHeight: "40vh",
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -70,40 +72,62 @@ export default function ProductTabs({ data }) {
           }}
         >
           <Tab label="Description" {...a11yProps(0)} />
+          <Tab label="Usage" {...a11yProps(2)} />
           <Tab label="Reviews" {...a11yProps(1)} />
-          {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        {data?.description}
+        <RawHTMLRenderer html={data?.description} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Box sx={{ maxHeight: "340px", overflowY: "scroll", paddingX: 2 }}>
-          {data?.reviews?.map((review, index) => (
-            <Box key={index} sx={{ minHeight: "120px", width: "100%" }}>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant="h6">{review.customer}</Typography>
-                <Rating
-                  name="read-only"
-                  value={review.rating}
-                  readOnly
-                  size="small"
-                  sx={{ color: "golden" }}
-                />
+        {data?.usage ? (
+          <RawHTMLRenderer html={data?.usage} />
+        ) : (
+          <Typography sx={{ fontFamily: "Poppins, san-serif" }}>
+            Usage not Prescribed!
+          </Typography>
+        )}
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <Box sx={{ paddingX: 2 }}>
+          {data?.reviews?.length > 0 ? (
+            data?.reviews?.map((review, index) => (
+              <Box key={index} sx={{ minHeight: "120px", width: "100%" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="h6">{review.customer}</Typography>
+                  <Rating
+                    name="read-only"
+                    value={review.rating}
+                    readOnly
+                    size="small"
+                    sx={{ color: "golden" }}
+                  />
+                </Box>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ marginTop: "8px", marginLeft: "8px" }}
+                >
+                  {review.comment}
+                </Typography>
               </Box>
-              <Typography
-                variant="subtitle1"
-                sx={{ marginTop: "8px", marginLeft: "8px" }}
-              >
-                {review.comment}
+            ))
+          ) : (
+            <Box
+              sx={{
+                height: "37vh",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ textAlign: "center" }}>
+                No reviews for this product!
               </Typography>
             </Box>
-          ))}
+          )}
         </Box>
       </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel> */}
     </Box>
   );
 }

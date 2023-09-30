@@ -64,7 +64,6 @@ const Product = () => {
   const handleSearchProductReviews = () => {
     dispatch(getAllProductReviews(searchQuery));
   };
-  console.log({ products });
 
   return (
     <>
@@ -288,7 +287,7 @@ const Product = () => {
                 <StyledButton
                   title={"Get"}
                   width={"24%"}
-                  onClick={() => handleSearchProductReviews()}
+                  onClick={handleSearchProductReviews}
                 />
               </Grid>
               {reviewsData?.error ||

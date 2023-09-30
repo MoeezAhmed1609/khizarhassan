@@ -55,16 +55,18 @@ const userSchema = new mongoose.Schema({
           type: String,
           required: [true, "Full name is required!"],
         },
-        zip: {
-          type: String,
-          required: [true, "Zip is required!"],
-        },
       },
       items: [
         {
           size: {
             type: String,
             required: [true, "Size is required!"],
+          },
+          flavor: {
+            type: String,
+          },
+          quantity: {
+            type: Number,
           },
           product: {
             type: mongoose.Schema.ObjectId,
@@ -94,11 +96,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: 0,
       },
-      taxPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-      },
       totalPrice: {
         type: Number,
         required: true,
@@ -108,6 +105,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: "Processing",
+      },
+      payment: {
+        type: String,
+        required: true,
       },
       deliveredAt: Date,
       createdAt: {

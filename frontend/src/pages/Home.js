@@ -36,7 +36,6 @@ const Home = ({ handleAddToFavorites }) => {
   const saleProducts = data?.products?.filter(
     (product) => product?.sale === true
   );
-  console.log({saleProducts})
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -259,11 +258,11 @@ const Home = ({ handleAddToFavorites }) => {
             Our Best Sellers
           </Typography>
         </Grid>
-        <BestSellersSlider category={"proteins"} />
-        <BestSellersSlider category={"weight gainers"} />
-        <BestSellersSlider category={"pre workouts"} />
-        <BestSellersSlider category={"fat loss products"} />
-        <BestSellersSlider category={"accessories"} />
+        <BestSellersSlider favorite={handleAddToFavorites} category={"proteins"} />
+        <BestSellersSlider favorite={handleAddToFavorites} category={"weight gainers"} />
+        <BestSellersSlider favorite={handleAddToFavorites} category={"pre workouts"} />
+        <BestSellersSlider favorite={handleAddToFavorites} category={"fat loss products"} />
+        <BestSellersSlider favorite={handleAddToFavorites} category={"accessories"} />
       </Grid>
       {/* Shop by brands */}
       <Grid

@@ -25,7 +25,7 @@ const Orders = ({ user }) => {
   };
 
   return (
-    <Box sx={{ width: { xs: "96%", md: "75%" } }}>
+    <Box sx={{ width: { xs: "96%", md: "75%" }, marginTop: "10px" }}>
       {user?.orders?.length > 0 ? (
         user?.orders?.map((order, index) => (
           <Accordion
@@ -97,14 +97,6 @@ const Orders = ({ user }) => {
                             {order?.shipping?.address}
                           </TableCell>
                         </TableRow>
-                        <TableRow>
-                          <TableCell component="th" scope="row">
-                            ZIP Code
-                          </TableCell>
-                          <TableCell align="right">
-                            {order?.shipping?.zip}
-                          </TableCell>
-                        </TableRow>
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -128,7 +120,7 @@ const Orders = ({ user }) => {
                             Subtotal
                           </TableCell>
                           <TableCell align="right">
-                            ${order?.itemsPrice}.00
+                            Rs.{order?.itemsPrice}
                           </TableCell>
                         </TableRow>
                         <TableRow>
@@ -136,15 +128,7 @@ const Orders = ({ user }) => {
                             Shipping
                           </TableCell>
                           <TableCell align="right">
-                            ${order?.shippingPrice}.00
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell component="th" scope="row">
-                            Tax
-                          </TableCell>
-                          <TableCell align="right">
-                            ${order?.taxPrice}.00
+                            {order?.shippingPrice}
                           </TableCell>
                         </TableRow>
                         <TableRow>
@@ -152,14 +136,14 @@ const Orders = ({ user }) => {
                             Total
                           </TableCell>
                           <TableCell align="right">
-                            ${order?.totalPrice}.00
+                            Rs.{order?.totalPrice}
                           </TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell component="th" scope="row">
-                            Payment Status
+                            Payment Method
                           </TableCell>
-                          <TableCell align="right">Cash on delivery</TableCell>
+                          <TableCell align="right">{order?.payment}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>

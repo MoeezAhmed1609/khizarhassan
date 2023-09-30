@@ -16,7 +16,7 @@ exports.createProduct = catchAsyncError(async (req, res) => {
     related,
     sale,
     best,
-    brand
+    brand,
   } = req.body.product;
   const product = await Product.create({
     name,
@@ -50,41 +50,37 @@ exports.getAllProducts = catchAsyncError(async (req, res) => {
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
   if (!product) return next(new ErrorHandler("Product not found!", 404));
-  const { name, description, price, discount, category, sizes, oldImages } =
-    req.body.product;
-  let images = [];
-  if (req.body.images.length > 0) {
-    if (typeof req.body.images === "string") {
-      images.push(req.body.images);
-    } else {
-      images = req.body.images;
-    }
-    for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "products",
-      });
-      oldImages?.push({
-        public_id: result.public_id,
-        url: result.secure_url,
-      });
-    }
-  }
+  const {
+    name,
+    description,
+    usage,
+    category,
+    quantity,
+    variants,
+    related,
+    sale,
+    best,
+    brand,
+  } = req.body.product;
   product = await Product.findByIdAndUpdate(
     req.params.id,
     {
       name,
       description,
-      price,
-      discount,
+      usage,
       category,
-      sizes,
-      images: oldImages,
+      quantity,
+      variants,
+      related,
+      sale,
+      best,
+      brand,
       admin: req.user.id,
     },
     {
       new: true,
       runValidators: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
     }
   );
   res.status(200).json({ message: "Product updated successfully!", product });

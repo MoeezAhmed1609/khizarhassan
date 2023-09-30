@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ProductSlider from "./ProductsSlider";
 import { useSelector } from "react-redux";
 
-const BestSellersSlider = ({ category }) => {
+const BestSellersSlider = ({ category, favorite }) => {
   const { loading, data } = useSelector((state) => state.products);
   const bestProducts = data?.products?.filter(
     (product) => product?.best === true && product?.category === category
@@ -77,7 +77,7 @@ const BestSellersSlider = ({ category }) => {
           md={10}
           sx={{ paddingLeft: { xs: "0", sm: "10px" } }}
         >
-          <ProductSlider products={bestProducts} />
+          <ProductSlider products={bestProducts} favorite={favorite} />
         </Grid>
       )}
     </>

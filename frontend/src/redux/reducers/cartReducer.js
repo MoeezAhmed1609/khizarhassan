@@ -9,8 +9,8 @@ const cartReducer = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      const { product, size } = action.payload;
-      state.cart = [...state.cart, { product, size }];
+      const { product, size, flavor, quantity } = action.payload;
+      state.cart = [...state.cart, { product, size, flavor, quantity }];
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removeFromCart: (state, action) => {

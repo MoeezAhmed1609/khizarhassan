@@ -12,6 +12,9 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper";
 
 export default function ProductSlider({ images }) {
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
   return (
     <>
       <Swiper
@@ -19,7 +22,7 @@ export default function ProductSlider({ images }) {
         pagination={true}
         modules={[Navigation, Pagination]}
         style={{
-          height: "65vh",
+          height: images?.length > 1 ? "65vh" : "72vh",
           width: "100%",
           marginTop: "15px",
         }}
@@ -32,28 +35,33 @@ export default function ProductSlider({ images }) {
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
               backgroundOrigin: "content-box",
+              cursor: "pointer",
             }}
+            onClick={() => openInNewTab(image?.url)}
           />
         ))}
       </Swiper>
-      <Box
-        sx={{
-          height: "16vh",
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          marginTop: "10px",
-        }}
-      >
-        {images?.map((image, i) => (
-          <img
-            src={image?.url}
-            alt={"Product"}
-            style={{ height: "14vh", margin: "10px" }}
-            key={i}
-          />
-        ))}
-      </Box>
+      {images?.length > 1 && (
+        <Box
+          sx={{
+            height: "16vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            marginTop: "10px",
+          }}
+        >
+          {images?.map((image, i) => (
+            <img
+              src={image?.url}
+              alt={"Product"}
+              style={{ height: "14vh", margin: "10px", cursor: "pointer" }}
+              onClick={() => openInNewTab(image?.url)}
+              key={i}
+            />
+          ))}
+        </Box>
+      )}
     </>
   );
 }

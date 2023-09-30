@@ -19,6 +19,7 @@ const StyledTextField = ({
       variant={variant || "outlined"}
       sx={{
         width: width || "100%",
+        fontFamily: "Poppins, sans-serif",
         marginBottom: bottom || "10px",
         "& label.Mui-focused": {
           color: "black",
@@ -28,13 +29,13 @@ const StyledTextField = ({
         },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
-            border: "1.5px solid black",
+            border: "1.5px solid #e63146",
           },
           "&:hover fieldset": {
-            borderColor: "black",
+            borderColor: "#e63146",
           },
           "&.Mui-focused fieldset": {
-            borderColor: "black",
+            borderColor: "#e63146",
           },
         },
       }}

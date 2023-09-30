@@ -50,7 +50,9 @@ export const createProduct = (product) => async (dispatch) => {
     .then((res) => {
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: res.data });
       toast.success("Product Created, reloading!");
-      window.setTimeout(window.location.reload(), 2000);
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: CREATE_PRODUCT_FAIL, payload: err });
@@ -69,11 +71,12 @@ export const getProductDetails = (id) => async (dispatch) => {
       type: GET_PRODUCT_DETAILS_FAIL,
       payload: error.response.data.message,
     });
+    toast.error("Not Found!")
   }
 };
 
 // Update product
-export const updateProduct = (id, product, images) => async (dispatch) => {
+export const updateProduct = (id, product) => async (dispatch) => {
   dispatch({ type: UPDATE_PRODUCT_REQUEST });
   const data = await axios({
     url: `/api/v1/products/update/${id}`,
@@ -81,33 +84,44 @@ export const updateProduct = (id, product, images) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     data: {
       product,
-      images,
     },
   })
     .then((res) => {
-      dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res.data });
+      dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res });
+      toast.success("Product Updated, reloading!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: UPDATE_PRODUCT_FAIL, payload: err });
+      toast.error("Something went wrong, Reload!");
+      console.log(err)
     });
 };
 
 // delete product
 export const deleteProduct = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: DELETE_PRODUCT_REQUEST });
-    const data = await axios({
-      url: `/api/v1/products/delete/${id}`,
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+  dispatch({ type: DELETE_PRODUCT_REQUEST });
+  const data = await axios({
+    url: `/api/v1/products/delete/${id}`,
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => {
+      dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: res?.data });
+      toast.success("Product Deleted, reloading!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+    })
+    .catch((err) => {
+      dispatch({
+        type: DELETE_PRODUCT_FAIL,
+        payload: err,
+      });
+      toast.error("Something went wrong, Reload!");
     });
-    dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: DELETE_PRODUCT_FAIL,
-      payload: error.message,
-    });
-  }
 };
 
 // Add to cart

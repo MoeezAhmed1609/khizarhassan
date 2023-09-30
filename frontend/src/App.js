@@ -4,7 +4,7 @@ import { useEffect } from "react";
 // React Router Dom Import
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // React Toast
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 // Components Import
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -37,16 +37,24 @@ function App() {
   // Add to favorites
   const handleAddToFavorites = (id) => {
     if (!isAuthenticated) {
-      window.location.replace("/account");
+      toast.error("You are not logged in!");
+      window.setTimeout(function () {
+        window.location.replace("/account");
+      }, 2000);
       return;
     }
     const isFavorite = user?.favorites?.filter((fav) => fav._id === id);
     if (isFavorite.length !== 0) {
-      window.location.replace("/favorite");
+      toast("Already in your Favorites!");
+      window.setTimeout(function () {
+        window.location.replace("/favorite");
+      }, 2000);
       return;
     }
     store.dispatch(addToFavorites(id));
-    window.location.replace("/favorite");
+    window.setTimeout(function () {
+      window.location.replace("/favorite");
+    }, 2000);
   };
 
   useEffect(() => {

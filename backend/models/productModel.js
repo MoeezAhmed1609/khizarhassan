@@ -56,6 +56,10 @@ const productSchema = new mongoose.Schema({
   ],
   sale: Boolean,
   best: Boolean,
+  shipping: {
+    type: Number,
+    default: 0,
+  },
   reviews: [
     {
       rating: {

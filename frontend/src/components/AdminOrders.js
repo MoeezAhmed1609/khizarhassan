@@ -58,6 +58,7 @@ const AdminOrders = () => {
     dispatch(updateOrderStatus(id, status));
     window.location.reload();
   };
+
   return (
     <>
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
@@ -119,314 +120,335 @@ const AdminOrders = () => {
                   </Grid>
                 </>
               ) : (
-                processingOrders?.map((order, i) => (
-                  <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
-                    <Card sx={{ width: "100%", textAlign: "left" }}>
-                      <CardContent>
-                        <Grid container>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Shipping Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Name
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.name}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Email
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.email}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Phone
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.phone}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Address
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.address}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      ZIP
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.zip}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Order Information
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Total Items ({order?.items?.length})
-                            </Typography>
-                            <TableContainer
-                              sx={{ maxHeight: "300px", overflowY: "auto" }}
-                            >
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  {order?.items?.map((item, i) =>
-                                    item?.product ? (
-                                      <React.Fragment key={i}>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Image
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            <img
-                                              src={
-                                                item?.product?.images[0]?.url
-                                              }
-                                              alt={item?.product?.name}
-                                              style={{ height: "70px" }}
-                                            />
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Name
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.product?.name}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Size
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.size}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Price
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            ${item?.product?.price}.00
-                                          </TableCell>
-                                        </TableRow>
-                                      </React.Fragment>
-                                    ) : null
-                                  )}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Payment Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Subtotal
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.itemsPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Shipping Cost
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.shippingPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Tax
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.taxPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Total
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.totalPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Order Status
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.orderStatus}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Box
+                processingOrders?.map((order, i) => {
+                  console.log({ order });
+                  let index;
+                  order?.items?.filter((item) => {
+                    index = item?.product?.variants.findIndex((object) => {
+                      return object?.size === item?.size;
+                    });
+                  });
+                  return (
+                    <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
+                      <Card sx={{ width: "100%", textAlign: "left" }}>
+                        <CardContent>
+                          <Grid container>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
                               sx={{
-                                display: "flex",
-                                gap: "10px",
-                                position: "relative",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "310px",
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Shipping Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Name
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Email
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.email}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Phone
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.phone}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Address
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.address}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Order Information
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Total Items ({order?.items?.length})
+                              </Typography>
+                              <TableContainer
+                                sx={{ maxHeight: "300px", overflowY: "auto" }}
+                              >
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    {order?.items?.map((item, i) =>
+                                      item?.product ? (
+                                        <React.Fragment key={i}>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Image
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              <img
+                                                src={
+                                                  item?.product?.variants[index]
+                                                    ?.images[0]?.url
+                                                }
+                                                alt={item?.product?.name}
+                                                style={{ height: "70px" }}
+                                              />
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Name
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.product?.name}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Size
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.size}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Price
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              Rs.
+                                              {
+                                                item?.product?.variants[index]
+                                                  ?.price
+                                              }
+                                            </TableCell>
+                                          </TableRow>
+                                        </React.Fragment>
+                                      ) : null
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Payment Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Subtotal
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.itemsPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Shipping Cost
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.shippingPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Total
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.totalPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Payment Method
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.payment}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Order Status
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.orderStatus}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  width: "100%",
-                                  padding: "15px",
+                                  display: "flex",
+                                  gap: "10px",
+                                  position: "relative",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  height: "310px",
                                 }}
                               >
-                                <FormControl fullWidth>
-                                  <InputLabel id="demo-simple-select-label">
-                                    Status
-                                  </InputLabel>
-                                  <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={status}
-                                    label="Age"
-                                    onChange={(e) => setStatus(e.target.value)}
-                                  >
-                                    <MenuItem value={"Processing"}>
-                                      Processing
-                                    </MenuItem>
-                                    <MenuItem value={"Delivered"}>
-                                      Delivered
-                                    </MenuItem>
-                                    <MenuItem value={"Completed"}>
-                                      Completed
-                                    </MenuItem>
-                                    <MenuItem value={"Cancelled"}>
-                                      Cancelled
-                                    </MenuItem>
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                              <StyledButton
-                                title={"Change Order Status"}
-                                onClick={() => handleStatusChange(order?._id)}
-                                mode={"dark"}
-                              />
-                              {/* <StyledButton
+                                <Box
+                                  sx={{
+                                    width: "100%",
+                                    padding: "15px",
+                                  }}
+                                >
+                                  <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">
+                                      Status
+                                    </InputLabel>
+                                    <Select
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      value={status}
+                                      label="Age"
+                                      onChange={(e) =>
+                                        setStatus(e.target.value)
+                                      }
+                                    >
+                                      <MenuItem value={"Processing"}>
+                                        Processing
+                                      </MenuItem>
+                                      <MenuItem value={"Delivered"}>
+                                        Delivered
+                                      </MenuItem>
+                                      <MenuItem value={"Completed"}>
+                                        Completed
+                                      </MenuItem>
+                                      <MenuItem value={"Cancelled"}>
+                                        Cancelled
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                                <StyledButton
+                                  title={"Change Order Status"}
+                                  onClick={() => handleStatusChange(order?._id)}
+                                  mode={"dark"}
+                                />
+                                {/* <StyledButton
                                   title={"Delete Order"}
                                   // onClick={() => handleDeleteOrder(user?._id)}
                                   mode={"light"}
                                 /> */}
-                            </Box>
+                              </Box>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
               )}
             </Grid>
           </AccordionDetails>
         </Accordion>
+        {/* Delivered */}
         <Accordion
           expanded={expanded === "panel2"}
           onChange={handleChange("panel2")}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2bh-content"
-            id="panel2bh-header"
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
           >
             <Typography sx={{ textAlign: "center", width: "100%" }}>
               Delivered ({deliveredOrders?.length} Orders)
@@ -477,314 +499,335 @@ const AdminOrders = () => {
                   </Grid>
                 </>
               ) : (
-                deliveredOrders?.map((order, i) => (
-                  <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
-                    <Card sx={{ width: "100%", textAlign: "left" }}>
-                      <CardContent>
-                        <Grid container>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Shipping Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Name
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.name}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Email
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.email}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Phone
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.phone}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Address
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.address}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      ZIP
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.zip}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Order Information
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Total Items ({order?.items?.length})
-                            </Typography>
-                            <TableContainer
-                              sx={{ maxHeight: "300px", overflowY: "auto" }}
-                            >
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  {order?.items?.map((item, i) =>
-                                    item?.product ? (
-                                      <React.Fragment key={i}>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Image
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            <img
-                                              src={
-                                                item?.product?.images[0]?.url
-                                              }
-                                              alt={item?.product?.name}
-                                              style={{ height: "70px" }}
-                                            />
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Name
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.product?.name}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Size
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.size}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Price
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            ${item?.product?.price}.00
-                                          </TableCell>
-                                        </TableRow>
-                                      </React.Fragment>
-                                    ) : null
-                                  )}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Payment Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Subtotal
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.itemsPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Shipping Cost
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.shippingPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Tax
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.taxPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Total
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.totalPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Order Status
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.orderStatus}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Box
+                deliveredOrders?.map((order, i) => {
+                  console.log({ order });
+                  let index;
+                  order?.items?.filter((item) => {
+                    index = item?.product?.variants.findIndex((object) => {
+                      return object?.size === item?.size;
+                    });
+                  });
+                  return (
+                    <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
+                      <Card sx={{ width: "100%", textAlign: "left" }}>
+                        <CardContent>
+                          <Grid container>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
                               sx={{
-                                display: "flex",
-                                gap: "10px",
-                                position: "relative",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "310px",
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Shipping Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Name
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Email
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.email}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Phone
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.phone}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Address
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.address}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Order Information
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Total Items ({order?.items?.length})
+                              </Typography>
+                              <TableContainer
+                                sx={{ maxHeight: "300px", overflowY: "auto" }}
+                              >
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    {order?.items?.map((item, i) =>
+                                      item?.product ? (
+                                        <React.Fragment key={i}>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Image
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              <img
+                                                src={
+                                                  item?.product?.variants[index]
+                                                    ?.images[0]?.url
+                                                }
+                                                alt={item?.product?.name}
+                                                style={{ height: "70px" }}
+                                              />
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Name
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.product?.name}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Size
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.size}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Price
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              Rs.
+                                              {
+                                                item?.product?.variants[index]
+                                                  ?.price
+                                              }
+                                            </TableCell>
+                                          </TableRow>
+                                        </React.Fragment>
+                                      ) : null
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Payment Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Subtotal
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.itemsPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Shipping Cost
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.shippingPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Total
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.totalPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Payment Method
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.payment}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Order Status
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.orderStatus}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  width: "100%",
-                                  padding: "15px",
+                                  display: "flex",
+                                  gap: "10px",
+                                  position: "relative",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  height: "310px",
                                 }}
                               >
-                                <FormControl fullWidth>
-                                  <InputLabel id="demo-simple-select-label">
-                                    Status
-                                  </InputLabel>
-                                  <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={status}
-                                    label="Age"
-                                    onChange={(e) => setStatus(e.target.value)}
-                                  >
-                                    <MenuItem value={"Processing"}>
-                                      Processing
-                                    </MenuItem>
-                                    <MenuItem value={"Delivered"}>
-                                      Delivered
-                                    </MenuItem>
-                                    <MenuItem value={"Completed"}>
-                                      Completed
-                                    </MenuItem>
-                                    <MenuItem value={"Cancelled"}>
-                                      Cancelled
-                                    </MenuItem>
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                              <StyledButton
-                                title={"Change Order Status"}
-                                onClick={() => handleStatusChange(order?._id)}
-                                mode={"dark"}
-                              />
-                              {/* <StyledButton
+                                <Box
+                                  sx={{
+                                    width: "100%",
+                                    padding: "15px",
+                                  }}
+                                >
+                                  <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">
+                                      Status
+                                    </InputLabel>
+                                    <Select
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      value={status}
+                                      label="Age"
+                                      onChange={(e) =>
+                                        setStatus(e.target.value)
+                                      }
+                                    >
+                                      <MenuItem value={"Processing"}>
+                                        Processing
+                                      </MenuItem>
+                                      <MenuItem value={"Delivered"}>
+                                        Delivered
+                                      </MenuItem>
+                                      <MenuItem value={"Completed"}>
+                                        Completed
+                                      </MenuItem>
+                                      <MenuItem value={"Cancelled"}>
+                                        Cancelled
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                                <StyledButton
+                                  title={"Change Order Status"}
+                                  onClick={() => handleStatusChange(order?._id)}
+                                  mode={"dark"}
+                                />
+                                {/* <StyledButton
                                   title={"Delete Order"}
                                   // onClick={() => handleDeleteOrder(user?._id)}
                                   mode={"light"}
                                 /> */}
-                            </Box>
+                              </Box>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
               )}
             </Grid>
           </AccordionDetails>
         </Accordion>
+        {/* Completed */}
         <Accordion
           expanded={expanded === "panel3"}
           onChange={handleChange("panel3")}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3bh-content"
-            id="panel3bh-header"
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
           >
             <Typography sx={{ textAlign: "center", width: "100%" }}>
               Completed ({completedOrders?.length} Orders)
@@ -835,314 +878,335 @@ const AdminOrders = () => {
                   </Grid>
                 </>
               ) : (
-                completedOrders?.map((order, i) => (
-                  <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
-                    <Card sx={{ width: "100%", textAlign: "left" }}>
-                      <CardContent>
-                        <Grid container>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Shipping Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Name
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.name}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Email
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.email}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Phone
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.phone}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Address
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.address}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      ZIP
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.zip}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Order Information
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Total Items ({order?.items?.length})
-                            </Typography>
-                            <TableContainer
-                              sx={{ maxHeight: "300px", overflowY: "auto" }}
-                            >
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  {order?.items?.map((item, i) =>
-                                    item?.product ? (
-                                      <React.Fragment key={i}>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Image
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            <img
-                                              src={
-                                                item?.product?.images[0]?.url
-                                              }
-                                              alt={item?.product?.name}
-                                              style={{ height: "70px" }}
-                                            />
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Name
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.product?.name}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Size
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.size}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Price
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            ${item?.product?.price}.00
-                                          </TableCell>
-                                        </TableRow>
-                                      </React.Fragment>
-                                    ) : null
-                                  )}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Payment Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Subtotal
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.itemsPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Shipping Cost
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.shippingPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Tax
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.taxPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Total
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.totalPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Order Status
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.orderStatus}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Box
+                completedOrders?.map((order, i) => {
+                  console.log({ order });
+                  let index;
+                  order?.items?.filter((item) => {
+                    index = item?.product?.variants.findIndex((object) => {
+                      return object?.size === item?.size;
+                    });
+                  });
+                  return (
+                    <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
+                      <Card sx={{ width: "100%", textAlign: "left" }}>
+                        <CardContent>
+                          <Grid container>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
                               sx={{
-                                display: "flex",
-                                gap: "10px",
-                                position: "relative",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "310px",
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Shipping Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Name
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Email
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.email}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Phone
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.phone}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Address
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.address}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Order Information
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Total Items ({order?.items?.length})
+                              </Typography>
+                              <TableContainer
+                                sx={{ maxHeight: "300px", overflowY: "auto" }}
+                              >
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    {order?.items?.map((item, i) =>
+                                      item?.product ? (
+                                        <React.Fragment key={i}>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Image
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              <img
+                                                src={
+                                                  item?.product?.variants[index]
+                                                    ?.images[0]?.url
+                                                }
+                                                alt={item?.product?.name}
+                                                style={{ height: "70px" }}
+                                              />
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Name
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.product?.name}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Size
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.size}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Price
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              Rs.
+                                              {
+                                                item?.product?.variants[index]
+                                                  ?.price
+                                              }
+                                            </TableCell>
+                                          </TableRow>
+                                        </React.Fragment>
+                                      ) : null
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Payment Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Subtotal
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.itemsPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Shipping Cost
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.shippingPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Total
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.totalPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Payment Method
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.payment}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Order Status
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.orderStatus}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  width: "100%",
-                                  padding: "15px",
+                                  display: "flex",
+                                  gap: "10px",
+                                  position: "relative",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  height: "310px",
                                 }}
                               >
-                                <FormControl fullWidth>
-                                  <InputLabel id="demo-simple-select-label">
-                                    Status
-                                  </InputLabel>
-                                  <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={status}
-                                    label="Age"
-                                    onChange={(e) => setStatus(e.target.value)}
-                                  >
-                                    <MenuItem value={"Processing"}>
-                                      Processing
-                                    </MenuItem>
-                                    <MenuItem value={"Delivered"}>
-                                      Delivered
-                                    </MenuItem>
-                                    <MenuItem value={"Completed"}>
-                                      Completed
-                                    </MenuItem>
-                                    <MenuItem value={"Cancelled"}>
-                                      Cancelled
-                                    </MenuItem>
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                              <StyledButton
-                                title={"Change Order Status"}
-                                onClick={() => handleStatusChange(order?._id)}
-                                mode={"dark"}
-                              />
-                              {/* <StyledButton
+                                <Box
+                                  sx={{
+                                    width: "100%",
+                                    padding: "15px",
+                                  }}
+                                >
+                                  <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">
+                                      Status
+                                    </InputLabel>
+                                    <Select
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      value={status}
+                                      label="Age"
+                                      onChange={(e) =>
+                                        setStatus(e.target.value)
+                                      }
+                                    >
+                                      <MenuItem value={"Processing"}>
+                                        Processing
+                                      </MenuItem>
+                                      <MenuItem value={"Delivered"}>
+                                        Delivered
+                                      </MenuItem>
+                                      <MenuItem value={"Completed"}>
+                                        Completed
+                                      </MenuItem>
+                                      <MenuItem value={"Cancelled"}>
+                                        Cancelled
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                                <StyledButton
+                                  title={"Change Order Status"}
+                                  onClick={() => handleStatusChange(order?._id)}
+                                  mode={"dark"}
+                                />
+                                {/* <StyledButton
                                   title={"Delete Order"}
                                   // onClick={() => handleDeleteOrder(user?._id)}
                                   mode={"light"}
                                 /> */}
-                            </Box>
+                              </Box>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
               )}
             </Grid>
           </AccordionDetails>
         </Accordion>
+        {/* Cancelled */}
         <Accordion
           expanded={expanded === "panel4"}
           onChange={handleChange("panel4")}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4bh-content"
-            id="panel4bh-header"
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
           >
             <Typography sx={{ textAlign: "center", width: "100%" }}>
               Cancelled ({cancelledOrders?.length} Orders)
@@ -1193,302 +1257,322 @@ const AdminOrders = () => {
                   </Grid>
                 </>
               ) : (
-                cancelledOrders?.map((order, i) => (
-                  <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
-                    <Card sx={{ width: "100%", textAlign: "left" }}>
-                      <CardContent>
-                        <Grid container>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Shipping Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Name
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.name}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Email
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.email}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Phone
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.phone}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Address
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.address}
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      ZIP
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.shipping?.zip}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Order Information
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Total Items ({order?.items?.length})
-                            </Typography>
-                            <TableContainer
-                              sx={{ maxHeight: "300px", overflowY: "auto" }}
-                            >
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  {order?.items?.map((item, i) =>
-                                    item?.product ? (
-                                      <React.Fragment key={i}>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Image
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            <img
-                                              src={
-                                                item?.product?.images[0]?.url
-                                              }
-                                              alt={item?.product?.name}
-                                              style={{ height: "70px" }}
-                                            />
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Name
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.product?.name}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Size
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            {item?.size}
-                                          </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                          <TableCell component="th" scope="row">
-                                            Price
-                                          </TableCell>
-                                          <TableCell align="right">
-                                            ${item?.product?.price}.00
-                                          </TableCell>
-                                        </TableRow>
-                                      </React.Fragment>
-                                    ) : null
-                                  )}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderRight: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{ textAlign: "center" }}
-                            >
-                              Payment Information
-                            </Typography>
-                            <TableContainer>
-                              <Table
-                                sx={{ width: "100%" }}
-                                aria-label="simple table"
-                              >
-                                <TableBody>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Subtotal
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.itemsPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Shipping Cost
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.shippingPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Tax
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.taxPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Total
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${order?.totalPrice}.00
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow>
-                                    <TableCell component="th" scope="row">
-                                      Order Status
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      {order?.orderStatus}
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{
-                              borderLeft: {
-                                xs: "none",
-                                sm: "1px solid black",
-                              },
-                              padding: "0 5px",
-                            }}
-                          >
-                            <Box
+                cancelledOrders?.map((order, i) => {
+                  console.log({ order });
+                  let index;
+                  order?.items?.filter((item) => {
+                    index = item?.product?.variants.findIndex((object) => {
+                      return object?.size === item?.size;
+                    });
+                  });
+                  return (
+                    <Grid item xs={12} key={i} sx={{ padding: "10px" }}>
+                      <Card sx={{ width: "100%", textAlign: "left" }}>
+                        <CardContent>
+                          <Grid container>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
                               sx={{
-                                display: "flex",
-                                gap: "10px",
-                                position: "relative",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "310px",
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Shipping Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Name
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.name}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Email
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.email}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Phone
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.phone}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Address
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.shipping?.address}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Order Information
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Total Items ({order?.items?.length})
+                              </Typography>
+                              <TableContainer
+                                sx={{ maxHeight: "300px", overflowY: "auto" }}
+                              >
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    {order?.items?.map((item, i) =>
+                                      item?.product ? (
+                                        <React.Fragment key={i}>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Image
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              <img
+                                                src={
+                                                  item?.product?.variants[index]
+                                                    ?.images[0]?.url
+                                                }
+                                                alt={item?.product?.name}
+                                                style={{ height: "70px" }}
+                                              />
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Name
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.product?.name}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Size
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              {item?.size}
+                                            </TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                            >
+                                              Price
+                                            </TableCell>
+                                            <TableCell align="right">
+                                              Rs.
+                                              {
+                                                item?.product?.variants[index]
+                                                  ?.price
+                                              }
+                                            </TableCell>
+                                          </TableRow>
+                                        </React.Fragment>
+                                      ) : null
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderRight: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{ textAlign: "center" }}
+                              >
+                                Payment Information
+                              </Typography>
+                              <TableContainer>
+                                <Table
+                                  sx={{ width: "100%" }}
+                                  aria-label="simple table"
+                                >
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Subtotal
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.itemsPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Shipping Cost
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.shippingPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Total
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        Rs.{order?.totalPrice}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Payment Method
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.payment}
+                                      </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                      <TableCell component="th" scope="row">
+                                        Order Status
+                                      </TableCell>
+                                      <TableCell align="right">
+                                        {order?.orderStatus}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={6}
+                              sx={{
+                                borderLeft: {
+                                  xs: "none",
+                                  sm: "1px solid black",
+                                },
+                                padding: "0 5px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  width: "100%",
-                                  padding: "15px",
+                                  display: "flex",
+                                  gap: "10px",
+                                  position: "relative",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  height: "310px",
                                 }}
                               >
-                                <FormControl fullWidth>
-                                  <InputLabel id="demo-simple-select-label">
-                                    Status
-                                  </InputLabel>
-                                  <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={status}
-                                    label="Age"
-                                    onChange={(e) => setStatus(e.target.value)}
-                                  >
-                                    <MenuItem value={"Processing"}>
-                                      Processing
-                                    </MenuItem>
-                                    <MenuItem value={"Delivered"}>
-                                      Delivered
-                                    </MenuItem>
-                                    <MenuItem value={"Completed"}>
-                                      Completed
-                                    </MenuItem>
-                                    <MenuItem value={"Cancelled"}>
-                                      Cancelled
-                                    </MenuItem>
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                              <StyledButton
-                                title={"Change Order Status"}
-                                onClick={() => handleStatusChange(order?._id)}
-                                mode={"dark"}
-                              />
-                              {/* <StyledButton
+                                <Box
+                                  sx={{
+                                    width: "100%",
+                                    padding: "15px",
+                                  }}
+                                >
+                                  <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">
+                                      Status
+                                    </InputLabel>
+                                    <Select
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      value={status}
+                                      label="Age"
+                                      onChange={(e) =>
+                                        setStatus(e.target.value)
+                                      }
+                                    >
+                                      <MenuItem value={"Processing"}>
+                                        Processing
+                                      </MenuItem>
+                                      <MenuItem value={"Delivered"}>
+                                        Delivered
+                                      </MenuItem>
+                                      <MenuItem value={"Completed"}>
+                                        Completed
+                                      </MenuItem>
+                                      <MenuItem value={"Cancelled"}>
+                                        Cancelled
+                                      </MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                                <StyledButton
+                                  title={"Change Order Status"}
+                                  onClick={() => handleStatusChange(order?._id)}
+                                  mode={"dark"}
+                                />
+                                {/* <StyledButton
                                   title={"Delete Order"}
                                   // onClick={() => handleDeleteOrder(user?._id)}
                                   mode={"light"}
                                 /> */}
-                            </Box>
+                              </Box>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
               )}
             </Grid>
           </AccordionDetails>

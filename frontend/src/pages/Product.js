@@ -6,9 +6,8 @@ import {
   Grid,
   Typography,
   Button,
-  Alert,
+  IconButton,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 
 // Components Import
 import ProductTabs from "../components/tabs";
@@ -19,6 +18,9 @@ import { getProductDetails } from "../redux/actions/productsActions";
 import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../redux/reducers/cartReducer";
 import ProductSlider from "../components/productSlider";
+import toast from "react-hot-toast";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const Product = ({ handleAddToFavorites }) => {
   const navigate = useNavigate();
@@ -26,28 +28,44 @@ const Product = ({ handleAddToFavorites }) => {
   const { id } = useParams();
   const product = useSelector((state) => state.product);
   const data = product?.data?.product;
-  // Toggle Button
-  const [check, setCheck] = useState("outlined");
   // Add to cart
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(0);
+  const [flavor, setFlavor] = useState(0);
+  const [sizeCart, setSizeCart] = useState("");
+  const [flavorCart, setFlavorCart] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const handleAddToCart = () => {
-    if (!size) {
-      alert("Please select your desired size!");
+    if (!sizeCart) {
+      toast.error("Please select your desired size and flavor!");
       return;
     }
-    dispatch(addToCart({ product: data, size }));
-    navigate("/cart");
+    if (quantity > data?.variants[size]?.quantity) {
+      toast.error(`Only ${data?.variants[size]?.quantity} in stock!`);
+      return;
+    }
+    dispatch(
+      addToCart({ product: data, size: sizeCart, flavor: flavorCart, quantity })
+    );
+    toast.success("Added to Cart!");
+    window.setTimeout(function () {
+      navigate("/cart");
+    }, 2000);
   };
   useEffect(() => {
     dispatch(getProductDetails(id));
   }, [dispatch, id]);
+  useEffect(() => {
+    setSizeCart(data?.variants[size]?.size);
+    setFlavorCart(data?.variants[size]?.flavors[flavor]);
+  }, [data, size]);
+  // console.log({ sizeCart, flavorCart });
   return (
     <>
       <Box
         sx={{
           height: "13vh",
           width: "100%",
-          display: { xs: "none", sm: "none", md: "block" },
+          // display: { xs: "none", sm: "none", md: "block" },
         }}
       ></Box>
       {product.loading ? (
@@ -67,19 +85,42 @@ const Product = ({ handleAddToFavorites }) => {
           <Box sx={{ width: "100%", minHeight: "80vh" }}>
             <Grid container>
               <Grid item xs={12} lg={6}>
-                <ProductSlider images={data?.variants[0]?.images} />
+                <ProductSlider images={data?.variants[size]?.images} />
               </Grid>
               <Grid item xs={12} lg={6} sx={{ padding: "10px" }}>
-                <Typography
-                  component="h1"
-                  variant="subtitle1"
+                <Box
                   sx={{
-                    textTransform: "capitalize",
-                    fontFamily: "Poppins, sans-serif",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {data?.category}
-                </Typography>
+                  <Typography
+                    component="h1"
+                    variant="subtitle1"
+                    sx={{
+                      textTransform: "capitalize",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    {data?.category}
+                  </Typography>
+                  {data?.variants[size]?.quantity <= 0 && (
+                    <Typography
+                      component="h1"
+                      variant="subtitle1"
+                      sx={{
+                        textTransform: "capitalize",
+                        fontFamily: "Poppins, sans-serif",
+                        color: "white",
+                        background: "#e63146",
+                        padding: "4px 8px",
+                      }}
+                    >
+                      Out of Stock
+                    </Typography>
+                  )}
+                </Box>
                 <Typography
                   component="h1"
                   sx={{
@@ -100,7 +141,7 @@ const Product = ({ handleAddToFavorites }) => {
                     color: "#e63146",
                   }}
                 >
-                  Rs.{data?.variants[0]?.price}
+                  Rs.{data?.variants[size]?.price}
                 </Typography>
                 <Typography
                   component="h1"
@@ -110,16 +151,16 @@ const Product = ({ handleAddToFavorites }) => {
                     fontFamily: "Poppins, sans-serif",
                   }}
                 >
-                  Rs.{data?.variants[0]?.discount}
+                  Rs.{data?.variants[size]?.discount}
                 </Typography>
                 <Typography
-                  sx={{ marginTop: "15px", fontFamily: "Poppins, sans-serif" }}
+                  sx={{ marginTop: "5px", fontFamily: "Poppins, sans-serif" }}
                   variant="body1"
                 >
                   Select your variants:
                 </Typography>
                 <Grid container>
-                  {data?.variants?.map((size, i) => (
+                  {data?.variants?.map((variant, i) => (
                     <Grid
                       item
                       md={3}
@@ -127,32 +168,30 @@ const Product = ({ handleAddToFavorites }) => {
                       key={i}
                       sx={{ padding: "4px 8px" }}
                     >
-                      <input
-                        type="radio"
-                        id={i}
-                        name="fav_language"
-                        value={size?.size}
-                        style={{ display: "none" }}
-                        onChange={() => setSize(size?.size)}
-                      />
-                      <label for={i}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            border: "1.5px solid black",
-                            borderRadius: "7px",
-                            textAlign: "center",
-                            height: "40px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer",
-                          }}
-                          className="radioBtn"
-                        >
-                          {size?.size}
-                        </Box>
-                      </label>
+                      <Button
+                        sx={{
+                          width: "100%",
+                          border: `1.5px solid ${
+                            size === i ? "#e63146" : "black"
+                          }`,
+                          borderRadius: "7px",
+                          textAlign: "center",
+                          height: "40px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          color: size === i ? "#e63146" : "black",
+                          fontSize: "18px",
+                          textTransform: "capitalize",
+                        }}
+                        onClick={() => {
+                          setSize(i);
+                          setSizeCart(variant?.size);
+                        }}
+                      >
+                        {variant?.size}
+                      </Button>
                     </Grid>
                   ))}
                 </Grid>
@@ -160,7 +199,7 @@ const Product = ({ handleAddToFavorites }) => {
                   <Grid item xs={12} sx={{ padding: "4px 8px" }}>
                     <Typography
                       sx={{
-                        marginTop: "15px",
+                        marginTop: "5px",
                         fontFamily: "Poppins, sans-serif",
                       }}
                       variant="body1"
@@ -168,7 +207,7 @@ const Product = ({ handleAddToFavorites }) => {
                       Select your flavors:
                     </Typography>
                   </Grid>
-                  {data?.variants[0].flavors?.map((size, i) => (
+                  {data?.variants[size].flavors?.map((variant, i) => (
                     <Grid
                       item
                       md={3}
@@ -176,35 +215,64 @@ const Product = ({ handleAddToFavorites }) => {
                       key={i}
                       sx={{ padding: "4px 8px" }}
                     >
-                      <input
-                        type="radio"
-                        id={i}
-                        name="fav_language"
-                        value={size}
-                        style={{ display: "none" }}
-                        onChange={() => setSize(size)}
-                      />
-                      <label for={i}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            border: "1.5px solid black",
-                            borderRadius: "7px",
-                            textAlign: "center",
-                            height: "40px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer",
-                          }}
-                          className="radioBtn"
-                        >
-                          {size}
-                        </Box>
-                      </label>
+                      <Button
+                        sx={{
+                          width: "100%",
+                          border: `1.5px solid ${
+                            flavor === i ? "#e63146" : "black"
+                          }`,
+                          borderRadius: "7px",
+                          textAlign: "center",
+                          height: "40px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          color: flavor === i ? "#e63146" : "black",
+                          fontSize: "15px",
+                          textTransform: "capitalize",
+                        }}
+                        onClick={() => {
+                          setFlavor(i);
+                          setFlavorCart(variant);
+                        }}
+                      >
+                        {variant}
+                      </Button>
                     </Grid>
                   ))}
                 </Grid>
+                <Box
+                  sx={{
+                    width: "100%",
+                    marginY: "8px",
+                    paddingLeft: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    aria-label="remove"
+                    onClick={() =>
+                      setQuantity(quantity === 1 ? 1 : quantity - 1)
+                    }
+                    size="large"
+                    sx={{ color: "#e63146", paddingRight: "15px" }}
+                  >
+                    <RemoveCircleOutlineIcon fontSize="inherit" />
+                  </IconButton>
+                  <Typography sx={{ fontFamily: "Poppins, sans-serif" }}>
+                    {quantity}
+                  </Typography>
+                  <IconButton
+                    aria-label="add"
+                    onClick={() => setQuantity(quantity + 1)}
+                    size="large"
+                    sx={{ color: "#e63146", paddingLeft: "15px" }}
+                  >
+                    <AddCircleOutlineIcon fontSize="inherit" />
+                  </IconButton>
+                </Box>
                 <Box
                   sx={{
                     display: "flex",
@@ -218,7 +286,8 @@ const Product = ({ handleAddToFavorites }) => {
                 >
                   <StyledButton
                     title={"Add to Cart"}
-                    onClick={() => handleAddToCart()}
+                    onClick={handleAddToCart}
+                    validation={data?.variants[size]?.quantity <= 0}
                   />
                   <StyledButton
                     title={"Add to Favorites"}
