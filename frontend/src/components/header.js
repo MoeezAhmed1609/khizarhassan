@@ -332,10 +332,8 @@ const Header = () => {
                               <CardActionArea>
                                 <CardMedia
                                   component="img"
-                                  height="200px"
-                                  image={
-                                    "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/2eff461f-f3ac-4285-9c6a-2f22173aac42/custom-nike-air-force-1-low-by-you.png"
-                                  }
+                                  sx={{ height: "30vh", objectFit: "contain" }}
+                                  image={product?.variants[0]?.images[0]?.url}
                                   alt={product?.name}
                                 />
                                 <Link
@@ -347,9 +345,11 @@ const Header = () => {
                                 >
                                   <CardContent>
                                     <Typography
-                                      gutterBottom
-                                      variant="subtitle1"
-                                      component="div"
+                                      variant="subtitle2"
+                                      sx={{
+                                        textTransform: "capitalize",
+                                        fontFamily: "Poppins, sans-serif",
+                                      }}
                                     >
                                       {product?.name}
                                     </Typography>

@@ -30,14 +30,29 @@ const Reviews = () => {
     if (order.orderStatus === "Completed") {
       order?.items?.filter((item) => {
         if (item?.isReviewed === false) {
-          pendingItems.push({ item, orderId: order?._id });
+          let indexed = item?.product?.variants.findIndex((object) => {
+            return object?.size === item?.size;
+          });
+          pendingItems.push({
+            item,
+            orderId: order?._id,
+            index: indexed === -1 ? 0 : indexed,
+          });
         }
         if (item?.isReviewed === true) {
-          postedItems.push({ item, orderId: order?._id });
+          let indexed = item?.product?.variants.findIndex((object) => {
+            return object?.size === item?.size;
+          });
+          postedItems.push({
+            item,
+            orderId: order?._id,
+            index: indexed === -1 ? 0 : indexed,
+          });
         }
       });
     }
   });
+  console.log({ postedItems });
   // Create Review
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -119,8 +134,15 @@ const Reviews = () => {
                         >
                           <CardMedia
                             component="img"
-                            sx={{ width: "100%", maxHeight: "240px" }}
-                            image={item?.item?.product?.images[0]?.url}
+                            sx={{
+                              width: "100%",
+                              maxHeight: "240px",
+                              objectFit: "contain",
+                            }}
+                            image={
+                              item?.item?.product?.variants[item?.index]
+                                ?.images[0]?.url
+                            }
                             alt={item?.item?.product?.name}
                           />
                         </Link>
@@ -132,14 +154,22 @@ const Reviews = () => {
                             width: "95%",
                           }}
                         >
-                          <Typography gutterBottom variant="h5">
+                          <Typography
+                            gutterBottom
+                            sx={{
+                              height: "9vh",
+                              fontFamily: "Poppins , san-serif",
+                              fontWeight: "bold",
+                            }}
+                          >
                             {item?.item?.product?.name}
                           </Typography>
                           <Typography
                             variant="subtitle1"
                             sx={{ marginTop: "-10px" }}
                           >
-                            ${item?.item?.product?.price}.00
+                            Rs.
+                            {item?.item?.product?.variants[item?.index]?.price}
                           </Typography>
                           <Rating
                             name="simple-controlled"
@@ -218,8 +248,15 @@ const Reviews = () => {
                         >
                           <CardMedia
                             component="img"
-                            sx={{ width: "100%", maxHeight: "240px" }}
-                            image={item?.item?.product?.images[0]?.url}
+                            sx={{
+                              width: "100%",
+                              maxHeight: "240px",
+                              objectFit: "contain",
+                            }}
+                            image={
+                              item?.item?.product?.variants[item?.index]
+                                ?.images[0]?.url
+                            }
                             alt={item?.item?.product?.name}
                           />
                         </Link>
@@ -231,14 +268,21 @@ const Reviews = () => {
                             width: "95%",
                           }}
                         >
-                          <Typography gutterBottom variant="h5">
+                          <Typography
+                            gutterBottom
+                            sx={{
+                              fontFamily: "poppins, sans-serif",
+                              fontWeight: "bold",
+                            }}
+                          >
                             {item?.item?.product?.name}
                           </Typography>
                           <Typography
                             variant="subtitle1"
                             sx={{ marginTop: "-10px" }}
                           >
-                            ${item?.item?.product?.price}.00
+                            Rs.
+                            {item?.item?.product?.variants[item?.index]?.price}
                           </Typography>
                           <Rating
                             name="simple-controlled"

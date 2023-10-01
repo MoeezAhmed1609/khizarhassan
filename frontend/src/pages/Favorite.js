@@ -24,7 +24,6 @@ const Favorite = () => {
   const dispatch = useDispatch();
   const handleRemoveFromFavorites = (id) => {
     dispatch(removeFromFavorites(id));
-    window.location.reload();
   };
 
   useEffect(() => {
@@ -104,6 +103,7 @@ const Favorite = () => {
                           gutterBottom
                           variant="subtitle1"
                           component="div"
+                          sx={{ height: "9vh" }}
                         >
                           {product?.name}
                         </Typography>

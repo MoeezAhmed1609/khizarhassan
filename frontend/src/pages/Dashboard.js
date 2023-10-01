@@ -195,7 +195,7 @@ const Admin = ({ user }) => {
     "Users",
     "Orders",
     "Blogs",
-    "Content",
+    "banner",
   ];
   return (
     <Box
@@ -244,7 +244,7 @@ const Admin = ({ user }) => {
           <AdminOrders user={user} />
         ) : mode === "blogs" ? (
           <Blogs user={user} />
-        ) : mode === "content" ? (
+        ) : mode === "banner" ? (
           <Content />
         ) : null}
       </Box>

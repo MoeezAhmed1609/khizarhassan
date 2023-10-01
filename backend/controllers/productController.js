@@ -2,7 +2,6 @@ const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/features");
-const cloudinary = require("cloudinary");
 
 // Create Product | Admin
 exports.createProduct = catchAsyncError(async (req, res) => {
@@ -17,6 +16,7 @@ exports.createProduct = catchAsyncError(async (req, res) => {
     sale,
     best,
     brand,
+    shipping,
   } = req.body.product;
   const product = await Product.create({
     name,
@@ -28,6 +28,7 @@ exports.createProduct = catchAsyncError(async (req, res) => {
     related,
     sale,
     best,
+    shipping,
     brand,
     admin: req.user.id,
   });

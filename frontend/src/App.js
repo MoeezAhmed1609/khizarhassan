@@ -52,9 +52,7 @@ function App() {
       return;
     }
     store.dispatch(addToFavorites(id));
-    window.setTimeout(function () {
-      window.location.replace("/favorite");
-    }, 2000);
+    
   };
 
   useEffect(() => {

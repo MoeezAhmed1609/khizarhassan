@@ -3,6 +3,7 @@ const {
   getAllBanners,
   changeBanner,
   changeCaption,
+  deleteBanner,
 } = require("../controllers/contentController");
 const {
   isAuthenticatedUser,
@@ -16,6 +17,12 @@ router.put(
   isAuthenticatedUser,
   isAuthorizedRole("Admin"),
   changeBanner
+);
+router.delete(
+  "/content/banner/delete/:id",
+  isAuthenticatedUser,
+  isAuthorizedRole("Admin"),
+  deleteBanner
 );
 
 router.get("/content/banners", getAllBanners);

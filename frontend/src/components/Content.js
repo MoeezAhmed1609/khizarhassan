@@ -1,140 +1,133 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Accordion,
-  AccordionSummary,
-  Typography,
-  AccordionDetails,
-  Grid,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Typography, Grid, Badge, IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import StyledButton from "./styledButton";
-import StyledTextfeild from "./styledTextField";
-import { changeBanner, getAllBanners } from "../redux/actions/contentActions";
+import { changeBanner, deleteBanner } from "../redux/actions/contentActions";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Content = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.banners);
-  // Accordion
-  const [expanded, setExpanded] = useState(false);
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
   // Banner
-  const [banner, setBanner] = useState(data[0]?.banner);
-  const [caption, setCaption] = useState(data[0]?.caption);
-  const handleBannerUpdate = () => {
-    dispatch(changeBanner(data[0]?._id, banner, caption));
+  const [banner, setBanner] = useState("");
+  // Image Uploader
+  const hiddenFileInput = useRef(null);
+  const handleImageClick = (event) => {
+    hiddenFileInput.current.click();
   };
 
-  useEffect(() => {
-    dispatch(getAllBanners());
-  }, [dispatch]);
+  const handleImageChange = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setBanner(reader.result);
+      }
+    };
+    reader?.readAsDataURL(e.target.files[0]);
+  };
+
+  const handleImageRemove = () => {
+    setBanner("");
+  };
+  const handleBannerUpdate = () => {
+    dispatch(changeBanner(banner));
+  };
+  const handleDeleteBanner = (id) => {
+    dispatch(deleteBanner(id));
+  };
   return (
-    <Box sx={{ width: "100%" }}>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+    <Grid container>
+      <Grid item sm={12}>
+        <Typography
+          variant="h6"
+          sx={{ fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
         >
-          <Typography sx={{ textAlign: "center", width: "100%" }}>
-            Banner Slider
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                padding: "0 30px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
+          Current Banners
+        </Typography>
+      </Grid>
+      {data?.length > 0 &&
+        data?.map((ban, i) => (
+          <Grid item key={i} md={4} sm={6} sx={{ padding: "15px 5px" }}>
+            <Badge
+              overlap="circular"
+              badgeContent={
+                <IconButton
+                  sx={{ height: "35px", width: "35px", background: "#e63146" }}
+                  onClick={() => handleDeleteBanner(ban?._id)}
+                >
+                  <CloseIcon sx={{ fontSize: "30px", color: "white" }} />
+                </IconButton>
+              }
             >
-              <Typography variant="subtitle1">Banner</Typography>
-              <StyledTextfeild
-                title={"Banner URL"}
-                type={"text"}
-                value={banner}
-                onChange={(e) => setBanner(e.target.value)}
+              <img
+                src={ban?.banner?.url}
+                alt={ban?.title}
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  marginBottom: "15px",
+                }}
               />
-              {/* <video width="100%" controls style={{ marginBottom: "10px" }}>
-                <source src={banner} type="video/mp4" />
-              </video>
-              <input
-                type="file"
-                ref={hiddenBannerInput}
-                accept=" video/*"
-                onChange={handleBannerChange}
-                style={{ display: "none" }}
-              /> */}
-              {/* <StyledButton
-                title={"Change"}
-                width={"50%"}
-                mode={"dark"}
-                onClick={handleBannerClick}
-              /> */}
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                padding: "0 30px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="subtitle1">Caption</Typography>
-              <StyledTextfeild
-                title={"Caption URL"}
-                type={"text"}
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-              />
-              {/* <img
-                src={caption}
-                width={"100%"}
-                style={{ marginBottom: "10px" }}
-                alt={data && data[0]?.title}
-              />
-              <input
-                type="file"
-                ref={hiddenCaptionInput}
-                accept="image/*"
-                onChange={handleCaptionChange}
-                style={{ display: "none" }}
-              />
-              <StyledButton
-                title={"Change"}
-                width={"50%"}
-                mode={"dark"}
-                onClick={handleCaptionClick}
-              /> */}
-            </Grid>
-            {banner && caption && (
-              <Grid item xs={12} sx={{ marginTop: "15px" }}>
-                <StyledButton
-                  title={"Update"}
-                  onClick={handleBannerUpdate}
-                  mode={"dark"}
-                  validation={
-                    banner === data[0]?.banner && caption === data[0]?.caption
-                  }
-                />
-              </Grid>
-            )}
+            </Badge>
           </Grid>
-        </AccordionDetails>
-      </Accordion>
-    </Box>
+        ))}
+      <Grid item sm={12} sx={{ marginBottom: "30px" }}>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ width: "40vw", height: "55vh" }}>
+            {banner && (
+              <Badge
+                overlap="circular"
+                badgeContent={
+                  <IconButton
+                    sx={{ height: "20px", width: "20px" }}
+                    onClick={handleImageRemove}
+                  >
+                    <CloseIcon sx={{ fontSize: "20px" }} />
+                  </IconButton>
+                }
+              >
+                <img
+                  src={banner}
+                  alt="banner"
+                  style={{
+                    width: "35vw",
+                    objectFit: "contain",
+                    marginBottom: "15px",
+                  }}
+                />
+              </Badge>
+            )}
+            <input
+              type="file"
+              ref={hiddenFileInput}
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+            />
+            {banner ? (
+              <StyledButton
+                title={"Save"}
+                mode={"light"}
+                onClick={handleBannerUpdate}
+              />
+            ) : (
+              <StyledButton
+                title={"Upload"}
+                mode={"light"}
+                onClick={handleImageClick}
+              />
+            )}
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

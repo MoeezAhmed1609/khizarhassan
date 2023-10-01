@@ -202,16 +202,20 @@ export const addToFavorites = (productId) => async (dispatch) => {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     data: {
-      id: productId,
+      product: productId,
     },
   })
     .then((res) => {
       dispatch({ type: CREATE_FAVORITES_SUCCESS, payload: res.data });
       toast.success("Added to Favorites!");
+      window.setTimeout(function () {
+        window.location.replace("/favorite");
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: CREATE_FAVORITES_FAIL, payload: err.message });
       toast.error("Something went wrong, Reload!");
+      console.log(err);
     });
 };
 
@@ -228,6 +232,9 @@ export const removeFromFavorites = (productId) => async (dispatch) => {
     .then((res) => {
       dispatch({ type: REMOVE_FAVORITES_SUCCESS, payload: res.data });
       toast.success("Removed from favorites!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
     .catch((err) => {
       dispatch({ type: REMOVE_FAVORITES_FAIL, payload: err.message });
@@ -344,22 +351,28 @@ export const updateOrderStatus = (id, status) => async (dispatch) => {
 // Create product Review
 export const createReview =
   (orderId, productId, itemId, rating, comment) => async (dispatch) => {
-    try {
-      dispatch({ type: CREATE_REVIEW_REQUEST });
-      const data = await axios({
-        url: "/api/v1/user/orders/review",
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        data: {
-          orderId,
-          productId,
-          itemId,
-          rating,
-          comment,
-        },
+    dispatch({ type: CREATE_REVIEW_REQUEST });
+    const data = await axios({
+      url: "/api/v1/user/orders/review",
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        orderId,
+        productId,
+        itemId,
+        rating,
+        comment,
+      },
+    })
+      .then((res) => {
+        dispatch({ type: CREATE_REVIEW_SUCCESS, payload: res?.data });
+        toast.success("Review created!");
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((err) => {
+        dispatch({ type: CREATE_REVIEW_FAIL, payload: err?.message });
+        toast.error("Something went wrong!");
       });
-      dispatch({ type: CREATE_REVIEW_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: CREATE_REVIEW_FAIL, payload: error });
-    }
   };

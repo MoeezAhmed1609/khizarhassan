@@ -8,8 +8,10 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper";
+import { useSelector } from "react-redux";
 
 export default function MainBanner() {
+  const { data } = useSelector((state) => state.banners);
   return (
     <>
       <Swiper
@@ -18,18 +20,11 @@ export default function MainBanner() {
         modules={[Navigation]}
         className="main-swiper"
       >
-        <SwiperSlide>
-          <img
-            src="https://cdn.sanity.io/images/ke3vv5hk/production/2f6c52bdb1eb7d3de65b599af5ecd9ed56614c14-1920x780.jpg"
-            alt="banner1"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://cdn.sanity.io/images/ke3vv5hk/production/dfc28951f8caa946f05841911b12d3d9402c2c49-1920x780.webp"
-            alt="banner2"
-          />
-        </SwiperSlide>
+        {data?.map((ban, i) => (
+          <SwiperSlide key={i}>
+            <img src={ban?.banner?.url} alt={`banner${i}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

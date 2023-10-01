@@ -45,6 +45,7 @@ const CreateProduct = () => {
   const [flavor, setFlavor] = useState("");
   const [onSale, setOnSale] = useState(false);
   const [bestSelling, setBestSelling] = useState(false);
+  const [shipping, setShipping] = useState(0);
 
   const [variants, setVariants] = useState([]);
 
@@ -141,7 +142,7 @@ const CreateProduct = () => {
     setImages([]);
     setFlavors([]);
   };
-  console.log({variants});
+  console.log({ variants });
 
   const dispatch = useDispatch();
   const handleCreateProduct = () => {
@@ -154,7 +155,21 @@ const CreateProduct = () => {
       return;
     }
     if (variants.length < 1) {
-      toast.error("Add at least 3 sizes!");
+      toast.error("Add at least 1 variant!");
+      return;
+    }
+    if (
+      !name ||
+      !description ||
+      !usage ||
+      !category ||
+      !brand ||
+      !quantity ||
+      !onSale ||
+      !bestSelling ||
+      !shipping
+    ) {
+      toast.error("Complete form!");
       return;
     }
     const product = {
@@ -167,10 +182,11 @@ const CreateProduct = () => {
       variants,
       sale: onSale,
       best: bestSelling,
+      shipping,
     };
     dispatch(createProduct(product));
   };
- 
+
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -276,6 +292,13 @@ const CreateProduct = () => {
             label="Best Selling"
           />
         </FormGroup>
+      </Grid>
+      <Grid item sm={6} sx={{ padding: "10px" }}>
+        <StyledTextField
+          title={"Shipping"}
+          value={shipping}
+          onChange={(e) => setShipping(e.target.value)}
+        />
       </Grid>
       <Grid
         item

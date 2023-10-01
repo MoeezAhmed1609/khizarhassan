@@ -12,7 +12,7 @@ import {
   allUserReducer,
 } from "./reducers/userReducer";
 import { blogsReducer, blogReducer } from "./reducers/blogReducer";
-import { bannerReducer, bannersReducer } from "./reducers/contentReducer";
+import { bannersReducer } from "./reducers/contentReducer";
 import { categoryReducer } from "./reducers/categoryReducer";
 import { brandsReducer } from "./reducers/brandsReducer";
 
@@ -27,7 +27,6 @@ export const store = configureStore({
     blogs: blogsReducer,
     blog: blogReducer,
     banners: bannersReducer,
-    banner: bannerReducer,
     category: categoryReducer,
     brands: brandsReducer,
   },

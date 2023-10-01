@@ -75,9 +75,13 @@ const ProductCard = ({ product, favorite }) => {
                 gutterBottom
                 variant="subtitle1"
                 component="div"
-                sx={{ fontFamily: "Poppins, sans-serif", height: "8vh" }}
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  height: "8vh",
+                  textTransform: "capitalize",
+                }}
               >
-                {product?.name} {product?.variants[0]?.size}
+                {product?.name}
               </Typography>
               <Typography
                 variant="subtitle2"

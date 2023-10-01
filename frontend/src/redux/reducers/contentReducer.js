@@ -6,10 +6,12 @@ import {
   UPLOAD_BANNER_REQUEST,
   UPLOAD_BANNER_SUCCESS,
   UPLOAD_BANNER_FAIL,
+  DELETE_BANNER_REQUEST,
+  DELETE_BANNER_SUCCESS,
+  DELETE_BANNER_FAIL,
 } from "../constants/contentConstants";
 const initialState = {
   banners: [],
-  banner: {},
 };
 
 export const bannersReducer = createReducer(initialState.banners, (builder) => {
@@ -31,8 +33,6 @@ export const bannersReducer = createReducer(initialState.banners, (builder) => {
       error: action.payload,
     };
   });
-});
-export const bannerReducer = createReducer(initialState.banner, (builder) => {
   builder.addCase(UPLOAD_BANNER_REQUEST, (state, action) => {
     return {
       loading: true,
@@ -45,6 +45,23 @@ export const bannerReducer = createReducer(initialState.banner, (builder) => {
     };
   });
   builder.addCase(UPLOAD_BANNER_FAIL, (state, action) => {
+    return {
+      loading: false,
+      error: action.payload,
+    };
+  });
+  builder.addCase(DELETE_BANNER_REQUEST, (state, action) => {
+    return {
+      loading: true,
+    };
+  });
+  builder.addCase(DELETE_BANNER_SUCCESS, (state, action) => {
+    return {
+      loading: false,
+      data: action.payload,
+    };
+  });
+  builder.addCase(DELETE_BANNER_FAIL, (state, action) => {
     return {
       loading: false,
       error: action.payload,

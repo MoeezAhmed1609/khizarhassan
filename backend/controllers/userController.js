@@ -186,9 +186,13 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
 
 // Add product to favorites
 exports.addToFavorites = catchAsyncError(async (req, res, next) => {
-  let user = await User.findById(req.user.id);
-  user.favorites.push(req.body.id);
-  await user.save();
+  let user = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $push: { favorites: req.body.product },
+    },
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
   res
     .status(200)
     .json({ message: "Added to favorites!", favorites: user.favorites });
@@ -220,8 +224,15 @@ exports.addToCart = catchAsyncError(async (req, res, next) => {
 // Create a new order
 exports.createOrder = catchAsyncError(async (req, res, next) => {
   let user = await User.findById(req.user.id);
-  const { shipping, items, itemsPrice, shippingPrice, taxPrice, totalPrice, payment } =
-    req.body.data;
+  const {
+    shipping,
+    items,
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+    payment,
+  } = req.body.data;
   for (let i = 0; i < items.length; i++) {
     const product = await Product.findById(items[i]?.product);
     let index = product?.variants.findIndex((object) => {

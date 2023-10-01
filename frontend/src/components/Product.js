@@ -109,7 +109,6 @@ const Product = () => {
                 ?.filter((product) =>
                   product?.name?.toLowerCase()?.includes(search?.toLowerCase())
                 )
-                .slice((page - 1) * perPage, page * perPage)
                 ?.map((product, index) => (
                   <Grid
                     item
@@ -178,19 +177,6 @@ const Product = () => {
                     </Card>
                   </Grid>
                 ))}
-              {products?.length > 6 && (
-                <Grid
-                  item
-                  xs={12}
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Pagination
-                    count={Math.ceil(products?.length / perPage)}
-                    defaultPage={page}
-                    onChange={(event, value) => setPage(value)}
-                  />
-                </Grid>
-              )}
             </Grid>
           </AccordionDetails>
         </Accordion>
