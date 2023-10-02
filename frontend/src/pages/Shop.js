@@ -18,7 +18,7 @@ const Shop = ({ handleAddToFavorites }) => {
   // Category mode
   const [mode, setMode] = useState("All");
   const [brand, setBrand] = useState("All");
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("No Filter");
   //   Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -59,7 +59,7 @@ const Shop = ({ handleAddToFavorites }) => {
         : product?.brand?.toLowerCase()?.includes(brand?.toLowerCase())
     );
   products =
-    filter === ""
+    filter === "No Filter"
       ? products
       : filter === "Low-High"
       ? products.sort(
@@ -93,7 +93,7 @@ const Shop = ({ handleAddToFavorites }) => {
         <Grid
           item
           xs={12}
-          sm={6}
+          sm={5}
           sx={{
             height: "60px",
             display: "flex",
@@ -105,7 +105,12 @@ const Shop = ({ handleAddToFavorites }) => {
             Listing {mode} Products
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          item
+          xs={12}
+          sm={7}
+          sx={{ marginBottom: { xs: "15px", sm: "0" } }}
+        >
           <Box
             sx={{
               height: "40px",
@@ -215,7 +220,7 @@ const Shop = ({ handleAddToFavorites }) => {
               <MenuItem
                 onClick={() => {
                   handleCloseSort();
-                  setFilter("");
+                  setFilter("No Filter");
                 }}
               >
                 No Filter
@@ -255,7 +260,20 @@ const Shop = ({ handleAddToFavorites }) => {
             </Menu>
           </Box>
         </Grid>
-        {products ? (
+        {!products ? (
+          <Grid
+            item
+            xs={12}
+            sx={{
+              height: "80vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress />
+          </Grid>
+        ) : products?.length > 0 ? (
           products?.map((product, i) => (
             <Grid item xs={12} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
               <ProductCard
@@ -270,13 +288,18 @@ const Shop = ({ handleAddToFavorites }) => {
             item
             xs={12}
             sx={{
-              height: "80vh",
+              height: "40vh",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <CircularProgress />
+            <Typography
+              variant="h6"
+              sx={{ fontFamily: "Poppins, sans-serif", textAlign: "center" }}
+            >
+              No available products!
+            </Typography>
           </Grid>
         )}
       </Grid>

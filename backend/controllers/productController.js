@@ -62,6 +62,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     sale,
     best,
     brand,
+    shipping,
   } = req.body.product;
   product = await Product.findByIdAndUpdate(
     req.params.id,
@@ -77,6 +78,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       best,
       brand,
       admin: req.user.id,
+      shipping,
     },
     {
       new: true,

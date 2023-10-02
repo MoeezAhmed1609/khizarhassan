@@ -208,14 +208,14 @@ const Header = () => {
                   key={index}
                   onClick={handleCloseNavMenu}
                   sx={{
-                    width: "40vw",
+                    width: "35vw",
                     display: "flex",
                     justifyContent: "center",
                   }}
                 >
                   <Link
                     to={page.link}
-                    style={{ textDecoration: "none", color: "white" }}
+                    style={{ textDecoration: "none", color: "black" }}
                   >
                     <Typography textAlign="center">{page.name}</Typography>
                   </Link>
@@ -260,7 +260,7 @@ const Header = () => {
           <Box
             sx={{
               display: "flex",
-              width: "33.33%",
+              width: "33%",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -382,7 +382,7 @@ const Header = () => {
             sx={{
               display: { xs: "flex", sm: "none" },
               flexGrow: 0,
-              width: "33.33%",
+              width: "33%",
               justifyContent: "flex-end",
             }}
           >

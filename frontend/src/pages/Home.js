@@ -70,7 +70,12 @@ const Home = ({ handleAddToFavorites }) => {
           alignItems: "center",
         }}
       >
-        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          sx={{ textAlign: "center", paddingY: { xs: "2.5px", sm: "0" } }}
+        >
           <Typography
             variant="subtitle2"
             sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
@@ -78,7 +83,12 @@ const Home = ({ handleAddToFavorites }) => {
             Low Price Guaranteed
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          sx={{ textAlign: "center", paddingY: { xs: "2.5px", sm: "0" } }}
+        >
           <Typography
             variant="subtitle2"
             sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
@@ -86,7 +96,12 @@ const Home = ({ handleAddToFavorites }) => {
             100% Authentic Products
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          sx={{ textAlign: "center", paddingY: { xs: "2.5px", sm: "0" } }}
+        >
           <Typography
             variant="subtitle2"
             sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
@@ -94,7 +109,12 @@ const Home = ({ handleAddToFavorites }) => {
             Free Shipping Nationwide
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          sx={{ textAlign: "center", paddingY: { xs: "2.5px", sm: "0" } }}
+        >
           <Typography
             variant="subtitle2"
             sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
@@ -153,9 +173,9 @@ const Home = ({ handleAddToFavorites }) => {
         <Grid
           item
           xs={12}
-          sm={6}
+          sm={7}
           sx={{
-            height: "60vh",
+            height: { xs: "40vh", sm: "60vh" },
             width: "100%",
             display: "flex",
             justifyContent: "center",
@@ -164,7 +184,6 @@ const Home = ({ handleAddToFavorites }) => {
           }}
         >
           <Typography
-            variant="h2"
             sx={{
               fontWeight: "800",
               textTransform: "uppercase",
@@ -172,6 +191,7 @@ const Home = ({ handleAddToFavorites }) => {
               textAlign: "center",
               fontFamily: "Poppins, sans-serif",
               color: "white",
+              fontSize: { xs: "7.5vh", sm: "10vh" },
             }}
           >
             What's on sale
@@ -184,6 +204,7 @@ const Home = ({ handleAddToFavorites }) => {
               letterSpacing: -2,
               fontFamily: "Poppins, sans-serif",
               color: "white",
+              fontSize: { xs: "5vh", sm: "7.5vh" },
             }}
           >
             Get extra 20% off
@@ -202,7 +223,7 @@ const Home = ({ handleAddToFavorites }) => {
             <StyledButton title={"Shop"} mode={"dark"} width={"50%"} />
           </Link>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={5}>
           {loading ? (
             <Box
               sx={{
@@ -258,11 +279,26 @@ const Home = ({ handleAddToFavorites }) => {
             Our Best Sellers
           </Typography>
         </Grid>
-        <BestSellersSlider favorite={handleAddToFavorites} category={"proteins"} />
-        <BestSellersSlider favorite={handleAddToFavorites} category={"weight gainers"} />
-        <BestSellersSlider favorite={handleAddToFavorites} category={"pre workouts"} />
-        <BestSellersSlider favorite={handleAddToFavorites} category={"fat loss products"} />
-        <BestSellersSlider favorite={handleAddToFavorites} category={"accessories"} />
+        <BestSellersSlider
+          favorite={handleAddToFavorites}
+          category={"proteins"}
+        />
+        <BestSellersSlider
+          favorite={handleAddToFavorites}
+          category={"weight gainers"}
+        />
+        <BestSellersSlider
+          favorite={handleAddToFavorites}
+          category={"pre workouts"}
+        />
+        <BestSellersSlider
+          favorite={handleAddToFavorites}
+          category={"fat loss products"}
+        />
+        <BestSellersSlider
+          favorite={handleAddToFavorites}
+          category={"accessories"}
+        />
       </Grid>
       {/* Shop by brands */}
       <Grid
@@ -409,17 +445,25 @@ const Home = ({ handleAddToFavorites }) => {
           }}
         >
           <Typography
-            variant="h2"
             sx={{
               fontWeight: "900",
               textTransform: "uppercase",
               lineHeight: { xs: "10vh", sm: "9vh" },
               margin: "12px 0",
+              fontFamily: "Poppins, sans-serif",
+              fontSize: { sm: "12vh", xs: "8.5vh" },
+              textAlign: "center",
             }}
           >
             Become a member
           </Typography>
-          <Typography variant="h6" sx={{ textAlign: "left" }}>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: { xs: "center", sm: "left" },
+              fontFamily: "Poppins, sans-serif",
+            }}
+          >
             Sign up for free. Join the community.
           </Typography>
           <Box

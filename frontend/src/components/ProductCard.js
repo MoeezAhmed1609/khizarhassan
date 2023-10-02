@@ -26,7 +26,9 @@ const ProductCard = ({ product, favorite }) => {
       }}
       to={`/product/${product?._id}`}
     >
-      <Card sx={{ width: "100%", boxShadow: "none" }}>
+      <Card
+        sx={{ width: "100%", boxShadow: "none", background: "transparent" }}
+      >
         <CardActionArea>
           <Box
             sx={{

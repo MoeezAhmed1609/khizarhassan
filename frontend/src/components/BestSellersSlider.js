@@ -61,7 +61,7 @@ const BestSellersSlider = ({ category, favorite }) => {
           md={10}
           sx={{
             paddingLeft: { xs: "0", sm: "10px" },
-            height: "70vh",
+            minHeight: "70vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -75,7 +75,7 @@ const BestSellersSlider = ({ category, favorite }) => {
           xs={12}
           sm={9}
           md={10}
-          sx={{ paddingLeft: { xs: "0", sm: "10px" } }}
+          sx={{ paddingLeft: { xs: "0", sm: "10px" }, minHeight: "70vh" }}
         >
           <ProductSlider products={bestProducts} favorite={favorite} />
         </Grid>

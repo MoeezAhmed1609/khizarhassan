@@ -65,6 +65,7 @@ const UpdateProduct = () => {
   const [flavor, setFlavor] = useState("");
   const [onSale, setOnSale] = useState(false);
   const [bestSelling, setBestSelling] = useState(false);
+  const [shipping, setShipping] = useState(0);
 
   const [variants, setVariants] = useState([]);
 
@@ -139,6 +140,7 @@ const UpdateProduct = () => {
       toast.error("Add variant image!");
       return;
     }
+
     const uploads = [];
     for (let i = 0; i < images.length; i++) {
       const formData = new FormData();
@@ -188,6 +190,20 @@ const UpdateProduct = () => {
       toast.error("Add at least 3 sizes!");
       return;
     }
+    if (
+      !name ||
+      !description ||
+      !usage ||
+      !category ||
+      !brand ||
+      !quantity ||
+      !onSale ||
+      !bestSelling ||
+      !shipping
+    ) {
+      toast.error("Complete form!");
+      return;
+    }
     const product = {
       name,
       description,
@@ -198,9 +214,9 @@ const UpdateProduct = () => {
       variants,
       sale: onSale,
       best: bestSelling,
+      shipping,
     };
     dispatch(updateProduct(id, product));
-    // fix update
   };
   useEffect(() => {
     if (product && id) {
@@ -213,6 +229,7 @@ const UpdateProduct = () => {
       setVariants(product?.variants);
       setDescription(product?.description);
       setUsage(product?.usage);
+      setShipping(product?.shipping);
     }
   }, [product, id]);
   return (
@@ -353,6 +370,14 @@ const UpdateProduct = () => {
                 label="Best Selling"
               />
             </FormGroup>
+          </Grid>
+          <Grid item sm={6} sx={{ padding: "10px" }}>
+            <StyledTextField
+              title={"Shipping"}
+              type={"number"}
+              value={shipping}
+              onChange={(e) => setShipping(e.target.value)}
+            />
           </Grid>
           <Grid
             item
