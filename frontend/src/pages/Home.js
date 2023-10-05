@@ -21,11 +21,17 @@ import MainBanner from "../components/MainBanner";
 import CategoriesSlider from "../components/CategoriesSlider";
 import BestSellersSlider from "../components/BestSellersSlider";
 
+import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
+import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
+
 const Home = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
   const [blogLength, setBlogLength] = useState(4);
   const { loading, data } = useSelector((state) => state.products);
-  const ban = useSelector((state) => state.banners.data);
+  // const ban = useSelector((state) => state.banners.data);
+  const { isAuthenticated } = useSelector((state) => state.user);
   // Blogs
   const blogs = useSelector((state) => state.blogs.data);
   // data's
@@ -78,9 +84,16 @@ const Home = ({ handleAddToFavorites }) => {
         >
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            Low Price Guaranteed
+            <PaidOutlinedIcon sx={{ marginRight: "6px" }} /> Low Price
+            Guaranteed
           </Typography>
         </Grid>
         <Grid
@@ -91,9 +104,16 @@ const Home = ({ handleAddToFavorites }) => {
         >
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            100% Authentic Products
+            <GppGoodOutlinedIcon sx={{ marginRight: "6px" }} /> 100% Authentic
+            Products
           </Typography>
         </Grid>
         <Grid
@@ -104,9 +124,16 @@ const Home = ({ handleAddToFavorites }) => {
         >
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            Free Shipping Nationwide
+            <LocalShippingOutlinedIcon sx={{ marginRight: "6px" }} /> Free
+            Shipping Nationwide
           </Typography>
         </Grid>
         <Grid
@@ -117,19 +144,26 @@ const Home = ({ handleAddToFavorites }) => {
         >
           <Typography
             variant="subtitle2"
-            sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            Ask Any Query: +923272026242
+            <CallOutlinedIcon sx={{ marginRight: "6px" }} /> Ask Any Query:{" "}
+            <span style={{ color: "black", marginLeft :'6px' }}>+923272026242</span>
           </Typography>
         </Grid>
       </Grid>
       {/* Banner Slider */}
       <MainBanner />
       {/* Categories */}
-      <Box sx={{ minHeight: "85vh", padding: "25px 0" }}>
+      <Box sx={{ minHeight: "60vh", padding: "25px 0" }}>
         <Box
           sx={{
-            height: { xs: "25vh", sm: "30vh" },
+            minHeight: "15vh",
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
@@ -283,18 +317,22 @@ const Home = ({ handleAddToFavorites }) => {
           favorite={handleAddToFavorites}
           category={"proteins"}
         />
+
         <BestSellersSlider
           favorite={handleAddToFavorites}
           category={"weight gainers"}
         />
+
         <BestSellersSlider
           favorite={handleAddToFavorites}
           category={"pre workouts"}
         />
+
         <BestSellersSlider
           favorite={handleAddToFavorites}
           category={"fat loss products"}
         />
+
         <BestSellersSlider
           favorite={handleAddToFavorites}
           category={"accessories"}
@@ -422,95 +460,97 @@ const Home = ({ handleAddToFavorites }) => {
         </Grid>
       </Grid>
       {/* Member Wrapper */}
-      <Grid
-        container
-        sx={{
-          minHeight: "60vh",
-          width: "100%",
-          background: "#e63146",
-        }}
-      >
+      {isAuthenticated === false && (
         <Grid
-          item
-          xs={12}
-          sm={6}
+          container
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            color: "white",
-            padding: { xs: "0 10px", sm: "0 40px" },
-            minHeight: "50vh",
+            minHeight: "60vh",
+            width: "100%",
+            background: "#e63146",
           }}
         >
-          <Typography
-            sx={{
-              fontWeight: "900",
-              textTransform: "uppercase",
-              lineHeight: { xs: "10vh", sm: "9vh" },
-              margin: "12px 0",
-              fontFamily: "Poppins, sans-serif",
-              fontSize: { sm: "12vh", xs: "8.5vh" },
-              textAlign: "center",
-            }}
-          >
-            Become a member
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: { xs: "center", sm: "left" },
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Sign up for free. Join the community.
-          </Typography>
-          <Box
+          <Grid
+            item
+            xs={12}
+            sm={6}
             sx={{
               display: "flex",
-              justifyContent: "space-evenly",
-              width: "100%",
-              marginTop: "15px",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              color: "white",
+              padding: { xs: "0 10px", sm: "0 40px" },
+              minHeight: "50vh",
             }}
           >
-            <Link
-              style={{ textDecoration: "none", width: "40%" }}
-              to="/account"
+            <Typography
+              sx={{
+                fontWeight: "900",
+                textTransform: "uppercase",
+                lineHeight: { xs: "10vh", sm: "9vh" },
+                margin: "12px 0",
+                fontFamily: "Poppins, sans-serif",
+                fontSize: { sm: "12vh", xs: "8.5vh" },
+                textAlign: "center",
+              }}
             >
-              <StyledButton title={"Sign In"} mode={"dark"} />
-            </Link>
-            <Link
-              style={{ textDecoration: "none", width: "40%" }}
-              to="/account"
+              Become a member
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                textAlign: { xs: "center", sm: "left" },
+                fontFamily: "Poppins, sans-serif",
+              }}
             >
-              <StyledButton title={"Join Us"} mode={"dark"} />
-            </Link>
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "40vh",
-          }}
-        >
-          <Box
+              Sign up for free. Join the community.
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                width: "100%",
+                marginTop: "15px",
+              }}
+            >
+              <Link
+                style={{ textDecoration: "none", width: "40%" }}
+                to="/account"
+              >
+                <StyledButton title={"Sign In"} mode={"dark"} />
+              </Link>
+              <Link
+                style={{ textDecoration: "none", width: "40%" }}
+                to="/account"
+              >
+                <StyledButton title={"Join Us"} mode={"dark"} />
+              </Link>
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
             sx={{
-              height: "26vh",
-              width: "auto",
-              background: "black",
-              padding: "24px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "40vh",
             }}
           >
-            <img src={xtrack} style={{ height: "25vh" }} alt="boom wear" />
-          </Box>
+            <Box
+              sx={{
+                height: "26vh",
+                width: "auto",
+                background: "black",
+                padding: "24px",
+              }}
+            >
+              <img src={xtrack} style={{ height: "25vh" }} alt="boom wear" />
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   );
 };

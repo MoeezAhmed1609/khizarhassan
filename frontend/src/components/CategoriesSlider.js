@@ -100,12 +100,7 @@ const CategoriesSlider = ({ cards }) => {
                 color: "black",
               }}
               to={"/shop"}
-              onClick={() =>
-                window.sessionStorage.setItem(
-                  "category",
-                  cat?.title?.toLowerCase()
-                )
-              }
+              state={{ category: cat?.title?.toLowerCase() }}
             >
               <Box
                 sx={{

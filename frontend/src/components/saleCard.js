@@ -5,12 +5,9 @@ import {
   CardActionArea,
   CardMedia,
   CardContent,
-  CardActions,
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import StyledButton from "./styledButton";
-import StarIcon from "@mui/icons-material/Star";
 
 const SaleCard = ({ product }) => {
   return (
@@ -26,6 +23,23 @@ const SaleCard = ({ product }) => {
         sx={{ width: "100%", boxShadow: "none", background: "transparent" }}
       >
         <CardActionArea>
+          {product?.quantity === 0 && (
+            <Box
+              sx={{
+                width: "80px",
+                height: "30px",
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "white",
+              }}
+            >
+              Sold Out
+            </Box>
+          )}
           <CardMedia
             component="img"
             image={product?.variants[0]?.images[0]?.url}
@@ -71,12 +85,12 @@ const SaleCard = ({ product }) => {
                   Rs.{product?.variants[0]?.price}
                 </Typography>
                 <Typography
-                  variant="subtitle1"
+                  variant="h6"
                   sx={{
                     fontFamily: "Poppins, sans-serif",
                     color: "black",
                     textDecoration: "line-through",
-
+                    fontWeight: "bold",
                     textAlign: "center",
                   }}
                 >

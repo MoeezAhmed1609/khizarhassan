@@ -18,23 +18,18 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const socials = [
     {
-      icon: <TwitterIcon />,
-      link: "https://twitter.com/home?lang=en",
-      title: "Twitter",
-    },
-    {
       icon: <FacebookIcon />,
-      link: "https://www.facebook.com/",
+      link: "https://www.facebook.com/xtrackofficial/?show_switched_toast=0&show_invite_to_follow=0&show_switched_tooltip=0&show_podcast_settings=0&show_community_review_changes=0&show_community_rollback=0&show_follower_visibility_disclosure=0",
       title: "Facebook",
     },
     {
       icon: <YouTubeIcon />,
-      link: "https://www.youtube.com/",
+      link: "https://www.youtube.com/channel/UCY4IDvLi8yxG6MRROmqd65A",
       title: "YouTube",
     },
     {
       icon: <InstagramIcon />,
-      link: "https://www.instagram.com/",
+      link: "https://www.instagram.com/x_track.pk/",
       title: "Instagram",
     },
   ];
@@ -81,7 +76,11 @@ const Footer = () => {
         </Box>
         <Stack direction="row" spacing={2}>
           <Typography
-            sx={{ textTransform: "uppercase", marginTop: "8px", fontFamily: "Poppins, sans-serif", }}
+            sx={{
+              textTransform: "uppercase",
+              marginTop: "8px",
+              fontFamily: "Poppins, sans-serif",
+            }}
             variant="subtitle1"
           >
             Follow us on

@@ -16,12 +16,12 @@ const BestSellersSlider = ({ category, favorite }) => {
         xs={12}
         sm={3}
         md={2}
-        sx={{ paddingRight: { xs: "0", sm: "10px" } }}
+        sx={{ paddingRight: { xs: "0", sm: "10px" }, marginBottom: "15px" }}
       >
         <Box
           sx={{
             width: "100%",
-            height: { xs: "20vh", sm: "70vh" },
+            height: "100%",
             background: "black",
             display: "flex",
             justifyContent: "center",
@@ -31,7 +31,8 @@ const BestSellersSlider = ({ category, favorite }) => {
           }}
         >
           <Link
-            to={`/shop/${category?.toLowerCase()}`}
+            to={`/shop`}
+            state={{ category: category?.toLowerCase() }}
             style={{ textAlign: "center", textDecoration: "none" }}
           >
             <Typography

@@ -21,6 +21,7 @@ import ProductSlider from "../components/productSlider";
 import toast from "react-hot-toast";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RelatedSlider from "../components/ProductsSlider";
 
 const Product = ({ handleAddToFavorites }) => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Product = ({ handleAddToFavorites }) => {
     setSizeCart(data?.variants[size]?.size);
     setFlavorCart(data?.variants[size]?.flavors[flavor]);
   }, [data, size]);
-  // console.log({ sizeCart, flavorCart });
+  console.log({ related: data?.related });
   return (
     <>
       <Box
@@ -117,7 +118,7 @@ const Product = ({ handleAddToFavorites }) => {
                         padding: "4px 8px",
                       }}
                     >
-                      Out of Stock
+                      Sold Out
                     </Typography>
                   )}
                 </Box>
@@ -307,6 +308,28 @@ const Product = ({ handleAddToFavorites }) => {
             }}
           >
             <ProductTabs data={data} />
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              margin: "20px 10px",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "bold",
+                marginBottom: "10px",
+              }}
+            >
+              Related Products
+            </Typography>
+            <RelatedSlider
+              products={data?.related}
+              favorite={handleAddToFavorites}
+              cart={false}
+            />
           </Box>
         </>
       )}

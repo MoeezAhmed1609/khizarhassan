@@ -13,8 +13,10 @@ import { useSelector } from "react-redux";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ProductCard from "../components/card";
+import { useLocation } from "react-router-dom";
 
 const Shop = ({ handleAddToFavorites }) => {
+  const location = useLocation();
   // Category mode
   const [mode, setMode] = useState("All");
   const [brand, setBrand] = useState("All");
@@ -75,10 +77,10 @@ const Shop = ({ handleAddToFavorites }) => {
       ? products.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
       : products;
   useEffect(() => {
-    if (window.sessionStorage.getItem("category")) {
-      setMode(window.sessionStorage.getItem("category"));
+    if (location.state?.category) {
+      setMode(location.state?.category);
     }
-  }, [window.sessionStorage]);
+  }, [location.state?.category]);
   return (
     <>
       <Box sx={{ height: "18vh", width: "100%" }} />

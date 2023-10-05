@@ -24,11 +24,13 @@ import { createProduct } from "../redux/actions/productsActions";
 import CloseIcon from "@mui/icons-material/Close";
 import toast from "react-hot-toast";
 import axios from "axios";
+import AutoCompleteSelect from "./AutoComplete";
 
 const CreateProduct = () => {
   // Categories
   const categories = useSelector((state) => state?.category?.data);
   const brands = useSelector((state) => state?.brands?.data);
+  const products = useSelector((state) => state?.products?.data?.products);
   // Create Product
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -46,7 +48,7 @@ const CreateProduct = () => {
   const [onSale, setOnSale] = useState(false);
   const [bestSelling, setBestSelling] = useState(false);
   const [shipping, setShipping] = useState(0);
-
+  const [related, setRelated] = useState([]);
   const [variants, setVariants] = useState([]);
 
   // Image Uploader
@@ -89,6 +91,14 @@ const CreateProduct = () => {
       setFlavors(array);
     }
   };
+  const handleRelatedDelete = (chip) => {
+    const array = [...related];
+    const index = array.indexOf(chip);
+    if (index !== -1) {
+      array.splice(index, 1);
+      setRelated(array);
+    }
+  };
 
   //   handle add variant
   const handleAddVariant = async () => {
@@ -108,6 +118,7 @@ const CreateProduct = () => {
       toast.error("Add variant image!");
       return;
     }
+
     const uploads = [];
     for (let i = 0; i < images.length; i++) {
       const formData = new FormData();
@@ -126,6 +137,7 @@ const CreateProduct = () => {
           uploads.push(result);
         });
     }
+
     const data = {
       size,
       quantity: quantityV,
@@ -142,7 +154,6 @@ const CreateProduct = () => {
     setImages([]);
     setFlavors([]);
   };
-  console.log({ variants });
 
   const dispatch = useDispatch();
   const handleCreateProduct = () => {
@@ -158,6 +169,10 @@ const CreateProduct = () => {
       toast.error("Add at least 1 variant!");
       return;
     }
+    if (related.length === 0) {
+      toast.error("Add related products!");
+      return;
+    }
     if (
       !name ||
       !description ||
@@ -165,13 +180,15 @@ const CreateProduct = () => {
       !category ||
       !brand ||
       !quantity ||
-      !onSale ||
-      !bestSelling ||
       !shipping
     ) {
       toast.error("Complete form!");
       return;
     }
+    const relatedProducts = [];
+    related?.map((r) => {
+      relatedProducts.push(r?._id);
+    });
     const product = {
       name,
       description,
@@ -183,10 +200,10 @@ const CreateProduct = () => {
       sale: onSale,
       best: bestSelling,
       shipping,
+      related: relatedProducts,
     };
     dispatch(createProduct(product));
   };
-
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -509,8 +526,8 @@ const CreateProduct = () => {
       <Grid item sm={12} sx={{ padding: "10px" }}>
         <StyledButton title={"Add this Variant"} onClick={handleAddVariant} />
       </Grid>
-      {variants.length > 0 &&
-        variants.map((step, i) => (
+      {variants?.length > 0 &&
+        variants?.map((step, i) => (
           <Grid
             item
             sm={12}
@@ -577,7 +594,60 @@ const CreateProduct = () => {
             </Grid>
           </Grid>
         ))}
-      <Grid item sm={12} sx={{ padding: "10px", marginTop: "10px" }}>
+      <Grid item sm={5} sx={{ padding: "10px", marginTop: "10px" }}>
+        <AutoCompleteSelect
+          options={products}
+          value={related}
+          setValue={setRelated}
+        />
+      </Grid>
+      <Grid item sm={7} sx={{ padding: "10px" }}>
+        <Box
+          sx={{
+            height: "75px",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            gap: "0 4px",
+            overflowX: "auto",
+          }}
+        >
+          {related?.length > 0 ? (
+            related?.map((size, i) => (
+              <>
+                <Chip
+                  label={
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Typography sx={{ fontSize: "10px" }}>
+                        {size?.name}
+                      </Typography>
+                      <IconButton
+                        sx={{
+                          height: "13px",
+                          width: "13px",
+                          marginLeft: "4px",
+                        }}
+                        onClick={() => handleRelatedDelete(size?.name)}
+                      >
+                        <CloseIcon sx={{ fontSize: "11px" }} />
+                      </IconButton>
+                    </Box>
+                  }
+                  key={i}
+                />
+              </>
+            ))
+          ) : (
+            <Chip label={"No Related Products!"} />
+          )}
+        </Box>
+      </Grid>
+      <Grid item sm={12} sx={{ padding: "10px" }}>
         <Box sx={{ marginBottom: "10vh" }}>
           <Typography sx={{ textAlign: "left", fontWeight: "bold" }}>
             Enter Product Description

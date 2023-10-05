@@ -16,7 +16,7 @@ import StarIcon from "@mui/icons-material/Star";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
-const ProductCard = ({ product, favorite }) => {
+const ProductCard = ({ product, favorite, addToCart }) => {
   return (
     <Link
       style={{
@@ -30,6 +30,24 @@ const ProductCard = ({ product, favorite }) => {
         sx={{ width: "100%", boxShadow: "none", background: "transparent" }}
       >
         <CardActionArea>
+          {product?.variants[0]?.quantity < 0 && (
+            <Box
+              sx={{
+                width: "80px",
+                height: "30px",
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#e63146",
+                color: "white",
+              }}
+            >
+              Sold Out
+            </Box>
+          )}
           <Box
             sx={{
               position: "absolute",
@@ -124,9 +142,11 @@ const ProductCard = ({ product, favorite }) => {
               </Box>
             </CardContent>
           </Link>
-          <CardActions>
-            <StyledButton title="Add to Cart" mode="light" />
-          </CardActions>
+          {addToCart === false ? null : (
+            <CardActions>
+              <StyledButton title="Add to Cart" mode="light" />
+            </CardActions>
+          )}
         </CardActionArea>
       </Card>
     </Link>

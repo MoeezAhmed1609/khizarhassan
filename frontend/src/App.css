@@ -33,14 +33,17 @@
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  color: black;
+  color: white;
   font-size: 5.5vh !important;
+  padding: 6px 9px;
+  background-color: #e63146;
+  border-radius: 10px;
 }
 
 @media only screen and (max-width: 400px) {
   .swiper-button-next:after,
   .swiper-button-prev:after {
-    font-size: 22px !important;
+    font-size: 19px !important;
   }
 }
 

@@ -30,6 +30,7 @@ import About from "./pages/About";
 import { getAllBanners } from "./redux/actions/contentActions";
 import { getAllCategories } from "./redux/actions/categoryActions";
 import { getAllBrands } from "./redux/actions/brandsActions";
+import WhatsApp from "./components/WhatsApp";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,12 +53,11 @@ function App() {
       return;
     }
     store.dispatch(addToFavorites(id));
-    
   };
 
   useEffect(() => {
     // Get all banners
-    dispatch(getAllBanners());
+    // dispatch(getAllBanners());
     // Get all products
     dispatch(getAllProducts());
     // Get all blogs
@@ -72,9 +72,10 @@ function App() {
   return (
     <>
       <Router>
+        <Toaster />
         <ScrollToTop />
         <Header />
-        <Toaster />
+        <WhatsApp />
         <Routes>
           <Route
             path="/"

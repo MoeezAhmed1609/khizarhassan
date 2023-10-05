@@ -60,6 +60,12 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  related: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Product",
+    },
+  ],
   reviews: [
     {
       rating: {
