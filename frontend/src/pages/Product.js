@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RelatedSlider from "../components/ProductsSlider";
+import ReviewSection from "../components/ReviewSection";
 
 const Product = ({ handleAddToFavorites }) => {
   const navigate = useNavigate();
@@ -55,11 +56,11 @@ const Product = ({ handleAddToFavorites }) => {
   useEffect(() => {
     dispatch(getProductDetails(id));
   }, [dispatch, id]);
+
   useEffect(() => {
     setSizeCart(data?.variants[size]?.size);
     setFlavorCart(data?.variants[size]?.flavors[flavor]);
   }, [data, size]);
-  console.log({ related: data?.related });
   return (
     <>
       <Box
@@ -309,27 +310,45 @@ const Product = ({ handleAddToFavorites }) => {
           >
             <ProductTabs data={data} />
           </Box>
-          <Box
-            sx={{
-              width: "100%",
-              margin: "20px 10px",
-            }}
-          >
-            <Typography
-              variant="h5"
+          {data?.related?.length > 0 && (
+            <Box
               sx={{
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: "bold",
-                marginBottom: "10px",
+                padding: "20px 10px",
               }}
             >
-              Related Products
-            </Typography>
-            <RelatedSlider
-              products={data?.related}
-              favorite={handleAddToFavorites}
-              cart={false}
-            />
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                  marginBottom: "10px",
+                }}
+              >
+                Related Products
+              </Typography>
+              <RelatedSlider
+                products={data?.related}
+                favorite={handleAddToFavorites}
+                cart={false}
+              />
+            </Box>
+          )}
+          <Box
+            sx={{ display: "flex", justifyContent: "center", marginY: "30px" }}
+          >
+            <Box
+              sx={{
+                width: {
+                  xs: "100%",
+                  md: "80%",
+                },
+                minHeight: "40vh",
+                // maxHeight: "80vh",
+                // overflowY: "auto",
+              }}
+            >
+              <ReviewSection reviews={data?.reviews} id={data?._id} />
+            </Box>
           </Box>
         </>
       )}

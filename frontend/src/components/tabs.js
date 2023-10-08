@@ -55,6 +55,8 @@ export default function ProductTabs({ data }) {
           md: "80%",
         },
         minHeight: "40vh",
+        maxHeight: "80vh",
+        overflowY: "auto",
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -73,7 +75,7 @@ export default function ProductTabs({ data }) {
         >
           <Tab label="Description" {...a11yProps(0)} />
           <Tab label="Usage" {...a11yProps(2)} />
-          <Tab label="Reviews" {...a11yProps(1)} />
+          {/* <Tab label="Reviews" {...a11yProps(1)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -88,7 +90,7 @@ export default function ProductTabs({ data }) {
           </Typography>
         )}
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      {/* <CustomTabPanel value={value} index={2}>
         <Box sx={{ paddingX: 2 }}>
           {data?.reviews?.length > 0 ? (
             data?.reviews?.map((review, index) => (
@@ -127,7 +129,7 @@ export default function ProductTabs({ data }) {
             </Box>
           )}
         </Box>
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

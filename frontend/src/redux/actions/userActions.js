@@ -349,30 +349,25 @@ export const updateOrderStatus = (id, status) => async (dispatch) => {
 };
 
 // Create product Review
-export const createReview =
-  (orderId, productId, itemId, rating, comment) => async (dispatch) => {
-    dispatch({ type: CREATE_REVIEW_REQUEST });
-    const data = await axios({
-      url: "/api/v1/user/orders/review",
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        orderId,
-        productId,
-        itemId,
-        rating,
-        comment,
-      },
+export const createReview = (review) => async (dispatch) => {
+  dispatch({ type: CREATE_REVIEW_REQUEST });
+  const data = await axios({
+    url: "/api/v1/user/orders/review",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      review,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: CREATE_REVIEW_SUCCESS, payload: res?.data });
+      toast.success("Review created!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     })
-      .then((res) => {
-        dispatch({ type: CREATE_REVIEW_SUCCESS, payload: res?.data });
-        toast.success("Review created!");
-        window.setTimeout(function () {
-          window.location.reload();
-        }, 2000);
-      })
-      .catch((err) => {
-        dispatch({ type: CREATE_REVIEW_FAIL, payload: err?.message });
-        toast.error("Something went wrong!");
-      });
-  };
+    .catch((err) => {
+      dispatch({ type: CREATE_REVIEW_FAIL, payload: err?.message });
+      toast.error("Something went wrong!");
+    });
+};

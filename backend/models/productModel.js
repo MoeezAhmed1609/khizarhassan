@@ -78,6 +78,16 @@ const productSchema = new mongoose.Schema({
       customer: {
         type: String,
       },
+      image: {
+        public_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
     },
   ],
   ratings: {

@@ -176,11 +176,9 @@ const CreateProduct = () => {
     if (
       !name ||
       !description ||
-      !usage ||
       !category ||
       !brand ||
-      !quantity ||
-      !shipping
+      !quantity
     ) {
       toast.error("Complete form!");
       return;
