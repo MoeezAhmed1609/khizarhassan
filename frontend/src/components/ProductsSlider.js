@@ -23,11 +23,11 @@ export default function ProductSlider({ products, favorite, cart }) {
             spaceBetween: 30,
           },
           768: {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 40,
           },
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 4,
             spaceBetween: 40,
           },
         }}
@@ -37,7 +37,11 @@ export default function ProductSlider({ products, favorite, cart }) {
       >
         {products?.map((product, i) => (
           <SwiperSlide key={i}>
-            <ProductCard favorite={favorite} product={product} addToCart={cart} />
+            <ProductCard
+              favorite={favorite}
+              product={product}
+              addToCart={cart}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

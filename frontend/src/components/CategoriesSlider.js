@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { Pagination, Navigation } from "swiper";
 import { useSelector } from "react-redux";
 
-const CategoriesSlider = ({ cards }) => {
+const CategoriesSlider = ({ cards, brand }) => {
   // Categories
   // const categories = [
   //   {
@@ -100,7 +100,11 @@ const CategoriesSlider = ({ cards }) => {
                 color: "black",
               }}
               to={"/shop"}
-              state={{ category: cat?.title?.toLowerCase() }}
+              state={
+                brand
+                  ? { brand: cat?.title?.toLowerCase() }
+                  : { category: cat?.title?.toLowerCase() }
+              }
             >
               <Box
                 sx={{

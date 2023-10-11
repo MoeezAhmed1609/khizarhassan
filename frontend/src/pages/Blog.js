@@ -27,7 +27,11 @@ const Blog = () => {
         <Grid item xs={12}>
           <Typography
             variant="h3"
-            sx={{ fontWeight: "bold", textAlign: "center" }}
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              fontFamily: "Poppins, sans-serif",
+            }}
           >
             {data?.title}
           </Typography>

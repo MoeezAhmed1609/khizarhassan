@@ -1,18 +1,12 @@
 const mongoose = require("mongoose");
 const bannerSchema = new mongoose.Schema({
-  title: {
+  xs: {
     type: String,
-    default: "BoomWear Banner",
+    required: true,
   },
-  banner: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+  sm: {
+    type: String,
+    required: true,
   },
 });
 

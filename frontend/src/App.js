@@ -8,6 +8,8 @@ import toast, { Toaster } from "react-hot-toast";
 // Components Import
 import Header from "./components/header";
 import Footer from "./components/footer";
+import ScrollToTop from "./components/ScrollToTop";
+import WhatsApp from "./components/WhatsApp";
 // Pages import
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -16,21 +18,20 @@ import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Dashboard from "./pages/Dashboard";
 import Checkout from "./pages/Checkout";
+import Terms from "./pages/Terms";
+import Shop from "./pages/Shop";
+import Blogs from "./pages/Blogs";
+import Blog from "./pages/Blog";
+import About from "./pages/About";
 // Redux
 import { store } from "./redux/store";
 import { getUserDetails, addToFavorites } from "./redux/actions/userActions";
 import { getAllProducts } from "./redux/actions/productsActions";
 import { useSelector, useDispatch } from "react-redux";
-import Shop from "./pages/Shop";
-import ScrollToTop from "./components/ScrollToTop";
 import { getAllBlogs } from "./redux/actions/blogActions";
-import Blogs from "./pages/Blogs";
-import Blog from "./pages/Blog";
-import About from "./pages/About";
-import { getAllBanners } from "./redux/actions/contentActions";
+import { getAllBanners, getAllContents } from "./redux/actions/contentActions";
 import { getAllCategories } from "./redux/actions/categoryActions";
 import { getAllBrands } from "./redux/actions/brandsActions";
-import WhatsApp from "./components/WhatsApp";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,8 @@ function App() {
     dispatch(getAllCategories());
     // get All brands
     dispatch(getAllBrands());
+    // get contents
+    dispatch(getAllContents());
   }, []);
   return (
     <>
@@ -86,6 +89,7 @@ function App() {
             element={<Shop handleAddToFavorites={handleAddToFavorites} />}
           />
           <Route path="/about" element={<About />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route

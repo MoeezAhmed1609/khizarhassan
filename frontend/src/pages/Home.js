@@ -26,6 +26,8 @@ import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 
+import RawHTMLRenderer from "../components/HtmlRenderer";
+
 const Home = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
   const [blogLength, setBlogLength] = useState(4);
@@ -153,7 +155,9 @@ const Home = ({ handleAddToFavorites }) => {
             }}
           >
             <CallOutlinedIcon sx={{ marginRight: "6px" }} /> Ask Any Query:{" "}
-            <span style={{ color: "black", marginLeft :'6px' }}>+923272026242</span>
+            <span style={{ color: "black", marginLeft: "6px" }}>
+              +923272026242
+            </span>
           </Typography>
         </Grid>
       </Grid>
@@ -254,7 +258,8 @@ const Home = ({ handleAddToFavorites }) => {
               margin: "8px 0",
             }}
           >
-            <StyledButton title={"Shop"} mode={"dark"} width={"50%"} />
+            <button class="button-53">Shop</button>
+            {/* <StyledButton title={"Shop"} mode={"dark"} width={"50%"} /> */}
           </Link>
         </Grid>
         <Grid item xs={12} sm={5}>
@@ -371,7 +376,7 @@ const Home = ({ handleAddToFavorites }) => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <CategoriesSlider cards={brands?.data} />
+          <CategoriesSlider cards={brands?.data} brand={true} />
         </Grid>
         {/* <BestSellersSlider /> */}
       </Grid>
@@ -404,16 +409,20 @@ const Home = ({ handleAddToFavorites }) => {
             </Typography>
           </Link>
         </Grid>
-        <Grid item xs={12} sx={{ minHeight: "46vh" }}>
+        <Grid item xs={12}>
           <Grid container sx={{ padding: "20px" }}>
             {blogs?.slice(0, blogLength).map((blog, i) => (
-              <Grid item xs={12} sm={4} md={3} key={i} sx={{ paddingX: 1 }}>
+              <Grid item xs={12} sm={6} md={4} key={i} sx={{ paddingX: 1 }}>
                 <Link
                   to={`/blog/${blog?._id}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <Card
-                    sx={{ width: "100%", height: { xs: "65vh", sm: "55vh" } }}
+                    sx={{
+                      width: "100%",
+                      maxHeight: "62vh",
+                      overflowY: "hidden",
+                    }}
                   >
                     <CardActionArea>
                       <CardMedia
@@ -423,9 +432,16 @@ const Home = ({ handleAddToFavorites }) => {
                         alt={blog?.title}
                       />
                       <CardContent>
-                        <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: "600",
+                            fontFamily: "Poppins, sans-serif",
+                          }}
+                        >
                           {blog?.title}
                         </Typography>
+                        {/* <RawHTMLRenderer html={blog?.content} /> */}
                       </CardContent>
                     </CardActionArea>
                   </Card>

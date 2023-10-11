@@ -18,6 +18,8 @@ import isEmail from "validator/lib/isEmail";
 import { createOrder } from "../redux/actions/userActions";
 import RawHTMLRenderer from "../components/HtmlRenderer";
 import toast from "react-hot-toast";
+import AutoCompleteSelect from "../components/AutoComplete";
+import cities from "../assets/cities";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -42,6 +44,7 @@ const Checkout = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [method, setMethod] = useState("Cash on Delivery");
+  const [city, setCity] = useState("");
 
   const note =
     method === "Cash on Delivery"
@@ -53,7 +56,7 @@ const Checkout = () => {
       : null;
 
   const handleCreateOrder = () => {
-    if (!name || !email || !address || !phone || !method) {
+    if (!name || !email || !address || !phone || !method || !city) {
       toast.error("Fill complete form!");
       return;
     }
@@ -85,6 +88,7 @@ const Checkout = () => {
         phone,
         email,
         name,
+        city,
       },
       items,
       itemsPrice: subtotal,
@@ -95,13 +99,10 @@ const Checkout = () => {
     dispatch(createOrder(data));
   };
   useEffect(() => {
-    if (!isAuthenticated && loading === false) {
-      navigate("/account", { replace: true });
-    }
     if (cart?.length === 0) {
       navigate("/shop", { replace: true });
     }
-  }, [isAuthenticated]);
+  }, [cart?.length]);
   return (
     <>
       <Box sx={{ height: "13vh", width: "100%" }}></Box>
@@ -176,7 +177,14 @@ const Checkout = () => {
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} sx={{ padding: "0 8px" }}>
+                <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
+                  <AutoCompleteSelect
+                    options={cities}
+                    value={city}
+                    setValue={setCity}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
                   <StyledTextField
                     title="Phone"
                     type="text"
@@ -202,6 +210,11 @@ const Checkout = () => {
                       border: `1.5px solid ${
                         method === "Cash on Delivery" ? "#e63146" : "black"
                       }`,
+                      background:
+                        method === "Cash on Delivery"
+                          ? "#e63146"
+                          : "transparent",
+                      color: method === "Cash on Delivery" ? "white" : "black",
                       borderRadius: "7px",
                       textAlign: "center",
                       height: "40px",
@@ -209,8 +222,6 @@ const Checkout = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       cursor: "pointer",
-                      color:
-                        method === "Cash on Delivery" ? "#e63146" : "black",
                       fontSize: "15px",
                       textTransform: "capitalize",
                     }}
@@ -228,6 +239,9 @@ const Checkout = () => {
                       border: `1.5px solid ${
                         method === "EasyPaisa" ? "#e63146" : "black"
                       }`,
+                      background:
+                        method === "EasyPaisa" ? "#e63146" : "transparent",
+                      color: method === "EasyPaisa" ? "white" : "black",
                       borderRadius: "7px",
                       textAlign: "center",
                       height: "40px",
@@ -235,7 +249,6 @@ const Checkout = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       cursor: "pointer",
-                      color: method === "EasyPaisa" ? "#e63146" : "black",
                       fontSize: "15px",
                       textTransform: "capitalize",
                     }}
@@ -253,6 +266,9 @@ const Checkout = () => {
                       border: `1.5px solid ${
                         method === "Bank Transfer" ? "#e63146" : "black"
                       }`,
+                      background:
+                        method === "Bank Transfer" ? "#e63146" : "transparent",
+                      color: method === "Bank Transfer" ? "white" : "black",
                       borderRadius: "7px",
                       textAlign: "center",
                       height: "40px",
@@ -260,7 +276,6 @@ const Checkout = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       cursor: "pointer",
-                      color: method === "Bank Transfer" ? "#e63146" : "black",
                       fontSize: "15px",
                       textTransform: "capitalize",
                     }}
@@ -422,55 +437,6 @@ const Checkout = () => {
               </Box>
             </Grid>
           </Grid>
-          {/* {placed && (
-            <Box
-              sx={{
-                position: "absolute",
-                height: "100vh",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "rgba(0, 0, 0, .6)",
-                top: 0,
-                zIndex: 999,
-              }}
-            >
-              <Box
-                sx={{
-                  padding: "35px 50px",
-                  background: "white",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                }}
-              >
-                <Typography variant="h6">Order Placed!</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                    marginTop: "15px",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Link
-                    style={{ textDecoration: "none", width: "100%" }}
-                    to="/dashboard"
-                  >
-                    <StyledButton title={"Track Order"} mode="dark" />
-                  </Link>
-                  <Link
-                    style={{ textDecoration: "none", width: "100%" }}
-                    to="/shop"
-                  >
-                    <StyledButton title={"Back to Shop"} mode="light" />
-                  </Link>
-                </Box>
-              </Box>
-            </Box>
-          )} */}
         </>
       )}
     </>

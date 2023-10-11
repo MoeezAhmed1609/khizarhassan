@@ -11,18 +11,11 @@ const BestSellersSlider = ({ category, favorite }) => {
   );
   return (
     <>
-      <Grid
-        item
-        xs={12}
-        sm={3}
-        md={2}
-        sx={{ paddingRight: { xs: "0", sm: "10px" }, marginBottom: "15px" }}
-      >
+      <Grid item xs={12} sx={{ marginBottom: "20px" }}>
         <Box
           sx={{
             width: "100%",
-            height: "100%",
-            background: "black",
+            height: "15vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -34,20 +27,27 @@ const BestSellersSlider = ({ category, favorite }) => {
             to={`/shop`}
             state={{ category: category?.toLowerCase() }}
             style={{ textAlign: "center", textDecoration: "none" }}
+            className="category-header"
           >
             <Typography
-              variant="h6"
+              variant="h5"
               sx={{
                 fontFamily: "Poppins, sans-serif",
-                color: "white",
+                fontWeight: "bold",
                 textTransform: "capitalize",
+                color: "black",
+                background: "white",
               }}
             >
               {category}
             </Typography>
             <Typography
               variant="subtitle2"
-              sx={{ fontFamily: "Poppins, sans-serif", color: "white" }}
+              sx={{
+                fontFamily: "Poppins, sans-serif",
+                color: "black",
+                background: "white",
+              }}
             >
               View More
             </Typography>
@@ -58,8 +58,6 @@ const BestSellersSlider = ({ category, favorite }) => {
         <Grid
           item
           xs={12}
-          sm={9}
-          md={10}
           sx={{
             paddingLeft: { xs: "0", sm: "10px" },
             minHeight: "70vh",
@@ -74,9 +72,7 @@ const BestSellersSlider = ({ category, favorite }) => {
         <Grid
           item
           xs={12}
-          sm={9}
-          md={10}
-          sx={{ paddingLeft: { xs: "0", sm: "10px" }, minHeight: "70vh" }}
+          sx={{ minHeight: "70vh" }}
         >
           <ProductSlider products={bestProducts} favorite={favorite} />
         </Grid>

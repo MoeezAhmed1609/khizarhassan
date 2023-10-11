@@ -67,12 +67,7 @@ router.delete(
   deleteUser
 );
 // Order
-router.put(
-  "/user/orders/new",
-  isAuthenticatedUser,
-  isAuthorizedRole("Admin"),
-  createOrder
-);
+router.put("/user/orders/new", createOrder);
 router.put(
   "/user/orders/status",
   isAuthenticatedUser,

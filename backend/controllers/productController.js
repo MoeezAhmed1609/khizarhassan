@@ -2,6 +2,7 @@ const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/features");
+const cloudinary = require("cloudinary");
 
 // Create Product | Admin
 exports.createProduct = catchAsyncError(async (req, res) => {
@@ -104,17 +105,25 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 // Create and Update Product Reviews
 exports.createProductReview = catchAsyncError(async (req, res, next) => {
   const { rating, comment, customer, image, id } = req.body.review;
-  const review = {
-    rating: Number(rating),
-    comment,
-    customer,
-    image,
-  };
   const product = await Product.findById(id);
   if (!product) {
     return next(new ErrorHandler("Product not found!", 404));
   }
-  product.reviews.push(review)
+  let asset;
+  const result = await cloudinary.v2.uploader.upload(image, {
+    folder: "reviews",
+  });
+  asset = {
+    public_id: result.public_id,
+    url: result.secure_url,
+  };
+  const review = {
+    rating: Number(rating),
+    comment,
+    customer,
+    image: asset,
+  };
+  product.reviews.push(review);
   // Average rating
   let avg = 0;
   product.reviews.forEach((rev) => {

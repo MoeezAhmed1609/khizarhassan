@@ -9,9 +9,16 @@ import {
   DELETE_BANNER_REQUEST,
   DELETE_BANNER_SUCCESS,
   DELETE_BANNER_FAIL,
+  UPDATE_CONTENT_REQUEST,
+  UPDATE_CONTENT_SUCCESS,
+  UPDATE_CONTENT_FAIL,
+  GET_CONTENTS_REQUEST,
+  GET_CONTENTS_SUCCESS,
+  GET_CONTENTS_FAIL,
 } from "../constants/contentConstants";
 const initialState = {
   banners: [],
+  contents: [],
 };
 
 export const bannersReducer = createReducer(initialState.banners, (builder) => {
@@ -68,3 +75,43 @@ export const bannersReducer = createReducer(initialState.banners, (builder) => {
     };
   });
 });
+export const contentsReducer = createReducer(
+  initialState.contents,
+  (builder) => {
+    builder.addCase(GET_CONTENTS_REQUEST, (state, action) => {
+      return {
+        loading: true,
+        data: [],
+      };
+    });
+    builder.addCase(GET_CONTENTS_SUCCESS, (state, action) => {
+      return {
+        loading: false,
+        data: action.payload,
+      };
+    });
+    builder.addCase(GET_CONTENTS_FAIL, (state, action) => {
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    });
+    builder.addCase(UPDATE_CONTENT_REQUEST, (state, action) => {
+      return {
+        loading: true,
+      };
+    });
+    builder.addCase(UPDATE_CONTENT_SUCCESS, (state, action) => {
+      return {
+        loading: false,
+        data: action.payload,
+      };
+    });
+    builder.addCase(UPDATE_CONTENT_FAIL, (state, action) => {
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    });
+  }
+);

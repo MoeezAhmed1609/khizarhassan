@@ -45,6 +45,9 @@ import {
   CREATE_REVIEW_REQUEST,
   CREATE_REVIEW_SUCCESS,
   CREATE_REVIEW_FAIL,
+  GET_ORDERS_REQUEST,
+  GET_ORDERS_SUCCESS,
+  GET_ORDERS_FAIL,
 } from "../constants/userConstants";
 import toast from "react-hot-toast";
 
@@ -259,7 +262,7 @@ export const createOrder = (info) => async (dispatch) => {
       window.localStorage.setItem("cart", JSON.stringify([]));
       toast.success("Order Created!");
       window.setTimeout(function () {
-        window.location.replace("/dashboard");
+        window.location.replace("/");
       }, 2000);
     })
     .catch((err) => {
@@ -282,6 +285,21 @@ export const getAllUsers = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_ALL_USER_DETAILS_FAIL,
+      payload: error.message,
+    });
+  }
+};
+export const getAllOrders = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ORDERS_REQUEST });
+    const data = await axios.get("/api/v1/orders");
+    dispatch({
+      type: GET_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ORDERS_FAIL,
       payload: error.message,
     });
   }
@@ -352,7 +370,7 @@ export const updateOrderStatus = (id, status) => async (dispatch) => {
 export const createReview = (review) => async (dispatch) => {
   dispatch({ type: CREATE_REVIEW_REQUEST });
   const data = await axios({
-    url: "/api/v1/user/orders/review",
+    url: "/api/v1/product/review",
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     data: {

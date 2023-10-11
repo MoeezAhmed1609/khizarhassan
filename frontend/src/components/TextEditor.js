@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-const TextEditor = ({ value, setValue, placeholder }) => {
+const TextEditor = ({ value, setValue, placeholder, height }) => {
   const quillRef = useRef();
 
   // Image Handler
@@ -70,7 +70,7 @@ const TextEditor = ({ value, setValue, placeholder }) => {
       theme="snow"
       value={value}
       onChange={setValue}
-      style={{ height: "25vh" }}
+      style={{ height: height ? height: "25vh" }}
       modules={modules}
       ref={quillRef}
       placeholder={placeholder}

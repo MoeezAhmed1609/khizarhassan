@@ -1,23 +1,19 @@
 import { Grid, Typography, Box } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Dash = () => {
+  const orders = useSelector((state) => state.orders?.data?.orders);
   // Geting states
   const productsCount = useSelector(
     (state) => state.products.data.productsCount
   );
   const users = useSelector((state) => state.users?.users?.data?.users);
   // Calculation
-  let totalOrders = 0;
+  let totalOrders = orders?.length;
   let totalSales = 0;
-  users?.filter((user) => {
-    totalOrders += user.orders.length;
-    user.orders.filter((order) => {
-      console.log({ order });
-      totalSales += order.orderStatus === "Cancelled" ? 0 : order.totalPrice;
-      // totalSales += order.totalPrice;
-    });
+  orders?.filter((order) => {
+    totalSales += order.orderStatus === "Cancelled" ? 0 : order.totalPrice;
   });
 
   const boxes = [

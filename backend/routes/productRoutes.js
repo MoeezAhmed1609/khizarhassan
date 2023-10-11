@@ -38,7 +38,7 @@ router.delete(
   deleteProduct
 );
 router.get("/products/:id", getProductDetails);
-router.put("/product/review", isAuthenticatedUser, createProductReview);
+router.put("/product/review", createProductReview);
 router.get("/product/reviews/:id", getAllProductReviews);
 router.delete("/product/reviews", isAuthenticatedUser, deleteProductReview);
 

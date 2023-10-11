@@ -3,18 +3,34 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-export default function AutoCompleteSelect({ options, value, setValue }) {
+export default function AutoCompleteSelect({
+  options,
+  value,
+  setValue,
+  label,
+  src,
+}) {
   return (
     <Autocomplete
       onChange={(event, newValue) => {
-        setValue((value) => [...value, newValue]);
+        setValue(
+          src === "related"
+            ? (value) => [...value, newValue]
+            : src === "category" || src === "brand"
+            ? newValue?.title
+            : newValue
+        );
       }}
       id="combo-box-demo"
       options={options}
-      getOptionLabel={(option) => option?.name}
-      renderInput={(params) => (
-        <TextField {...params} label="Related Products" />
-      )}
+      getOptionLabel={(option) =>
+        src === "related"
+          ? option?.name
+          : src === "category" || src === "brand"
+          ? option?.title
+          : option
+      }
+      renderInput={(params) => <TextField {...params} label={label} />}
       renderOption={(props, option) => (
         <Box
           component="li"
@@ -24,10 +40,20 @@ export default function AutoCompleteSelect({ options, value, setValue }) {
           <img
             loading="lazy"
             style={{ height: "50px" }}
-            src={option?.variants[0]?.images[0]?.url}
+            src={
+              src === "related"
+                ? option?.variants[0]?.images[0]?.url
+                : src === "category" || src === "brand"
+                ? option?.image?.url
+                : null
+            }
             alt=""
           />
-          {option?.name}
+          {src === "related"
+            ? option?.name
+            : src === "category" || src === "brand"
+            ? option?.title
+            : option}
         </Box>
       )}
     />

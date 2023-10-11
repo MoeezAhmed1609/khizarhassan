@@ -35,6 +35,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
+import AutoCompleteSelect from "./AutoComplete";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -190,17 +191,7 @@ const UpdateProduct = () => {
       toast.error("Add at least 3 sizes!");
       return;
     }
-    if (
-      !name ||
-      !description ||
-      !usage ||
-      !category ||
-      !brand ||
-      !quantity ||
-      !onSale ||
-      !bestSelling ||
-      !shipping
-    ) {
+    if (!name || !description || !category || !quantity) {
       toast.error("Complete form!");
       return;
     }
@@ -275,6 +266,24 @@ const UpdateProduct = () => {
               onChange={(e) => setQuantity(e.target.value)}
             />
           </Grid>
+          {/* <Grid item sm={6} sx={{ padding: "10px" }}>
+            <AutoCompleteSelect
+              options={categories}
+              label={"Category"}
+              value={category}
+              setValue={setCategory}
+              src={"category"}
+            />
+          </Grid>
+          <Grid item sm={6} sx={{ padding: "10px" }}>
+            <AutoCompleteSelect
+              options={brands}
+              label={"Brand"}
+              value={brand}
+              setValue={setBrand}
+              src={"brand"}
+            />
+          </Grid> */}
           <Grid item sm={6} sx={{ padding: "10px" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Category</InputLabel>

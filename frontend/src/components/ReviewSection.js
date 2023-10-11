@@ -31,7 +31,7 @@ const style = {
   flexDirection: "column",
 };
 
-const ReviewSection = ({ id }) => {
+const ReviewSection = ({ reviews, id }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -57,7 +57,7 @@ const ReviewSection = ({ id }) => {
     reader?.readAsDataURL(e.target.files[0]);
   };
 
-  const handleImageRemove = (image) => {
+  const handleImageRemove = () => {
     setImage("");
   };
   const handleCreateReview = () => {
@@ -70,16 +70,16 @@ const ReviewSection = ({ id }) => {
     };
     dispatch(createReview(review));
   };
-  const reviews = [
-    {
-      customer: "Moeez Ahmed",
-      rating: 4.5,
-      comment:
-        "Jacked Nutrition presents to you the smooth and crunchiest Organic peanut butter in Pakistan. The company has been in the business of bringing delicious delights to health freaks. Now you can enjoy snacking without any guilt.",
-      image:
-        "https://res.cloudinary.com/dptwxpos1/image/upload/v1695812405/dzdgzhpij83t6fuzyidf.jpg",
-    },
-  ];
+  // const reviews = [
+  //   {
+  //     customer: "Moeez Ahmed",
+  //     rating: 4.5,
+  //     comment:
+  //       "Jacked Nutrition presents to you the smooth and crunchiest Organic peanut butter in Pakistan. The company has been in the business of bringing delicious delights to health freaks. Now you can enjoy snacking without any guilt.",
+  //     image:
+  //       "https://res.cloudinary.com/dptwxpos1/image/upload/v1695812405/dzdgzhpij83t6fuzyidf.jpg",
+  //   },
+  // ];
   return (
     <Grid container>
       <Grid xs={12}>
@@ -106,7 +106,7 @@ const ReviewSection = ({ id }) => {
           height: "35vh",
         }}
       >
-        <Rating defaultValue={4.5} precision={0.5} readOnly />
+        <Rating defaultValue={reviews?.ratings} precision={0.5} readOnly />
         <Typography
           sx={{
             fontFamily: "Poppins, sans-serif",
@@ -114,7 +114,7 @@ const ReviewSection = ({ id }) => {
             textAlign: "center",
           }}
         >
-          4.5 out of 5 stars
+          {reviews?.ratings} out of 5 stars
         </Typography>
         <Typography
           sx={{
@@ -123,7 +123,7 @@ const ReviewSection = ({ id }) => {
             textAlign: "center",
           }}
         >
-          Based on 32 Reviews
+          Based on {reviews?.reviews?.length} Reviews
         </Typography>
       </Grid>
       <Grid
@@ -257,60 +257,65 @@ const ReviewSection = ({ id }) => {
         </Modal>
       </Grid>
 
-      {
-        reviews?.length > 0 &&
-          reviews?.map((review, index) => (
+      {reviews?.reviews?.length > 0 &&
+        reviews?.reviews?.map((review, index) => (
+          <Grid
+            item
+            xs={12}
+            key={index}
+            component={Paper}
+            sx={{ padding: "10px", marginBottom: "15px" }}
+          >
             <Grid
-              item
-              xs={12}
-              key={index}
-              component={Paper}
-              sx={{ padding: "10px" }}
+              container
+              sx={{
+                minHeight: "16vh",
+                maxHeight: "50vh",
+                overflowY: "auto",
+                width: "100%",
+              }}
             >
-              <Grid
-                container
-                sx={{ maxHeight: "50vh", overflowY: "auto", width: "100%" }}
-              >
-                <Grid item sm={7} xs={12}>
-                  <Box
+              <Grid item sm={7} xs={12}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
                       alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        fontWeight: "bold",
-                        fontFamily: "Poppins, san-serif",
-                      }}
-                    >
-                      <AccountCircleOutlinedIcon sx={{ paddingRight: "5px" }} />
-                      {review.customer}
-                    </Typography>
-                    <Rating
-                      name="read-only"
-                      value={review.rating}
-                      readOnly
-                      size="small"
-                      precision={0.5}
-                      sx={{ color: "golden" }}
-                    />
-                  </Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      marginTop: "8px",
-                      marginLeft: "8px",
+                      fontWeight: "bold",
                       fontFamily: "Poppins, san-serif",
                     }}
                   >
-                    {review.comment}
+                    <AccountCircleOutlinedIcon sx={{ paddingRight: "5px" }} />
+                    {review.customer}
                   </Typography>
-                </Grid>
+                  <Rating
+                    name="read-only"
+                    value={review.rating}
+                    readOnly
+                    size="small"
+                    precision={0.5}
+                    sx={{ color: "golden" }}
+                  />
+                </Box>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    marginTop: "8px",
+                    marginLeft: "8px",
+                    fontFamily: "Poppins, san-serif",
+                  }}
+                >
+                  {review.comment}
+                </Typography>
+              </Grid>
+              {review?.image?.url && (
                 <Grid
                   item
                   sm={5}
@@ -318,30 +323,15 @@ const ReviewSection = ({ id }) => {
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
                   <img
-                    src={review.image}
+                    src={review?.image?.url}
                     alt={`review ${index}`}
                     style={{ height: "35vh" }}
                   />
                 </Grid>
-              </Grid>
+              )}
             </Grid>
-          ))
-        //   : (
-        //     <Box
-        //       sx={{
-        //         height: "37vh",
-        //         width: "100%",
-        //         display: "flex",
-        //         justifyContent: "center",
-        //         alignItems: "center",
-        //       }}
-        //     >
-        //       <Typography variant="h6" sx={{ textAlign: "center" }}>
-        //         No reviews for this product!
-        //       </Typography>
-        //     </Box>
-        //   )
-      }
+          </Grid>
+        ))}
     </Grid>
   );
 };

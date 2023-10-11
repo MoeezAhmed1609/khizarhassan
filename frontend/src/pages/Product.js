@@ -23,6 +23,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RelatedSlider from "../components/ProductsSlider";
 import ReviewSection from "../components/ReviewSection";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 
 const Product = ({ handleAddToFavorites }) => {
   const navigate = useNavigate();
@@ -155,6 +156,25 @@ const Product = ({ handleAddToFavorites }) => {
                 >
                   Rs.{data?.variants[size]?.discount}
                 </Typography>
+
+                <Typography
+                  component="h1"
+                  variant="subtitle1"
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    display: "flex",
+                    alignItems: "center",
+                    marginY: "10px",
+                  }}
+                >
+                  <LocalShippingOutlinedIcon
+                    sx={{ fontSize: "36px", paddingRight: "6px" }}
+                  />{" "}
+                  {data?.shipping === 0
+                    ? "Free Delivery All Over Pakistan"
+                    : `Delivery for only Rs.${data?.shipping} All Over Pakistan`}
+                </Typography>
+
                 <Typography
                   sx={{ marginTop: "5px", fontFamily: "Poppins, sans-serif" }}
                   variant="body1"
@@ -183,9 +203,10 @@ const Product = ({ handleAddToFavorites }) => {
                           justifyContent: "center",
                           alignItems: "center",
                           cursor: "pointer",
-                          color: size === i ? "#e63146" : "black",
+                          color: size === i ? "white" : "black",
                           fontSize: "18px",
                           textTransform: "capitalize",
+                          background: size === i ? "#e63146" : "transparent",
                         }}
                         onClick={() => {
                           setSize(i);
@@ -230,9 +251,10 @@ const Product = ({ handleAddToFavorites }) => {
                           justifyContent: "center",
                           alignItems: "center",
                           cursor: "pointer",
-                          color: flavor === i ? "#e63146" : "black",
+                          color: flavor === i ? "white" : "black",
                           fontSize: "15px",
                           textTransform: "capitalize",
+                          background: flavor === i ? "#e63146" : "transparent",
                         }}
                         onClick={() => {
                           setFlavor(i);
@@ -347,7 +369,7 @@ const Product = ({ handleAddToFavorites }) => {
                 // overflowY: "auto",
               }}
             >
-              <ReviewSection reviews={data?.reviews} id={data?._id} />
+              <ReviewSection reviews={data} id={data?._id} />
             </Box>
           </Box>
         </>

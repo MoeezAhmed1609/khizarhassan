@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Button,
   Typography,
   Grid,
   Card,
@@ -9,7 +8,9 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  Paper,
 } from "@mui/material";
+import StyledButton from "./styledButton";
 
 import { Link } from "react-router-dom";
 const Favorites = ({ user }) => {
@@ -61,63 +62,63 @@ const Favorites = ({ user }) => {
             <Grid
               item
               xs={12}
-              sx={{ marginBottom: "26px", borderBottom: "1.5px solid black" }}
+              sx={{ marginBottom: "12px" }}
             >
               <Typography variant="h5">Favorites</Typography>
             </Grid>
-            {user?.favorites?.map((favorite, index) => (
+            {user?.favorites?.map((product, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <Link
                   style={{ textDecoration: "none" }}
-                  to={`/product/${favorite?._id}`}
+                  to={`/product/${product?._id}`}
                 >
-                  <Card sx={{ maxWidth: 345, boxShadow: "none" }}>
+                  <Card sx={{ boxShadow: "none" }} component={Paper}>
                     <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        height="300px"
-                        image={favorite?.images[0]?.url}
-                        alt={favorite?.name}
-                      />
-                      <CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography gutterBottom variant="h5" component="div">
-                            {favorite?.name}
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to={`/product/${product?._id}`}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="200px"
+                          image={product?.variants[0]?.images[0]?.url}
+                          alt={product?.variants[0]?.size}
+                          sx={{ objectFit: "contain" }}
+                        />
+                        <CardContent sx={{ paddingX: "8px" }}>
+                          <Typography
+                            gutterBottom
+                            variant="subtitle1"
+                            component="div"
+                          >
+                            {product?.name}
                           </Typography>
-                          <Typography variant="subtitle1">
-                            {favorite?.price}
-                          </Typography>
-                        </Box>
-                        <Typography variant="subtitle1">
-                          {favorite?.category}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            width: "100%",
-                            borderRadius: "22px",
-                            height: "45px",
-                            backgroundColor: "black",
-                            boxShadow: "none",
-                            color: "#fff",
-                            border: "1.5px solid black",
-                            "&:hover,& .css-hnghlo-MuiButtonBase-root-MuiButton-root":
-                              {
-                                backgroundColor: "black",
-                                color: "#fff",
-                              },
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography variant="subtitle1">
+                              Rs.{product?.variants[0]?.price}
+                            </Typography>
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ textTransform: "capitalize" }}
+                            >
+                              {product?.category}
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </Link>
+                      {/* <CardActions sx={{ gap: "0 6px" }}>
+                        <StyledButton
+                          title="Remove"
+                          onClick={() => {
+                            navigator.clipboard.writeText(product?._id);
                           }}
-                        >
-                          Get Your Size
-                        </Button>
-                      </CardActions>
+                        />
+                      </CardActions> */}
                     </CardActionArea>
                   </Card>
                 </Link>

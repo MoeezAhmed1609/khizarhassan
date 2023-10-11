@@ -9,6 +9,12 @@ import {
   DELETE_BANNER_REQUEST,
   DELETE_BANNER_SUCCESS,
   DELETE_BANNER_FAIL,
+  UPDATE_CONTENT_REQUEST,
+  UPDATE_CONTENT_SUCCESS,
+  UPDATE_CONTENT_FAIL,
+  GET_CONTENTS_REQUEST,
+  GET_CONTENTS_SUCCESS,
+  GET_CONTENTS_FAIL,
 } from "../constants/contentConstants";
 import axios from "axios";
 
@@ -72,4 +78,42 @@ export const deleteBanner = (id) => async (dispatch) => {
       });
       toast.error("Something went wrong, Reload!");
     });
+};
+
+export const updateContent = (contents) => async (dispatch) => {
+  dispatch({ type: UPDATE_CONTENT_REQUEST });
+  const data = await axios({
+    url: "/api/v1/content/update",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      contents,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: UPDATE_CONTENT_SUCCESS, payload: res.data });
+      toast.success("Content Updated, Reloading!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+    })
+    .catch((err) => {
+      dispatch({ type: UPDATE_CONTENT_FAIL, payload: err });
+      toast.error("Something went wrong!");
+      console.log(err);
+    });
+};
+
+// Get All Banners
+export const getAllContents = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_CONTENTS_REQUEST });
+    const data = await axios.get("/api/v1/contents");
+    dispatch({ type: GET_CONTENTS_SUCCESS, payload: data?.data?.contents });
+  } catch (error) {
+    dispatch({
+      type: GET_CONTENTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };

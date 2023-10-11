@@ -5,14 +5,8 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 
 // Create new order
 exports.createNewOrder = catchAsyncError(async (req, res, next) => {
-  const {
-    shipping,
-    items,
-    itemsPrice,
-    shippingPrice,
-    taxPrice,
-    totalPrice,
-  } = req.body.data;
+  const { shipping, items, itemsPrice, shippingPrice, taxPrice, totalPrice } =
+    req.body.data;
   const order = await Order.create({
     shipping,
     items,
@@ -27,10 +21,8 @@ exports.createNewOrder = catchAsyncError(async (req, res, next) => {
 
 // Get all order details
 exports.getAllOrderDetails = catchAsyncError(async (req, res, next) => {
-  const orders = await Order.find().populate("user", "name email");
-  let totalAmount = 0;
-  orders.forEach((order) => (totalAmount += order.totalPrice));
-  res.status(200).json({ orders, totalAmount });
+  const orders = await Order.find();
+  res.status(200).json({ orders });
 });
 
 // Get single order details
@@ -77,7 +69,6 @@ exports.updateOrderStatus = catchAsyncError(async (req, res, next) => {
   await order.save({ validateBeforeSave: false });
   res.status(200).json({ order });
 });
-
 
 async function updateStock(id, quantity) {
   const product = await Product.findById(id);

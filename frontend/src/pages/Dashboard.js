@@ -10,7 +10,7 @@ import {
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllUsers } from "../redux/actions/userActions";
+import { getAllOrders, getAllUsers } from "../redux/actions/userActions";
 
 // Components
 import Orders from "../components/Orders";
@@ -31,11 +31,18 @@ const Dashboard = () => {
     (state) => state.user
   );
   // Pages
-  const pages = ["Orders", "Reviews", "Favorites", "Settings"];
+  const pages = ["Orders", "Favorites", "Settings"];
   const [mode, setMode] = useState("orders");
   useEffect(() => {
     dispatch(getAllUsers());
+    dispatch(getAllOrders());
   }, [dispatch]);
+  useEffect(() => {
+    const m = window.sessionStorage.getItem("mode");
+    if (m) {
+      setMode(m);
+    }
+  }, [window.sessionStorage]);
   return (
     <>
       <Box sx={{ height: "10vh", width: "100%" }}></Box>
@@ -108,7 +115,10 @@ const Dashboard = () => {
                         ? "1.5px solid black"
                         : "none",
                   }}
-                  onClick={() => setMode(page.toLowerCase())}
+                  onClick={() => {
+                    setMode(page.toLowerCase());
+                    window.sessionStorage.setItem("mode", page.toLowerCase());
+                  }}
                 >
                   {page}
                 </Button>
@@ -124,7 +134,10 @@ const Dashboard = () => {
                     margin: "0 15px",
                     border: mode === "admin" ? "1.5px solid black" : "none",
                   }}
-                  onClick={() => setMode("admin")}
+                  onClick={() => {
+                    setMode("admin");
+                    window.sessionStorage.setItem("mode", "admin");
+                  }}
                 >
                   Admin
                 </Button>
@@ -139,8 +152,6 @@ const Dashboard = () => {
             >
               {mode === "orders" ? (
                 <Orders user={user} />
-              ) : mode === "reviews" ? (
-                <Reviews user={user} />
               ) : mode === "favorites" ? (
                 <Favorites user={user} />
               ) : mode === "admin" ? (
@@ -195,8 +206,14 @@ const Admin = ({ user }) => {
     "Users",
     "Orders",
     "Blogs",
-    "banner",
+    "Contents",
   ];
+  useEffect(() => {
+    const m = window.sessionStorage.getItem("admin");
+    if (m) {
+      setMode(m);
+    }
+  }, [window.sessionStorage]);
   return (
     <Box
       sx={{
@@ -218,7 +235,10 @@ const Admin = ({ user }) => {
                 mode === option.toLowerCase() ? "1.5px solid black" : "none",
               margin: "8px 15px",
             }}
-            onClick={() => setMode(option.toLowerCase())}
+            onClick={() => {
+              setMode(option.toLowerCase());
+              window.sessionStorage.setItem("admin", option.toLowerCase());
+            }}
           >
             {option}
           </Button>
@@ -244,7 +264,7 @@ const Admin = ({ user }) => {
           <AdminOrders user={user} />
         ) : mode === "blogs" ? (
           <Blogs user={user} />
-        ) : mode === "banner" ? (
+        ) : mode === "contents" ? (
           <Content />
         ) : null}
       </Box>

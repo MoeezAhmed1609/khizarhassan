@@ -10,9 +10,10 @@ import {
   favoritesReducer,
   userReducer,
   allUserReducer,
+  ordersReducer,
 } from "./reducers/userReducer";
 import { blogsReducer, blogReducer } from "./reducers/blogReducer";
-import { bannersReducer } from "./reducers/contentReducer";
+import { bannersReducer, contentsReducer } from "./reducers/contentReducer";
 import { categoryReducer } from "./reducers/categoryReducer";
 import { brandsReducer } from "./reducers/brandsReducer";
 
@@ -29,5 +30,7 @@ export const store = configureStore({
     banners: bannersReducer,
     category: categoryReducer,
     brands: brandsReducer,
+    content: contentsReducer,
+    orders: ordersReducer,
   },
 });

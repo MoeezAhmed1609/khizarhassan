@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("datejs");
 const orderSchema = mongoose.Schema({
   shipping: {
     address: {
@@ -17,9 +18,9 @@ const orderSchema = mongoose.Schema({
       type: String,
       required: [true, "Full name is required!"],
     },
-    zip: {
+    city: {
       type: String,
-      required: [true, "Zip is required!"],
+      required: [true, "City is required!"],
     },
   },
   items: [
@@ -28,29 +29,31 @@ const orderSchema = mongoose.Schema({
         type: String,
         required: [true, "Size is required!"],
       },
+      flavor: {
+        type: String,
+      },
+      quantity: {
+        type: Number,
+      },
       product: {
         type: mongoose.Schema.ObjectId,
         ref: "Product",
         required: true,
       },
+      isReviewed: {
+        type: Boolean,
+        default: false,
+      },
+      rating: Number,
+      comment: String,
     },
   ],
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
-  },
   itemsPrice: {
     type: Number,
     required: true,
     default: 0,
   },
   shippingPrice: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  taxPrice: {
     type: Number,
     required: true,
     default: 0,
@@ -65,11 +68,12 @@ const orderSchema = mongoose.Schema({
     required: true,
     default: "Processing",
   },
-  deliveredAt: Date,
-  createdAt: {
-    type: Date,
-    default: Date.now(),
+  payment: {
+    type: String,
+    required: true,
   },
+  deliveredAt: String,
+  createdAt: { type: String, default: Date.today().toString("yyyy-MM-dd") },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

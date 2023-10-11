@@ -173,13 +173,7 @@ const CreateProduct = () => {
       toast.error("Add related products!");
       return;
     }
-    if (
-      !name ||
-      !description ||
-      !category ||
-      !brand ||
-      !quantity
-    ) {
+    if (!name || !description || !category || !brand || !quantity) {
       toast.error("Complete form!");
       return;
     }
@@ -202,6 +196,7 @@ const CreateProduct = () => {
     };
     dispatch(createProduct(product));
   };
+  console.log({ category, brand, related });
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -221,78 +216,22 @@ const CreateProduct = () => {
         />
       </Grid>
       <Grid item sm={6} sx={{ padding: "10px" }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-            sx={{
-              "& .MuiInputBase-input": {
-                border: "1.5px solid black",
-                backgroundColor: "white",
-                "&:focus": {
-                  border: "1.5px solid black",
-                  boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
-                },
-              },
-            }}
-          >
-            {categories.map((category, i) => (
-              <MenuItem
-                value={category?.title?.toLowerCase()}
-                key={i}
-                sx={{ display: "flex" }}
-              >
-                <img
-                  src={category?.image?.url}
-                  alt={category?.title}
-                  style={{ height: "9vh" }}
-                />
-                <Typography>{category?.title}</Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <AutoCompleteSelect
+          options={categories}
+          label={"Category"}
+          value={category}
+          setValue={setCategory}
+          src={"category"}
+        />
       </Grid>
       <Grid item sm={6} sx={{ padding: "10px" }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Brand</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={brand}
-            label="Brand"
-            onChange={(e) => setBrand(e.target.value)}
-            sx={{
-              "& .MuiInputBase-input": {
-                border: "1.5px solid black",
-                backgroundColor: "white",
-                "&:focus": {
-                  border: "1.5px solid black",
-                  boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
-                },
-              },
-            }}
-          >
-            {brands?.map((category, i) => (
-              <MenuItem
-                value={category?.title?.toLowerCase()}
-                key={i}
-                sx={{ display: "flex" }}
-              >
-                <img
-                  src={category?.image?.url}
-                  alt={category?.title}
-                  style={{ height: "9vh" }}
-                />
-                <Typography>{category?.title}</Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <AutoCompleteSelect
+          options={brands}
+          label={"Brand"}
+          value={brand}
+          setValue={setBrand}
+          src={"brand"}
+        />
       </Grid>
       <Grid item sm={6} sx={{ padding: "10px" }}>
         <FormGroup sx={{ flexDirection: "row" }}>
@@ -597,6 +536,8 @@ const CreateProduct = () => {
           options={products}
           value={related}
           setValue={setRelated}
+          label={"Related Products"}
+          src={"related"}
         />
       </Grid>
       <Grid item sm={7} sx={{ padding: "10px" }}>

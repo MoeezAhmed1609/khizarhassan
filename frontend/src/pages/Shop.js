@@ -80,7 +80,10 @@ const Shop = ({ handleAddToFavorites }) => {
     if (location.state?.category) {
       setMode(location.state?.category);
     }
-  }, [location.state?.category]);
+    if (location.state?.brand) {
+      setBrand(location.state?.brand);
+    }
+  }, [location.state?.category, location.state?.brand]);
   return (
     <>
       <Box sx={{ height: "18vh", width: "100%" }} />

@@ -5,8 +5,7 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 const sendToken = require("../utils/JWTToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
-const cloudinary = require("cloudinary");
-const { response } = require("express");
+const Order = require("../models/orderModel");
 
 // Register User
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -105,7 +104,12 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id)
     .populate("favorites")
-    .populate("orders.items.product");
+    .populate({
+      path: "orders",
+      populate: {
+        path: "items.product",
+      },
+    });
   res.status(200).json({ user });
 });
 
@@ -223,7 +227,6 @@ exports.addToCart = catchAsyncError(async (req, res, next) => {
 // Orders
 // Create a new order
 exports.createOrder = catchAsyncError(async (req, res, next) => {
-  let user = await User.findById(req.user.id);
   const {
     shipping,
     items,
@@ -241,18 +244,22 @@ exports.createOrder = catchAsyncError(async (req, res, next) => {
     product.variants[index].quantity -= items[i]?.quantity;
     await product.save();
   }
-  user.orders.push({
+  const order = await Order.create({
     shipping,
     items,
-    user: req.user.id,
     itemsPrice,
     shippingPrice,
     taxPrice,
     totalPrice,
     payment,
   });
-  await user.save();
-  res.status(200).json({ message: "Order Created!", user: user });
+  let user;
+  if (req.user) {
+    user = await User.findById(req.user.id);
+    user.orders.push(order?._id);
+    await user.save();
+  }
+  res.status(200).json({ message: "Order Created!", order });
 });
 
 // Update user order status

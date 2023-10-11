@@ -13,6 +13,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -32,6 +33,11 @@ const Footer = () => {
       link: "https://www.instagram.com/x_track.pk/",
       title: "Instagram",
     },
+    {
+      icon: <GoogleIcon />,
+      link: "mailto:xtrack.pk@gmail.com",
+      title: "Gmail",
+    },
   ];
   const pages = [
     {
@@ -40,7 +46,7 @@ const Footer = () => {
     },
     {
       name: "Terms & Conditions",
-      link: "/terms-conditions",
+      link: "/terms",
     },
     // {
     //   name: "",

@@ -1,7 +1,16 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
+import { useSelector } from "react-redux";
+import RawHTMLRenderer from "../components/HtmlRenderer";
 
 const About = () => {
+  const contents = useSelector((state) => state.content?.data);
+  let about;
+  contents?.map((c) => {
+    if (c?.title === "about") {
+      about = c?.content;
+    }
+  });
   return (
     <>
       <Box
@@ -11,7 +20,8 @@ const About = () => {
           // display: { xs: "block", sm: "none" },
         }}
       />
-      <div
+      <RawHTMLRenderer html={about} />
+      {/* <div
         style={{
           padding: "20px 25px",
           textAlign: "center",
@@ -26,7 +36,7 @@ const About = () => {
               About XTRACK
             </Typography>
           </div>
-          <div style={{ textAlign: "left", fontFamily: "Poppins, sans-serif", }}>
+          <div style={{ textAlign: "left", fontFamily: "Poppins, sans-serif" }}>
             <span className="text-small text-secondary py-lg-3">
               At <strong className="text-uppercase text-dark">XTRACK</strong>,
               your satisfaction and well-being are our top priorities. We take
@@ -148,7 +158,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

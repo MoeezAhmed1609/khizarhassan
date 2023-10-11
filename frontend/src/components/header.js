@@ -27,6 +27,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 // components import
 import xtrack from "../assets/xtrack.png";
@@ -59,6 +60,7 @@ const Header = () => {
     {
       name: "Home",
       link: "/",
+      // code: ()
     },
     {
       name: "Shop",
@@ -157,6 +159,15 @@ const Header = () => {
   };
   const handleOpen = () => setSearch(true);
   const handleClose = () => setSearch(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseAnchor = () => {
+    setAnchorEl(null);
+  };
+  const categories = useSelector((state) => state.category?.data);
   return (
     <AppBar
       position="fixed"
@@ -234,28 +245,78 @@ const Header = () => {
               },
             }}
           >
-            {pages.map((page, index) => (
-              <Link
-                to={page.link}
-                key={index}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    color: "white",
-                    display: "block",
-                    letterSpacing: "1.5px",
-                    fontWeight: "600",
-                    margin: "0 15px",
-                    fontFamily: "Poppins,sans-serif",
-                  }}
+            {pages.map((page, index) =>
+              page.name === "Shop" ? (
+                <>
+                  <Button
+                    id="demo-positioned-button"
+                    aria-controls={open ? "demo-positioned-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "flex",
+                      letterSpacing: "1.5px",
+                      fontWeight: "600",
+                      margin: "0 15px",
+                      fontFamily: "Poppins,sans-serif",
+                      alignItems: "center",
+                    }}
+                  >
+                    SHOP
+                    <KeyboardArrowDownIcon />
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleCloseAnchor}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    {categories?.map((cat, i) => (
+                      <Link
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                        }}
+                        key={i}
+                        to={"/shop"}
+                        state={{ category: cat?.title?.toLowerCase() }}
+                      >
+                        <MenuItem onClick={handleCloseAnchor}>
+                          {cat?.title}
+                        </MenuItem>
+                      </Link>
+                    ))}
+                  </Menu>
+                </>
+              ) : (
+                <Link
+                  to={page.link}
+                  key={index}
+                  style={{ textDecoration: "none" }}
                 >
-                  {page.name}
-                </Button>
-              </Link>
-            ))}
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      letterSpacing: "1.5px",
+                      fontWeight: "600",
+                      margin: "0 15px",
+                      fontFamily: "Poppins,sans-serif",
+                    }}
+                  >
+                    {page.name}
+                  </Button>
+                </Link>
+              )
+            )}
           </Box>
           <Box
             sx={{

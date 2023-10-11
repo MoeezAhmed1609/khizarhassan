@@ -47,13 +47,17 @@ import {
   UPDATE_ORDER_STATUS_FAIL,
   CREATE_REVIEW_REQUEST,
   CREATE_REVIEW_SUCCESS,
-  CREATE_REVIEW_FAIL
+  CREATE_REVIEW_FAIL,
+  GET_ORDERS_REQUEST,
+  GET_ORDERS_SUCCESS,
+  GET_ORDERS_FAIL,
 } from "../constants/userConstants";
 
 const initialState = {
   user: {},
   favorites: [],
   users: [],
+  orders: [],
 };
 export const userReducer = createReducer(initialState.user, (builder) => {
   builder.addCase(LOGIN_USER_REQUEST, (state, action) => {
@@ -379,6 +383,27 @@ export const allUserReducer = createReducer(initialState.user, (builder) => {
     return {
       loading: false,
       users: [],
+      error: action.payload,
+    };
+  });
+});
+
+export const ordersReducer = createReducer(initialState.orders, (builder) => {
+  builder.addCase(GET_ORDERS_REQUEST, (state, action) => {
+    return {
+      loading: true,
+      data: [],
+    };
+  });
+  builder.addCase(GET_ORDERS_SUCCESS, (state, action) => {
+    return {
+      loading: false,
+      data: action.payload.data,
+    };
+  });
+  builder.addCase(GET_ORDERS_FAIL, (state, action) => {
+    return {
+      loading: false,
       error: action.payload,
     };
   });
