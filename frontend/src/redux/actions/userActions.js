@@ -48,6 +48,9 @@ import {
   GET_ORDERS_REQUEST,
   GET_ORDERS_SUCCESS,
   GET_ORDERS_FAIL,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_FAIL,
 } from "../constants/userConstants";
 import toast from "react-hot-toast";
 
@@ -369,6 +372,7 @@ export const updateOrderStatus = (id, status) => async (dispatch) => {
 // Create product Review
 export const createReview = (review) => async (dispatch) => {
   dispatch({ type: CREATE_REVIEW_REQUEST });
+  const loading = toast.loading("Loading...");
   const data = await axios({
     url: "/api/v1/product/review",
     method: "PUT",
@@ -379,6 +383,7 @@ export const createReview = (review) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: CREATE_REVIEW_SUCCESS, payload: res?.data });
+      toast.dismiss(loading);
       toast.success("Review created!");
       window.setTimeout(function () {
         window.location.reload();
@@ -387,5 +392,35 @@ export const createReview = (review) => async (dispatch) => {
     .catch((err) => {
       dispatch({ type: CREATE_REVIEW_FAIL, payload: err?.message });
       toast.error("Something went wrong!");
+      console.log(err);
+
+    });
+};
+
+export const deleteProductReview = (id, productId) => async (dispatch) => {
+  dispatch({ type: DELETE_REVIEW_REQUEST });
+  const data = await axios({
+    url: `/api/v1/product/review/delete`,
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      id,
+      productId,
+    },
+  })
+    .then((res) => {
+      dispatch({ type: DELETE_REVIEW_SUCCESS, payload: res?.data });
+      toast.success("Product Review Deleted, reloading!");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+    })
+    .catch((err) => {
+      dispatch({
+        type: DELETE_REVIEW_FAIL,
+        payload: err,
+      });
+      toast.error("Something went wrong, Reload!");
+      console.log(err);
     });
 };

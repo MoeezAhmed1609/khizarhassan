@@ -8,6 +8,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Paper,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import StyledButton from "./styledButton";
@@ -15,6 +16,7 @@ import {
   changeBanner,
   deleteBanner,
   updateContent,
+  uploadBanner,
 } from "../redux/actions/contentActions";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -31,7 +33,8 @@ const Content = () => {
   const { data } = useSelector((state) => state.banners);
   const contents = useSelector((state) => state.content?.data);
   // Banner
-  const [banner, setBanner] = useState("");
+  const [bannerSm, setBannerSm] = useState("");
+  const [bannerXs, setBannerXs] = useState("");
   // Image Uploader
   const hiddenFileInput = useRef(null);
   const handleImageClick = (event) => {
@@ -42,17 +45,19 @@ const Content = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setBanner(reader.result);
+        bannerSm === ""
+          ? setBannerSm(reader.result)
+          : setBannerXs(reader.result);
       }
     };
     reader?.readAsDataURL(e.target.files[0]);
   };
 
-  const handleImageRemove = () => {
-    setBanner("");
+  const handleImageRemove = (index) => {
+    index === 0 ? setBannerSm("") : setBannerXs("");
   };
   const handleBannerUpdate = () => {
-    dispatch(changeBanner(banner));
+    // dispatch(changeBanner(banner));
   };
   const handleDeleteBanner = (id) => {
     dispatch(deleteBanner(id));
@@ -84,6 +89,18 @@ const Content = () => {
       dispatch(updateContent(contents));
     }
   };
+  // Banners
+  const handleUploadBanners = () => {
+    if (!bannerSm || !bannerXs) {
+      toast.error("Upload both banners!");
+      return;
+    }
+    const banner = {
+      xs: bannerXs,
+      sm: bannerSm,
+    };
+    dispatch(uploadBanner(banner));
+  };
   useEffect(() => {
     if (contents) {
       contents?.map((c) => {
@@ -95,6 +112,7 @@ const Content = () => {
       });
     }
   }, []);
+  console.log({ bannerSm, bannerXs });
   return (
     <>
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
@@ -122,39 +140,75 @@ const Content = () => {
                   Current Banners
                 </Typography>
               </Grid>
-              {/* {data?.length > 0 &&
+              {data?.length > 0 &&
                 data?.map((ban, i) => (
-                  <Grid item key={i} md={4} sm={6} sx={{ padding: "15px 5px" }}>
-                    <Badge
-                      overlap="circular"
-                      badgeContent={
+                  <Grid
+                    item
+                    key={i}
+                    sm={12}
+                    sx={{ padding: "15px 5px", display: "flex" }}
+                    component={Paper}
+                  >
+                    <Grid container>
+                      <Grid
+                        sm={1}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         <IconButton
                           sx={{
-                            height: "35px",
-                            width: "35px",
+                            height: "40px",
+                            width: "40px",
                             background: "#e63146",
                           }}
                           onClick={() => handleDeleteBanner(ban?._id)}
                         >
                           <CloseIcon
-                            sx={{ fontSize: "30px", color: "white" }}
+                            sx={{ fontSize: "35px", color: "white" }}
                           />
                         </IconButton>
-                      }
-                    >
-                      <img
-                        src={ban?.banner?.url}
-                        alt={ban?.title}
-                        style={{
-                          width: "100%",
-                          objectFit: "contain",
-                          marginBottom: "15px",
-                        }}
-                      />
-                    </Badge>
+                      </Grid>
+                      <Grid sm={6}>
+                        <img
+                          src={ban?.sm}
+                          alt={`bannerLg${i}`}
+                          style={{
+                            width: "90%",
+                            objectFit: "contain",
+                            marginBottom: "15px",
+                          }}
+                        />
+                      </Grid>
+                      <Grid sm={5}>
+                        <img
+                          src={ban?.xs}
+                          alt={`bannerSm${i}`}
+                          style={{
+                            width: "90%",
+                            objectFit: "contain",
+                            marginBottom: "15px",
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
-                ))} */}
-              <Grid item sm={6} sx={{ marginBottom: "30px", paddingX: "8px" }}>
+                ))}
+              <Grid item xs={12}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    fontWeight: "bold",
+                    marginTop: "20px",
+                  }}
+                >
+                  Add new Banner
+                </Typography>
+              </Grid>
+              <Grid item sm={6} sx={{ marginY: "20px", paddingX: "8px" }}>
                 <Box
                   sx={{
                     width: "100%",
@@ -165,20 +219,28 @@ const Content = () => {
                   }}
                 >
                   {/* <Box sx={{ maxHeight: "55vh" }}> */}
-                  {banner && (
+                  {bannerSm && (
                     <Badge
                       overlap="circular"
                       badgeContent={
                         <IconButton
-                          sx={{ height: "20px", width: "20px" }}
-                          onClick={handleImageRemove}
+                          sx={{
+                            height: "25px",
+                            width: "25px",
+                            background: "red",
+                          }}
+                          onClick={() => {
+                            handleImageRemove(0);
+                          }}
                         >
-                          <CloseIcon sx={{ fontSize: "20px" }} />
+                          <CloseIcon
+                            sx={{ fontSize: "23px", color: "white" }}
+                          />
                         </IconButton>
                       }
                     >
                       <img
-                        src={banner}
+                        src={bannerSm}
                         alt="banner"
                         style={{
                           width: "35vw",
@@ -195,13 +257,7 @@ const Content = () => {
                     onChange={handleImageChange}
                     style={{ display: "none" }}
                   />
-                  {banner ? (
-                    <StyledButton
-                      title={"Save LG"}
-                      mode={"light"}
-                      onClick={handleBannerUpdate}
-                    />
-                  ) : (
+                  {!bannerSm && (
                     <StyledButton
                       title={"Upload LG"}
                       mode={"light"}
@@ -211,7 +267,7 @@ const Content = () => {
                   {/* </Box> */}
                 </Box>
               </Grid>
-              <Grid item sm={6} sx={{ marginBottom: "30px", paddingX: "8px" }}>
+              <Grid item sm={6} sx={{ marginY: "20px", paddingX: "8px" }}>
                 <Box
                   sx={{
                     width: "100%",
@@ -222,20 +278,28 @@ const Content = () => {
                   }}
                 >
                   {/* <Box sx={{ maxHeight: "55vh" }}> */}
-                  {banner && (
+                  {bannerXs && (
                     <Badge
                       overlap="circular"
                       badgeContent={
                         <IconButton
-                          sx={{ height: "20px", width: "20px" }}
-                          onClick={handleImageRemove}
+                          sx={{
+                            height: "25px",
+                            width: "25px",
+                            background: "red",
+                          }}
+                          onClick={() => {
+                            handleImageRemove(1);
+                          }}
                         >
-                          <CloseIcon sx={{ fontSize: "20px" }} />
+                          <CloseIcon
+                            sx={{ fontSize: "23px", color: "white" }}
+                          />
                         </IconButton>
                       }
                     >
                       <img
-                        src={banner}
+                        src={bannerXs}
                         alt="banner"
                         style={{
                           width: "35vw",
@@ -252,21 +316,23 @@ const Content = () => {
                     onChange={handleImageChange}
                     style={{ display: "none" }}
                   />
-                  {banner ? (
-                    <StyledButton
-                      title={"Save LG"}
-                      mode={"light"}
-                      onClick={handleBannerUpdate}
-                    />
-                  ) : (
+                  {!bannerXs && (
                     <StyledButton
                       title={"Upload SM"}
                       mode={"light"}
                       onClick={handleImageClick}
                     />
                   )}
-                  {/* </Box> */}
                 </Box>
+              </Grid>
+              <Grid item sm={12} sx={{ marginBottom: "10px", paddingX: "8px" }}>
+                {bannerSm && bannerXs ? (
+                  <StyledButton
+                    title={"Save Banners"}
+                    mode={"light"}
+                    onClick={handleUploadBanners}
+                  />
+                ) : null}
               </Grid>
             </Grid>
           </AccordionDetails>

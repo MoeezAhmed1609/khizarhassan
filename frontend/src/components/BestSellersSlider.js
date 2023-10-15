@@ -11,7 +11,7 @@ const BestSellersSlider = ({ category, favorite }) => {
   );
   return (
     <>
-      <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+      <Grid item xs={12} sx={{ marginBottom: "8px" }}>
         <Box
           sx={{
             width: "100%",

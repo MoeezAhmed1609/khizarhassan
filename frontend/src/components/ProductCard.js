@@ -27,7 +27,12 @@ const ProductCard = ({ product, favorite, addToCart }) => {
       to={`/product/${product?._id}`}
     >
       <Card
-        sx={{ width: "100%", boxShadow: "none", background: "transparent" }}
+        sx={{
+          width: "100%",
+          boxShadow:
+            "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+          marginY: "10px",
+        }}
       >
         <CardActionArea>
           {product?.variants[0]?.quantity < 0 && (
@@ -90,15 +95,18 @@ const ProductCard = ({ product, favorite, addToCart }) => {
             style={{ textDecoration: "none", color: "black" }}
             to={`/product/${product?._id}`}
           >
-            <CardContent sx={{ paddingBottom: "5px !important" }}>
+            <CardContent
+              sx={{ paddingBottom: "5px !important", padding: { xs: "4px" } }}
+            >
               <Typography
                 gutterBottom
                 variant="subtitle1"
                 component="div"
                 sx={{
                   fontFamily: "Poppins, sans-serif",
-                  height: "8vh",
+                  height: { sm: "8vh", xs: "13vh" },
                   textTransform: "capitalize",
+                  fontSize: { xs: "14px" },
                 }}
               >
                 {product?.name}
@@ -112,6 +120,7 @@ const ProductCard = ({ product, favorite, addToCart }) => {
                   alignItems: "center",
                   padding: "5px 0",
                   justifyContent: "center",
+                  fontSize: { xs: "12px" },
                 }}
               >
                 {product?.ratings}

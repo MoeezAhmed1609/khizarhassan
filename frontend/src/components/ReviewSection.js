@@ -14,8 +14,13 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import StyledTextField from "./styledTextField";
 import CloseIcon from "@mui/icons-material/Close";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { useDispatch } from "react-redux";
-import { createReview } from "../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createReview,
+  deleteProductReview,
+} from "../redux/actions/userActions";
+import toast from "react-hot-toast";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const style = {
   position: "absolute",
@@ -33,6 +38,7 @@ const style = {
 
 const ReviewSection = ({ reviews, id }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -61,6 +67,14 @@ const ReviewSection = ({ reviews, id }) => {
     setImage("");
   };
   const handleCreateReview = () => {
+    if (rating === 0) {
+      toast.error("Please rate the product!");
+      return;
+    }
+    if (!comment || !customer) {
+      toast.error("Please write name & comment!");
+      return;
+    }
     const review = {
       rating,
       comment,
@@ -70,16 +84,9 @@ const ReviewSection = ({ reviews, id }) => {
     };
     dispatch(createReview(review));
   };
-  // const reviews = [
-  //   {
-  //     customer: "Moeez Ahmed",
-  //     rating: 4.5,
-  //     comment:
-  //       "Jacked Nutrition presents to you the smooth and crunchiest Organic peanut butter in Pakistan. The company has been in the business of bringing delicious delights to health freaks. Now you can enjoy snacking without any guilt.",
-  //     image:
-  //       "https://res.cloudinary.com/dptwxpos1/image/upload/v1695812405/dzdgzhpij83t6fuzyidf.jpg",
-  //   },
-  // ];
+  const handleReviewDelete = (revId) => {
+    dispatch(deleteProductReview(revId, id));
+  };
   return (
     <Grid container>
       <Grid xs={12}>
@@ -295,14 +302,25 @@ const ReviewSection = ({ reviews, id }) => {
                     <AccountCircleOutlinedIcon sx={{ paddingRight: "5px" }} />
                     {review.customer}
                   </Typography>
-                  <Rating
-                    name="read-only"
-                    value={review.rating}
-                    readOnly
-                    size="small"
-                    precision={0.5}
-                    sx={{ color: "golden" }}
-                  />
+                  <Box sx={{ display: "flex", alignItems: " center" }}>
+                    <Rating
+                      name="read-only"
+                      value={review.rating}
+                      readOnly
+                      size="small"
+                      precision={0.5}
+                      sx={{ color: "golden" }}
+                    />
+
+                    {user?.role === "Admin" && (
+                      <IconButton>
+                        <DeleteIcon
+                          sx={{ color: "red" }}
+                          onClick={() => handleReviewDelete(review?._id)}
+                        />
+                      </IconButton>
+                    )}
+                  </Box>
                 </Box>
                 <Typography
                   variant="subtitle1"

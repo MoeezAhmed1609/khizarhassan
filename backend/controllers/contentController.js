@@ -11,15 +11,11 @@ exports.changeBanner = catchAsyncError(async (req, res, next) => {
   const resultXs = await cloudinary.v2.uploader.upload(xs, {
     folder: "banners",
   });
-  imageXs = {
-    url: resultXs.secure_url,
-  };
+  imageXs = resultXs.secure_url;
   const resultSm = await cloudinary.v2.uploader.upload(sm, {
     folder: "banners",
   });
-  imageSm = {
-    url: resultSm.secure_url,
-  };
+  imageSm = resultSm.secure_url;
   const banner = await Banner.create({ xs: imageXs, sm: imageSm });
   res.status(200).json({ banner });
 });

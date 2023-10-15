@@ -15,8 +15,8 @@ export default function ProductSlider({ products, favorite, cart }) {
       <Swiper
         breakpoints={{
           0: {
-            slidesPerView: 1,
-            spaceBetween: 30,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           480: {
             slidesPerView: 2,

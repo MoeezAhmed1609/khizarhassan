@@ -18,7 +18,6 @@ import {
   CardMedia,
   CardActionArea,
   CardContent,
-  Pagination,
 } from "@mui/material";
 
 // Icons Import
@@ -40,6 +39,8 @@ import { useSelector } from "react-redux";
 import Services from "./Services";
 
 const Header = () => {
+  const categories = useSelector((state) => state.category?.data);
+
   // Avatar
   // Getting user
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -167,7 +168,6 @@ const Header = () => {
   const handleCloseAnchor = () => {
     setAnchorEl(null);
   };
-  const categories = useSelector((state) => state.category?.data);
   return (
     <AppBar
       position="fixed"
@@ -211,27 +211,96 @@ const Header = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "flex", md: "none" },
+                textTransform: "capitalize",
               }}
             >
-              {pages.map((page, index) => (
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                sx={{
+                  width: "40vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  minHeight: "20px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+                  <Typography textAlign="center">Home</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                sx={{
+                  width: "40vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  minHeight: "20px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link
+                  to="/shop"
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <Typography textAlign="center">Shop</Typography>
+                </Link>
+              </MenuItem>
+              {categories?.map((page, index) => (
                 <MenuItem
                   key={index}
                   onClick={handleCloseNavMenu}
                   sx={{
-                    width: "35vw",
+                    width: "40vw",
                     display: "flex",
                     justifyContent: "center",
+                    minHeight: "20px",
+                    fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   <Link
-                    to={page.link}
+                    to={"/shop"}
                     style={{ textDecoration: "none", color: "black" }}
+                    state={{ category: page?.title?.toLowerCase() }}
                   >
-                    <Typography textAlign="center">{page.name}</Typography>
+                    <Typography textAlign="center">{page?.title}</Typography>
                   </Link>
                 </MenuItem>
               ))}
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                sx={{
+                  width: "40vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  minHeight: "20px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link
+                  to="/about"
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <Typography textAlign="center">About</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                sx={{
+                  width: "40vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  minHeight: "20px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link
+                  to="/blogs"
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <Typography textAlign="center">Blogs</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
           <Box
@@ -239,7 +308,7 @@ const Header = () => {
               display: {
                 xs: "none",
                 md: "flex",
-                width: "33.33%",
+                width: "33%",
                 justifyContent: "flex-start",
                 alignItems: "center",
               },
@@ -333,7 +402,7 @@ const Header = () => {
           <Box
             sx={{
               flexGrow: 0,
-              width: "33.33%",
+              width: "33%",
               display: { xs: "none", sm: "flex" },
               justifyContent: "flex-end",
               alignItems: "center",
@@ -389,21 +458,29 @@ const Header = () => {
                             key={index}
                             sx={{ padding: "16px 10px" }}
                           >
-                            <Card sx={{ boxShadow: "none" }}>
-                              <CardActionArea>
-                                <CardMedia
-                                  component="img"
-                                  sx={{ height: "30vh", objectFit: "contain" }}
-                                  image={product?.variants[0]?.images[0]?.url}
-                                  alt={product?.name}
-                                />
-                                <Link
-                                  style={{
-                                    textDecoration: "none",
-                                    color: "black",
-                                  }}
-                                  to={`/product/${product?._id}`}
-                                >
+                            <Link
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                              to={`/product/${product?._id}`}
+                              onClick={() => {
+                                handleClose();
+                                setQuery("");
+                              }}
+                            >
+                              <Card sx={{ boxShadow: "none" }}>
+                                <CardActionArea>
+                                  <CardMedia
+                                    component="img"
+                                    sx={{
+                                      height: "30vh",
+                                      objectFit: "contain",
+                                    }}
+                                    image={product?.variants[0]?.images[0]?.url}
+                                    alt={product?.name}
+                                  />
+
                                   <CardContent>
                                     <Typography
                                       variant="subtitle2"
@@ -415,9 +492,9 @@ const Header = () => {
                                       {product?.name}
                                     </Typography>
                                   </CardContent>
-                                </Link>
-                              </CardActionArea>
-                            </Card>
+                                </CardActionArea>
+                              </Card>
+                            </Link>
                           </Grid>
                         ))}
                     </Grid>

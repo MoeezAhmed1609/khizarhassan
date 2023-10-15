@@ -118,7 +118,7 @@ const Shop = ({ handleAddToFavorites }) => {
         >
           <Box
             sx={{
-              height: "40px",
+              minHeight: "40px",
               display: "flex",
               justifyContent: { xs: "center", sm: "flex-end" },
               alignItems: "center",
@@ -280,7 +280,7 @@ const Shop = ({ handleAddToFavorites }) => {
           </Grid>
         ) : products?.length > 0 ? (
           products?.map((product, i) => (
-            <Grid item xs={12} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
+            <Grid item xs={6} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
               <ProductCard
                 handleAddToFavorites={handleAddToFavorites}
                 loading={loading}

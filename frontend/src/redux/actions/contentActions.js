@@ -18,8 +18,9 @@ import {
 } from "../constants/contentConstants";
 import axios from "axios";
 
-export const changeBanner = (banner) => async (dispatch) => {
+export const uploadBanner = (banner) => async (dispatch) => {
   dispatch({ type: UPLOAD_BANNER_REQUEST });
+  const loading = toast.loading("Loading...");
   const data = await axios({
     url: "/api/v1/content/banner/update",
     method: "PUT",
@@ -30,12 +31,14 @@ export const changeBanner = (banner) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: UPLOAD_BANNER_SUCCESS, payload: res.data });
+      toast.dismiss(loading);
       toast.success("Banner Uploaded, Reloading!");
       window.setTimeout(function () {
         window.location.reload();
       }, 2000);
     })
     .catch((err) => {
+      toast.dismiss(loading);
       dispatch({ type: UPLOAD_BANNER_FAIL, payload: err });
       toast.error("Something went wrong!");
       console.log(err);
@@ -59,6 +62,7 @@ export const getAllBanners = () => async (dispatch) => {
 // delete banner
 export const deleteBanner = (id) => async (dispatch) => {
   dispatch({ type: DELETE_BANNER_REQUEST });
+  const loading = toast.loading("Loading...");
   const data = await axios({
     url: `/api/v1/content/banner/delete/${id}`,
     method: "DELETE",
@@ -66,12 +70,14 @@ export const deleteBanner = (id) => async (dispatch) => {
   })
     .then((res) => {
       dispatch({ type: DELETE_BANNER_SUCCESS, payload: res?.data });
+      toast.dismiss(loading);
       toast.success("Banner Deleted, reloading!");
       window.setTimeout(function () {
         window.location.reload();
       }, 2000);
     })
     .catch((err) => {
+      toast.dismiss(loading);
       dispatch({
         type: DELETE_BANNER_FAIL,
         payload: err,

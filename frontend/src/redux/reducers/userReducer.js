@@ -51,6 +51,9 @@ import {
   GET_ORDERS_REQUEST,
   GET_ORDERS_SUCCESS,
   GET_ORDERS_FAIL,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_FAIL,
 } from "../constants/userConstants";
 
 const initialState = {
@@ -316,6 +319,26 @@ export const userReducer = createReducer(initialState.user, (builder) => {
     };
   });
   builder.addCase(CREATE_REVIEW_FAIL, (state, action) => {
+    return {
+      loading: false,
+      isUpdated: false,
+      error: action.payload,
+    };
+  });
+  builder.addCase(DELETE_REVIEW_REQUEST, (state, action) => {
+    return {
+      loading: true,
+      isUpdated: false,
+    };
+  });
+  builder.addCase(DELETE_REVIEW_SUCCESS, (state, action) => {
+    return {
+      loading: false,
+      isUpdated: true,
+      user: action.payload,
+    };
+  });
+  builder.addCase(DELETE_REVIEW_FAIL, (state, action) => {
     return {
       loading: false,
       isUpdated: false,

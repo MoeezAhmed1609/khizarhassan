@@ -3,8 +3,6 @@ import {
   Box,
   Typography,
   FormControl,
-  Select,
-  MenuItem,
   InputLabel,
   Grid,
   Badge,
@@ -25,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import toast from "react-hot-toast";
 import axios from "axios";
 import AutoCompleteSelect from "./AutoComplete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CreateProduct = () => {
   // Categories
@@ -83,6 +82,7 @@ const CreateProduct = () => {
       setVariants(array);
     }
   };
+
   const handleChipDelete = (chip) => {
     const array = [...flavors];
     const index = array.indexOf(chip);
@@ -118,7 +118,7 @@ const CreateProduct = () => {
       toast.error("Add variant image!");
       return;
     }
-
+    const loading = toast.loading("Loading!");
     const uploads = [];
     for (let i = 0; i < images.length; i++) {
       const formData = new FormData();
@@ -153,15 +153,25 @@ const CreateProduct = () => {
     setDiscount(0);
     setImages([]);
     setFlavors([]);
+    toast.dismiss(loading);
+    toast.success("Added!");
   };
-
+  const handleEditVariant = (variant) => {
+    setSize(variant?.size);
+    setQuantityV(variant?.quantity);
+    setPrice(variant?.price);
+    setDiscount(variant?.discount);
+    setImages(variant?.images);
+    setFlavors(variant?.flavors);
+    handleRemoveVariant(variant);
+  };
   const dispatch = useDispatch();
   const handleCreateProduct = () => {
-    if (name.length === 0 || name.length < 6) {
-      toast.error("Enter a proper product name!");
+    if (name.length === 0) {
+      toast.error("Enter product name!");
       return;
     }
-    if (description.length === 0 || description.length < 20) {
+    if (description.length === 0) {
       toast.error("Enter proper description! (min 20 letters)");
       return;
     }
@@ -169,10 +179,10 @@ const CreateProduct = () => {
       toast.error("Add at least 1 variant!");
       return;
     }
-    if (related.length === 0) {
-      toast.error("Add related products!");
-      return;
-    }
+    // if (related.length === 0) {
+    //   toast.error("Add related products!");
+    //   return;
+    // }
     if (!name || !description || !category || !brand || !quantity) {
       toast.error("Complete form!");
       return;
@@ -196,7 +206,7 @@ const CreateProduct = () => {
     };
     dispatch(createProduct(product));
   };
-  console.log({ category, brand, related });
+  console.log({ size, flavors, images, quantityV, price, discount });
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -338,7 +348,7 @@ const CreateProduct = () => {
                     }
                   >
                     <img
-                      src={image}
+                      src={image?.url ? image?.url : image}
                       alt="Product"
                       style={{ height: "68px", margin: "0 3px" }}
                     />
@@ -479,12 +489,24 @@ const CreateProduct = () => {
             key={i}
           >
             <Grid container>
-              <Grid item sm={1}>
+              <Grid
+                item
+                sm={1}
+                sx={{ display: "flex", flexDirection: "column" }}
+              >
                 <IconButton
                   aria-label="delete"
                   onClick={() => handleRemoveVariant(step)}
+                  size="small"
                 >
                   <CloseIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="edit"
+                  onClick={() => handleEditVariant(step)}
+                  size="small"
+                >
+                  <EditIcon />
                 </IconButton>
               </Grid>
               <Grid item sm={1}>

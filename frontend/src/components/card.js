@@ -9,6 +9,7 @@ import {
   Box,
   Tooltip,
   CircularProgress,
+  Paper,
 } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -21,9 +22,10 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
     <Link to={`/product/${product._id}`} style={{ textDecoration: "none" }}>
       <Card
         sx={{
-          height: "70vh",
+          minHeight: "70vh",
           width: "100%",
-          boxShadow: "none",
+          boxShadow:
+            "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
           position: "relative",
         }}
       >
@@ -76,7 +78,7 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
             </Box>
             <CardMedia
               sx={{
-                height: "38vh",
+                height: "40vh",
                 backgroundSize: "contain",
                 marginBottom: "6px",
               }}
@@ -86,23 +88,32 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
             <CardContent
               sx={{
                 textAlign: "center",
-                height: "24vh",
+                minHeight: "24vh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                backgroundColor: "#e63146",
+                // backgroundColor: "#e63146",
+                padding: { xs: "0px" },
               }}
             >
               <Typography
                 variant="body2"
-                sx={{ color: "white", textTransform: "capitalize" }}
+                sx={{
+                  textTransform: "capitalize",
+                  display: { xs: "none", sm: "block" },
+                }}
               >
                 {product?.category}
               </Typography>
               <Typography
                 variant="subtitle1"
-                sx={{ color: "white", fontWeight: "600", maxWidth: "75%" }}
+                sx={{
+                  fontWeight: "600",
+                  maxWidth: { sm: "75%" },
+                  fontSize: { xs: "13px" },
+                  minHeight: { xs: "75px" },
+                }}
               >
                 {product?.name}
               </Typography>
@@ -111,21 +122,17 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                 value={product?.ratings}
                 readOnly
                 size="small"
-                sx={{ color: "white" }}
-                emptyIcon={
-                  <StarBorderIcon
-                    sx={{ color: "white", fontSize: "inherit" }}
-                  />
-                }
+                sx={{ color: "#e63146" }}
+                emptyIcon={<StarBorderIcon sx={{ fontSize: "inherit" }} />}
               />
-              <Typography sx={{ fontSize: "12px", color: "white" }}>
-                {product?.totalReviews} Reviews
+              <Typography sx={{ fontSize: "12px" }}>
+                {product?.reviews?.length} Reviews
               </Typography>
               <Box sx={{ display: "flex" }}>
                 <Typography
                   variant="body2"
                   component="div"
-                  sx={{ fontWeight: 800, color: "white" }}
+                  sx={{ fontWeight: 800, color: "#e63146" }}
                 >
                   Rs.{product?.variants[0]?.price}
                 </Typography>
@@ -134,7 +141,6 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                   sx={{
                     textDecoration: "line-through",
                     marginLeft: "8px",
-                    color: "white",
                   }}
                 >
                   Rs.{product?.variants[0]?.discount}

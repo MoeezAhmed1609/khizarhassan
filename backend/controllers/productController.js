@@ -110,13 +110,15 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Product not found!", 404));
   }
   let asset;
-  const result = await cloudinary.v2.uploader.upload(image, {
-    folder: "reviews",
-  });
-  asset = {
-    public_id: result.public_id,
-    url: result.secure_url,
-  };
+  if (image) {
+    const result = await cloudinary.v2.uploader.upload(image, {
+      folder: "reviews",
+    });
+    asset = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
   const review = {
     rating: Number(rating),
     comment,
@@ -149,21 +151,21 @@ exports.deleteProductReview = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Invalid Data!", 404));
   let product = await Product.findById(req.body.productId);
   if (!product) return next(new ErrorHandler("Product not found!", 404));
-  const reviews = product.reviews.filter((rev) => {
-    rev._id.toString() !== req.body.id.toString();
-  });
+  const reviews = product.reviews.filter(
+    (rev) => rev._id.toString() !== req.body.id.toString()
+  );
   // Average rating
   let avg = 0;
   reviews.forEach((rev) => {
     avg += rev.rating;
   });
-  const ratings = Number(avg / reviews.length);
-  const totalReviews = reviews.length;
+  const totalReviews = reviews?.length;
+  const ratings = Number(avg / totalReviews);
   await Product.findByIdAndUpdate(
     req.body.productId,
     {
       reviews,
-      ratings,
+      ratings: ratings > 0 ? ratings : 0,
       totalReviews,
     },
     {

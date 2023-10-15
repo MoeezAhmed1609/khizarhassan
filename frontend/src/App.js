@@ -58,7 +58,7 @@ function App() {
 
   useEffect(() => {
     // Get all banners
-    // dispatch(getAllBanners());
+    dispatch(getAllBanners());
     // Get all products
     dispatch(getAllProducts());
     // Get all blogs

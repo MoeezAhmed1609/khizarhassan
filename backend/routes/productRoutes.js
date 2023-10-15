@@ -40,6 +40,11 @@ router.delete(
 router.get("/products/:id", getProductDetails);
 router.put("/product/review", createProductReview);
 router.get("/product/reviews/:id", getAllProductReviews);
-router.delete("/product/reviews", isAuthenticatedUser, deleteProductReview);
+router.delete(
+  "/product/review/delete",
+  isAuthenticatedUser,
+  isAuthorizedRole("Admin"),
+  deleteProductReview
+);
 
 module.exports = router;

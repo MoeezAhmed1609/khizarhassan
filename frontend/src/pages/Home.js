@@ -292,7 +292,7 @@ const Home = ({ handleAddToFavorites }) => {
         sx={{
           minHeight: "60vh",
           width: "100%",
-          padding: { xs: "14px", sm: "22px" },
+          padding: { xs: "4px", sm: "22px" },
         }}
       >
         <Grid
