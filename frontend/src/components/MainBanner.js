@@ -33,7 +33,7 @@ export default function MainBanner() {
         {data?.map((ban, i) => (
           <SwiperSlide key={i}>
             <picture>
-              <source media="(min-width:600px)" srcset={ban?.md} />
+              <source media="(min-width:600px)" srcset={ban?.sm} />
               <img alt={`banner${i}`} src={ban?.xs} />
             </picture>
           </SwiperSlide>
