@@ -112,7 +112,6 @@ const Content = () => {
       });
     }
   }, []);
-  console.log({ bannerSm, bannerXs });
   return (
     <>
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>

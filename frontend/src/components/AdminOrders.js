@@ -121,7 +121,6 @@ const AdminOrders = () => {
                 </>
               ) : (
                 processingOrders?.map((order, i) => {
-                  console.log({ order });
                   let index;
                   order?.items?.filter((item) => {
                     index = item?.product?.variants.findIndex((object) => {
@@ -500,7 +499,6 @@ const AdminOrders = () => {
                 </>
               ) : (
                 deliveredOrders?.map((order, i) => {
-                  console.log({ order });
                   let index;
                   order?.items?.filter((item) => {
                     index = item?.product?.variants.findIndex((object) => {
@@ -879,7 +877,6 @@ const AdminOrders = () => {
                 </>
               ) : (
                 completedOrders?.map((order, i) => {
-                  console.log({ order });
                   let index;
                   order?.items?.filter((item) => {
                     index = item?.product?.variants.findIndex((object) => {
@@ -1258,7 +1255,6 @@ const AdminOrders = () => {
                 </>
               ) : (
                 cancelledOrders?.map((order, i) => {
-                  console.log({ order });
                   let index;
                   order?.items?.filter((item) => {
                     index = item?.product?.variants.findIndex((object) => {

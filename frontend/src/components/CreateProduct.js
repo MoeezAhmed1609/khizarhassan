@@ -119,23 +119,28 @@ const CreateProduct = () => {
       return;
     }
     const loading = toast.loading("Loading!");
+
     const uploads = [];
     for (let i = 0; i < images.length; i++) {
-      const formData = new FormData();
-      formData.append("file", images[i]);
-      formData.append("upload_preset", "xtrack-products-variants");
-      await axios
-        .post(
-          "https://api.cloudinary.com/v1_1/dptwxpos1/image/upload",
-          formData
-        )
-        .then((res) => {
-          const result = {
-            public_id: res.data.public_id,
-            url: res.data.secure_url,
-          };
-          uploads.push(result);
-        });
+      if (images[i]?.url) {
+        uploads.push(images[i]);
+      } else {
+        const formData = new FormData();
+        formData.append("file", images[i]);
+        formData.append("upload_preset", "xtrack-products-variants");
+        await axios
+          .post(
+            "https://api.cloudinary.com/v1_1/dptwxpos1/image/upload",
+            formData
+          )
+          .then((res) => {
+            const result = {
+              public_id: res.data.public_id,
+              url: res.data.secure_url,
+            };
+            uploads.push(result);
+          });
+      }
     }
 
     const data = {
@@ -206,7 +211,6 @@ const CreateProduct = () => {
     };
     dispatch(createProduct(product));
   };
-  console.log({ size, flavors, images, quantityV, price, discount });
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>

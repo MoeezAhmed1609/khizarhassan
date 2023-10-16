@@ -127,35 +127,61 @@ const Product = ({ handleAddToFavorites }) => {
                 <Typography
                   component="h1"
                   sx={{
-                    fontSize: "8vh",
+                    fontSize: { xs: "6vh", sm: "8vh" },
                     fontWeight: "500",
-                    marginTop: "-10px",
+                    marginTop: { xs: "0px", sm: "-10px" },
                     fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   {data?.name}
                 </Typography>
-                <Typography
-                  component="h1"
-                  variant="h4"
+                <Box
                   sx={{
-                    fontWeight: 700,
-                    fontFamily: "Poppins, sans-serif",
-                    color: "#e63146",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0 12px",
+                    flexWrap: "wrap",
                   }}
                 >
-                  Rs.{data?.variants[size]?.price}
-                </Typography>
-                <Typography
-                  component="h1"
-                  variant="subtitle1"
-                  sx={{
-                    textDecoration: "line-through",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Rs.{data?.variants[size]?.discount}
-                </Typography>
+                  <Typography
+                    component="h1"
+                    variant="h4"
+                    sx={{
+                      textDecoration: "line-through",
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Rs.{data?.variants[size]?.discount}
+                  </Typography>
+                  <Typography
+                    component="h1"
+                    variant="h4"
+                    sx={{
+                      fontWeight: 700,
+                      fontFamily: "Poppins, sans-serif",
+                      color: "#e63146",
+                    }}
+                  >
+                    Rs.{data?.variants[size]?.price}
+                  </Typography>
+                  <Typography
+                    component="h1"
+                    variant="h4"
+                    sx={{
+                      fontWeight: 700,
+                      fontFamily: "Poppins, sans-serif",
+                      background: "#e63146",
+                      color: "white",
+                      borderRadius: "5px",
+                      padding: "0 8px",
+                    }}
+                  >
+                    Save Rs.
+                    {data?.variants[size]?.discount -
+                      data?.variants[size]?.price}
+                  </Typography>
+                </Box>
 
                 <Typography
                   component="h1"
@@ -365,8 +391,6 @@ const Product = ({ handleAddToFavorites }) => {
                   md: "80%",
                 },
                 minHeight: "40vh",
-                // maxHeight: "80vh",
-                // overflowY: "auto",
               }}
             >
               <ReviewSection reviews={data} id={data?._id} />

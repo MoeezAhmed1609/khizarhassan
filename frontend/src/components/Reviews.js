@@ -52,7 +52,6 @@ const Reviews = () => {
       });
     }
   });
-  console.log({ postedItems });
   // Create Review
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");

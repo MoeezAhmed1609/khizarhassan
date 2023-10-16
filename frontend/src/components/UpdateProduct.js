@@ -2,17 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
   Typography,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   IconButton,
   Grid,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Pagination,
   FormControl,
   Select,
   MenuItem,
@@ -20,9 +11,7 @@ import {
   Chip,
   InputAdornment,
   Input,
-  Rating,
   Badge,
-  Tooltip,
   FormGroup,
   FormControlLabel,
   Checkbox,
@@ -36,6 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
 import AutoCompleteSelect from "./AutoComplete";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -176,6 +166,15 @@ const UpdateProduct = () => {
     setImages([]);
     setFlavors([]);
   };
+  const handleEditVariant = (variant) => {
+    setSize(variant?.size);
+    setQuantityV(variant?.quantity);
+    setPrice(variant?.price);
+    setDiscount(variant?.discount);
+    setImages(variant?.images);
+    setFlavors(variant?.flavors);
+    handleRemoveVariant(variant);
+  };
 
   const dispatch = useDispatch();
   const handleUpdateProduct = () => {
@@ -266,24 +265,6 @@ const UpdateProduct = () => {
               onChange={(e) => setQuantity(e.target.value)}
             />
           </Grid>
-          {/* <Grid item sm={6} sx={{ padding: "10px" }}>
-            <AutoCompleteSelect
-              options={categories}
-              label={"Category"}
-              value={category}
-              setValue={setCategory}
-              src={"category"}
-            />
-          </Grid>
-          <Grid item sm={6} sx={{ padding: "10px" }}>
-            <AutoCompleteSelect
-              options={brands}
-              label={"Brand"}
-              value={brand}
-              setValue={setBrand}
-              src={"brand"}
-            />
-          </Grid> */}
           <Grid item sm={6} sx={{ padding: "10px" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -472,7 +453,7 @@ const UpdateProduct = () => {
                         }
                       >
                         <img
-                          src={image}
+                          src={image?.url ? image?.url : image}
                           alt="Product"
                           style={{ height: "68px", margin: "0 3px" }}
                         />
@@ -619,12 +600,24 @@ const UpdateProduct = () => {
                 key={i}
               >
                 <Grid container>
-                  <Grid item sm={1}>
+                  <Grid
+                    item
+                    sm={1}
+                    sx={{ display: "flex", flexDirection: "column" }}
+                  >
                     <IconButton
                       aria-label="delete"
                       onClick={() => handleRemoveVariant(step)}
+                      size="small"
                     >
                       <CloseIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label="edit"
+                      onClick={() => handleEditVariant(step)}
+                      size="small"
+                    >
+                      <EditIcon />
                     </IconButton>
                   </Grid>
                   <Grid item sm={1}>
