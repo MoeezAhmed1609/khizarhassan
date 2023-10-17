@@ -241,6 +241,7 @@ exports.createOrder = catchAsyncError(async (req, res, next) => {
     let index = product?.variants.findIndex((object) => {
       return object?.size === items[i]?.size;
     });
+    product.quantity -= items[i]?.quantity;
     product.variants[index].quantity -= items[i]?.quantity;
     await product.save();
   }

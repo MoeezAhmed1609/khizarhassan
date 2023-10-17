@@ -1,31 +1,17 @@
-import {
-  IconButton,
-  Box,
-  Avatar,
-  Badge,
-  Modal,
-  Grid,
-  Card,
-  CardMedia,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { IconButton, Box, Avatar, Badge } from "@mui/material";
 import React, { useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import SearchIcon from "@mui/icons-material/Search";
-import StyledTextField from "./styledTextField";
+
 // Redux
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Services = () => {
   const [show, setShow] = useState(false);
-  const [search, setSearch] = useState(false);
-  const [query, setQuery] = useState("");
+
   // Avatar
   // Getting user
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -41,19 +27,8 @@ const Services = () => {
   // Cart
   // Getting cart items
   const { cart } = useSelector((state) => state.cart);
-  // Getting all products for search
-  const { data } = useSelector((state) => state?.products);
-  const products = data?.products;
+
   const services = [
-    {
-      title: "Account",
-      icon: isAuthenticated ? (
-        <Avatar {...stringAvatar(user?.name)} />
-      ) : (
-        <PersonOutlineOutlinedIcon />
-      ),
-      link: "/account",
-    },
     {
       title: "Cart",
       icon: (
@@ -89,108 +64,36 @@ const Services = () => {
       link: "/favorite",
     },
   ];
-  // Search Modal
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: { xs: "90vw", sm: "75vw", md: "55vw" },
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    height: "70vh",
-    borderRadius: "10px",
-  };
-  const handleOpen = () => setSearch(true);
-  const handleClose = () => setSearch(false);
+
   return (
     <Box sx={{ position: "relative" }}>
-      <IconButton onClick={() => handleOpen()}>
-        <SearchIcon sx={{ color: "white" }} />
+      <IconButton
+        sx={{
+          padding: "8px",
+          borderRadius: "50%",
+        }}
+      >
+        <Link
+          style={{ textDecoration: "none", color: "black" }}
+          to={"/account"}
+        >
+          {isAuthenticated ? (
+            <Avatar
+              {...stringAvatar(user?.name)}
+              sx={{ background: "#e63146", color: "white" }}
+            />
+          ) : (
+            <PersonOutlineOutlinedIcon sx={{ color: "inherit" }} />
+          )}
+        </Link>
       </IconButton>
-      <Modal open={search} onClose={handleClose}>
-        <Box sx={style}>
-          <Grid
-            container
-            sx={{
-              width: "100%",
-              margin: "20px 0",
-            }}
-          >
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                height: "15vh",
-              }}
-            >
-              <StyledTextField
-                title={"Search here"}
-                type={"text"}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container sx={{ overflowY: "scroll", height: "51vh" }}>
-                {products
-                  ?.filter((product) =>
-                    product?.name?.toLowerCase()?.includes(query?.toLowerCase())
-                  )
-                  ?.map((product, index) => (
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      key={index}
-                      sx={{ padding: "16px 10px" }}
-                    >
-                      <Card sx={{ boxShadow: "none" }}>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            sx={{ height: "30vh", objectFit: "contain" }}
-                            image={product?.variants[0]?.images[0]?.url}
-                            alt={product?.name}
-                          />
-                          <Link
-                            style={{
-                              textDecoration: "none",
-                              color: "black",
-                            }}
-                            to={`/product/${product?._id}`}
-                          >
-                            <CardContent>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  textTransform: "capitalize",
-                                  fontFamily: "Poppins, sans-serif",
-                                }}
-                              >
-                                {product?.name}
-                              </Typography>
-                            </CardContent>
-                          </Link>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
       <IconButton onClick={() => setShow(!show)}>
         <SettingsIcon sx={{ color: "white" }} />
       </IconButton>
       {show && (
         <Box
           sx={{
-            minHeight: "200px",
+            minHeight: "150px",
             position: "absolute",
             display: "flex",
             flexDirection: "column",

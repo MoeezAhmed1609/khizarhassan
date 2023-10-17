@@ -94,7 +94,7 @@ const Home = ({ handleAddToFavorites }) => {
               justifyContent: "center",
             }}
           >
-            <PaidOutlinedIcon sx={{ marginRight: "6px" }} /> Low Price
+            <PaidOutlinedIcon sx={{ paddingRight: "6px" }} /> Low Price
             Guaranteed
           </Typography>
         </Grid>
@@ -114,7 +114,7 @@ const Home = ({ handleAddToFavorites }) => {
               justifyContent: "center",
             }}
           >
-            <GppGoodOutlinedIcon sx={{ marginRight: "6px" }} /> 100% Authentic
+            <GppGoodOutlinedIcon sx={{ paddingRight: "6px" }} /> 100% Authentic
             Products
           </Typography>
         </Grid>
@@ -134,7 +134,7 @@ const Home = ({ handleAddToFavorites }) => {
               justifyContent: "center",
             }}
           >
-            <LocalShippingOutlinedIcon sx={{ marginRight: "6px" }} /> Free
+            <LocalShippingOutlinedIcon sx={{ paddingRight: "6px" }} /> Free
             Shipping Nationwide
           </Typography>
         </Grid>
@@ -154,8 +154,8 @@ const Home = ({ handleAddToFavorites }) => {
               justifyContent: "center",
             }}
           >
-            <CallOutlinedIcon sx={{ marginRight: "6px" }} /> Ask Any Query:{" "}
-            <span style={{ color: "black", marginLeft: "6px" }}>
+            <CallOutlinedIcon sx={{ paddingRight: "6px" }} /> Ask Any Query:{" "}
+            <span style={{ color: "black", paddingLeft: "6px" }}>
               +923272026242
             </span>
           </Typography>
@@ -245,14 +245,14 @@ const Home = ({ handleAddToFavorites }) => {
               fontSize: { xs: "5vh", sm: "7.5vh" },
             }}
           >
-            Get extra 20% off
+            Get extra 10% off
           </Typography>
           <Link
             to="/shop"
             style={{
               color: "white",
               textDecoration: "none",
-              width: "100%",
+              width: "90%",
               display: "flex",
               justifyContent: "center",
               margin: "8px 0",
@@ -275,7 +275,7 @@ const Home = ({ handleAddToFavorites }) => {
                 backgroundColor: "#e63146",
               }}
             >
-              <CircularProgress />
+              <CircularProgress sx={{color: 'white'}} />
             </Box>
           ) : (
             <SaleSlider

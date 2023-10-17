@@ -7,7 +7,7 @@ import "swiper/css";
 
 // import required modules
 import { Navigation } from "swiper";
-import ProductCard from "./ProductCard";
+import ProductCard from "./card";
 
 export default function ProductSlider({ products, favorite, cart }) {
   return (
@@ -36,12 +36,8 @@ export default function ProductSlider({ products, favorite, cart }) {
         className="product-slider"
       >
         {products?.map((product, i) => (
-          <SwiperSlide key={i}>
-            <ProductCard
-              favorite={favorite}
-              product={product}
-              addToCart={cart}
-            />
+          <SwiperSlide key={i} style={{ marginTop: "15px" }}>
+            <ProductCard handleAddToFavorites={favorite} product={product} />
           </SwiperSlide>
         ))}
       </Swiper>

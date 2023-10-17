@@ -83,7 +83,7 @@ input[type="radio"]:checked + label {
 }
 /* product-slider */
 .product-slider {
-  height: auto;
+  /* height: auto; */
 }
 
 .category-header {

@@ -9,6 +9,7 @@ export default function AutoCompleteSelect({
   setValue,
   label,
   src,
+  placeholder
 }) {
   return (
     <Autocomplete
@@ -30,7 +31,7 @@ export default function AutoCompleteSelect({
           ? option?.title
           : option
       }
-      renderInput={(params) => <TextField {...params} label={label} />}
+      renderInput={(params) => <TextField {...params} label={label} placeholder={placeholder} />}
       renderOption={(props, option) => (
         <Box
           component="li"

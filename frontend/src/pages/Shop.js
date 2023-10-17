@@ -106,7 +106,14 @@ const Shop = ({ handleAddToFavorites }) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+          <Typography
+            variant="h5"
+            sx={{
+              textTransform: "capitalize",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: "bold",
+            }}
+          >
             Listing {mode} Products
           </Typography>
         </Grid>
@@ -130,7 +137,7 @@ const Shop = ({ handleAddToFavorites }) => {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
-              sx={{ color: "black" }}
+              sx={{ color: "black", fontFamily: "Poppins, sans-serif" }}
             >
               Category: {mode}
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -158,6 +165,10 @@ const Shop = ({ handleAddToFavorites }) => {
                     handleClose();
                     setMode(cat?.title?.toLowerCase());
                   }}
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    textTransform: "capitalize",
+                  }}
                 >
                   {cat?.title}
                 </MenuItem>
@@ -169,7 +180,7 @@ const Shop = ({ handleAddToFavorites }) => {
               aria-haspopup="true"
               aria-expanded={openBrand ? "true" : undefined}
               onClick={handleClickBrand}
-              sx={{ color: "black" }}
+              sx={{ color: "black", fontFamily: "Poppins, sans-serif" }}
             >
               Brand: {brand}
               {openBrand ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -197,6 +208,10 @@ const Shop = ({ handleAddToFavorites }) => {
                     handleClose();
                     setBrand(cat?.title?.toLowerCase());
                   }}
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    textTransform: "capitalize",
+                  }}
                 >
                   {cat?.title}
                 </MenuItem>
@@ -208,7 +223,7 @@ const Shop = ({ handleAddToFavorites }) => {
               aria-haspopup="true"
               aria-expanded={openSort ? "true" : undefined}
               onClick={handleClickSort}
-              sx={{ color: "black" }}
+              sx={{ color: "black", fontFamily: "Poppins, sans-serif" }}
             >
               Sort By: {filter}
               {openSort ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -227,6 +242,7 @@ const Shop = ({ handleAddToFavorites }) => {
                   handleCloseSort();
                   setFilter("No Filter");
                 }}
+                sx={{ fontFamily: "Poppins, sans-serif" }}
               >
                 No Filter
               </MenuItem>
@@ -235,6 +251,7 @@ const Shop = ({ handleAddToFavorites }) => {
                   handleCloseSort();
                   setFilter("Newest");
                 }}
+                sx={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Newest
               </MenuItem>
@@ -243,6 +260,7 @@ const Shop = ({ handleAddToFavorites }) => {
                   handleCloseSort();
                   setFilter("Oldest");
                 }}
+                sx={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Oldest
               </MenuItem>
@@ -251,6 +269,7 @@ const Shop = ({ handleAddToFavorites }) => {
                   handleCloseSort();
                   setFilter("High-Low");
                 }}
+                sx={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Price: High - Low
               </MenuItem>
@@ -259,6 +278,7 @@ const Shop = ({ handleAddToFavorites }) => {
                   handleCloseSort();
                   setFilter("Low-High");
                 }}
+                sx={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Price: Low - High
               </MenuItem>

@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/effect-fade";
 
 // import required modules
-import { Navigation } from "swiper";
+import { Navigation, Autoplay, EffectFade } from "swiper";
 import { useSelector } from "react-redux";
 
 export default function MainBanner() {
@@ -17,8 +18,13 @@ export default function MainBanner() {
       <Swiper
         rewind={true}
         navigation={true}
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay, EffectFade]}
         className="main-swiper"
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        effect={"fade"}
       >
         {data?.map((ban, i) => (
           <SwiperSlide key={i}>

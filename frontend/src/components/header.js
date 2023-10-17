@@ -4,7 +4,6 @@ import {
   Box,
   Toolbar,
   Typography,
-  Container,
   Menu,
   MenuItem,
   IconButton,
@@ -18,25 +17,26 @@ import {
   CardMedia,
   CardActionArea,
   CardContent,
+  Divider,
 } from "@mui/material";
 
 // Icons Import
-import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TokenIcon from "@mui/icons-material/Token";
 
 // components import
 import xtrack from "../assets/xtrack.png";
 import { Link } from "react-router-dom";
 import StyledTextField from "./styledTextField";
-import StyledButton from "./styledButton";
 
 // Redux
 import { useSelector } from "react-redux";
 import Services from "./Services";
+import MobileDrawer from "./MobileDrawer";
 
 const Header = () => {
   const categories = useSelector((state) => state.category?.data);
@@ -122,24 +122,6 @@ const Header = () => {
     },
   ];
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   // Getting all products for search
   const { data } = useSelector((state) => state?.products);
   const products = data?.products;
@@ -174,179 +156,66 @@ const Header = () => {
       sx={{
         boxShadow: 0,
         background: "black",
+        left: "0",
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar
-          disableGutters
+      <Toolbar
+        disableGutters
+        sx={{
+          display: "flex",
+          // justifyContent: "space-between",
+          alignItems: "center",
+          height: "12.26vh",
+        }}
+      >
+        <Box sx={{ display: { xs: "flex", md: "none" }, width: "33%" }}>
+          <MobileDrawer />
+        </Box>
+        <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            height: "12.26vh",
+            display: {
+              xs: "none",
+              md: "flex",
+              width: "33%",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            },
           }}
         >
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-            >
-              <MenuIcon sx={{ color: "white" }} />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "flex", md: "none" },
-                textTransform: "capitalize",
-              }}
-            >
-              <MenuItem
-                onClick={handleCloseNavMenu}
-                sx={{
-                  width: "40vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  minHeight: "20px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-                  <Typography textAlign="center">Home</Typography>
-                </Link>
-              </MenuItem>
-              <MenuItem
-                onClick={handleCloseNavMenu}
-                sx={{
-                  width: "40vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  minHeight: "20px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                <Link
-                  to="/shop"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <Typography textAlign="center">Shop</Typography>
-                </Link>
-              </MenuItem>
-              {categories?.map((page, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={handleCloseNavMenu}
+          {pages.map((page, index) =>
+            page.name === "Shop" ? (
+              <>
+                <Button
+                  id="demo-positioned-button"
+                  aria-controls={open ? "demo-positioned-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{
-                    width: "40vw",
+                    my: 2,
+                    color: "white",
                     display: "flex",
-                    justifyContent: "center",
-                    minHeight: "20px",
-                    fontFamily: "Poppins, sans-serif",
+                    letterSpacing: "1.5px",
+                    fontWeight: "600",
+                    margin: "0 15px",
+                    fontFamily: "Poppins,sans-serif",
+                    alignItems: "center",
                   }}
                 >
-                  <Link
-                    to={"/shop"}
-                    style={{ textDecoration: "none", color: "black" }}
-                    state={{ category: page?.title?.toLowerCase() }}
-                  >
-                    <Typography textAlign="center">{page?.title}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-              <MenuItem
-                onClick={handleCloseNavMenu}
-                sx={{
-                  width: "40vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  minHeight: "20px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                <Link
-                  to="/about"
-                  style={{ textDecoration: "none", color: "black" }}
+                  SHOP
+                  <KeyboardArrowDownIcon />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleCloseAnchor}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
                 >
-                  <Typography textAlign="center">About</Typography>
-                </Link>
-              </MenuItem>
-              <MenuItem
-                onClick={handleCloseNavMenu}
-                sx={{
-                  width: "40vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  minHeight: "20px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                <Link
-                  to="/blogs"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <Typography textAlign="center">Blogs</Typography>
-                </Link>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Box
-            sx={{
-              display: {
-                xs: "none",
-                md: "flex",
-                width: "33%",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              },
-            }}
-          >
-            {pages.map((page, index) =>
-              page.name === "Shop" ? (
-                <>
-                  <Button
-                    id="demo-positioned-button"
-                    aria-controls={open ? "demo-positioned-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "flex",
-                      letterSpacing: "1.5px",
-                      fontWeight: "600",
-                      margin: "0 15px",
-                      fontFamily: "Poppins,sans-serif",
-                      alignItems: "center",
-                    }}
-                  >
-                    SHOP
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleCloseAnchor}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    {categories?.map((cat, i) => (
+                  {categories?.map((cat, i) => (
+                    <>
                       <Link
                         style={{
                           textDecoration: "none",
@@ -356,178 +225,192 @@ const Header = () => {
                         to={"/shop"}
                         state={{ category: cat?.title?.toLowerCase() }}
                       >
-                        <MenuItem onClick={handleCloseAnchor}>
+                        <MenuItem
+                          onClick={handleCloseAnchor}
+                          sx={{
+                            textTransform: "capitalize",
+                            fontFamily: "Poppins, sans-serif",
+                            fontWeight: "bold",
+                            width: "25vw",
+                            paddingLeft: "30px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <TokenIcon
+                            sx={{
+                              color: "#aab2bb",
+                              fontSize: "14px",
+                              marginRight: "12px",
+                            }}
+                          />
                           {cat?.title}
                         </MenuItem>
                       </Link>
-                    ))}
-                  </Menu>
-                </>
-              ) : (
-                <Link
-                  to={page.link}
-                  key={index}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Button
-                    onClick={handleCloseNavMenu}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      letterSpacing: "1.5px",
-                      fontWeight: "600",
-                      margin: "0 15px",
-                      fontFamily: "Poppins,sans-serif",
-                    }}
-                  >
-                    {page.name}
-                  </Button>
-                </Link>
-              )
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              width: "33%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Link to={"/"}>
-              <img src={xtrack} alt="boomwear" style={{ height: "7vh" }} />
-            </Link>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              width: "33%",
-              display: { xs: "none", sm: "flex" },
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              sx={{ margin: "0 10px", color: "white" }}
-              onClick={() => handleOpen()}
-            >
-              <SearchIcon />
-            </IconButton>
-            <Modal open={search} onClose={handleClose}>
-              <Box sx={style}>
-                <Grid
-                  container
+                      <Divider />
+                    </>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <Link
+                to={page.link}
+                key={index}
+                style={{ textDecoration: "none" }}
+              >
+                <Button
                   sx={{
-                    width: "100%",
-                    margin: "20px 0",
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1.5px",
+                    fontWeight: "600",
+                    margin: "0 15px",
+                    fontFamily: "Poppins,sans-serif",
                   }}
                 >
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      height: "15vh",
-                    }}
-                  >
-                    <StyledTextField
-                      title={"Search here"}
-                      type={"text"}
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid
-                      container
-                      sx={{ overflowY: "scroll", height: "51vh" }}
-                    >
-                      {products
-                        ?.filter((product) =>
-                          product?.name
-                            ?.toLowerCase()
-                            ?.includes(query?.toLowerCase())
-                        )
-                        ?.map((product, index) => (
-                          <Grid
-                            item
-                            xs={12}
-                            md={4}
-                            key={index}
-                            sx={{ padding: "16px 10px" }}
+                  {page.name}
+                </Button>
+              </Link>
+            )
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            width: "33%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Link to={"/"}>
+            <img src={xtrack} alt="Z" style={{ height: "7vh" }} />
+          </Link>
+        </Box>
+        <Box
+          sx={{
+            flexGrow: 0,
+            width: "33%",
+            display: { xs: "none", sm: "flex" },
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <IconButton
+            sx={{ margin: "0 10px", color: "white" }}
+            onClick={() => handleOpen()}
+          >
+            <SearchIcon />
+          </IconButton>
+          <Modal open={search} onClose={handleClose}>
+            <Box sx={style}>
+              <Grid
+                container
+                sx={{
+                  width: "100%",
+                  margin: "20px 0",
+                }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "15vh",
+                  }}
+                >
+                  <StyledTextField
+                    title={"Search here"}
+                    type={"text"}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container sx={{ overflowY: "scroll", height: "51vh" }}>
+                    {products
+                      ?.filter((product) =>
+                        product?.name
+                          ?.toLowerCase()
+                          ?.includes(query?.toLowerCase())
+                      )
+                      ?.map((product, index) => (
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          key={index}
+                          sx={{ padding: "16px 10px" }}
+                        >
+                          <Link
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                            to={`/product/${product?._id}`}
+                            onClick={() => {
+                              handleClose();
+                              setQuery("");
+                            }}
                           >
-                            <Link
-                              style={{
-                                textDecoration: "none",
-                                color: "black",
-                              }}
-                              to={`/product/${product?._id}`}
-                              onClick={() => {
-                                handleClose();
-                                setQuery("");
-                              }}
-                            >
-                              <Card sx={{ boxShadow: "none" }}>
-                                <CardActionArea>
-                                  <CardMedia
-                                    component="img"
-                                    sx={{
-                                      height: "30vh",
-                                      objectFit: "contain",
-                                    }}
-                                    image={product?.variants[0]?.images[0]?.url}
-                                    alt={product?.name}
-                                  />
+                            <Card sx={{ boxShadow: "none" }}>
+                              <CardActionArea>
+                                <CardMedia
+                                  component="img"
+                                  sx={{
+                                    height: "30vh",
+                                    objectFit: "contain",
+                                  }}
+                                  image={product?.variants[0]?.images[0]?.url}
+                                  alt={product?.name}
+                                />
 
-                                  <CardContent>
-                                    <Typography
-                                      variant="subtitle2"
-                                      sx={{
-                                        textTransform: "capitalize",
-                                        fontFamily: "Poppins, sans-serif",
-                                      }}
-                                    >
-                                      {product?.name}
-                                    </Typography>
-                                  </CardContent>
-                                </CardActionArea>
-                              </Card>
-                            </Link>
-                          </Grid>
-                        ))}
-                    </Grid>
+                                <CardContent>
+                                  <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                      textTransform: "capitalize",
+                                      fontFamily: "Poppins, sans-serif",
+                                    }}
+                                  >
+                                    {product?.name}
+                                  </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                            </Card>
+                          </Link>
+                        </Grid>
+                      ))}
                   </Grid>
                 </Grid>
-              </Box>
-            </Modal>
-            {services.map((service, index) => (
-              <Link
-                key={index}
-                style={{ textDecoration: "none", color: "white" }}
-                to={service.link}
-              >
-                <Tooltip title={service.title}>
-                  <IconButton sx={{ margin: "0 10px", color: "white" }}>
-                    {service.icon}
-                  </IconButton>
-                </Tooltip>
-              </Link>
-            ))}
-          </Box>
-          <Box
-            sx={{
-              display: { xs: "flex", sm: "none" },
-              flexGrow: 0,
-              width: "33%",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Services />
-          </Box>
-        </Toolbar>
-      </Container>
+              </Grid>
+            </Box>
+          </Modal>
+          {services.map((service, index) => (
+            <Link
+              key={index}
+              style={{ textDecoration: "none", color: "white" }}
+              to={service.link}
+            >
+              <Tooltip title={service.title}>
+                <IconButton sx={{ margin: "0 10px", color: "white" }}>
+                  {service.icon}
+                </IconButton>
+              </Tooltip>
+            </Link>
+          ))}
+        </Box>
+        <Box
+          sx={{
+            display: { xs: "flex", sm: "none" },
+            width: "30%",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Services />
+        </Box>
+      </Toolbar>
     </AppBar>
   );
 };

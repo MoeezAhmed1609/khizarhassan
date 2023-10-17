@@ -53,11 +53,10 @@ const SaleCard = ({ product }) => {
             <CardContent sx={{ paddingBottom: "5px !important" }}>
               <Typography
                 gutterBottom
-                variant="subtitle1"
+                variant="h6"
                 component="div"
                 sx={{
                   fontFamily: "Poppins, sans-serif",
-                  height: "8vh",
                   textTransform: "capitalize",
                   color: "white",
                   textAlign: "center",
@@ -70,14 +69,15 @@ const SaleCard = ({ product }) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "baseline",
+                  gap: "0 8px",
+                  flexWrap: "wrap",
                 }}
               >
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   sx={{
                     fontFamily: "Poppins, sans-serif",
                     fontWeight: "bold",
-                    paddingRight: "5px",
                     color: "white",
                     textAlign: "center",
                   }}
@@ -85,7 +85,7 @@ const SaleCard = ({ product }) => {
                   Rs.{product?.variants[0]?.price}
                 </Typography>
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   sx={{
                     fontFamily: "Poppins, sans-serif",
                     color: "black",
@@ -95,6 +95,21 @@ const SaleCard = ({ product }) => {
                   }}
                 >
                   Rs.{product?.variants[0]?.discount}
+                </Typography>
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  sx={{
+                    fontWeight: 700,
+                    fontFamily: "Poppins, sans-serif",
+                    background: "white",
+                    color: "#e63146",
+                    borderRadius: "5px",
+                    padding: "0 8px",
+                  }}
+                >
+                  Save Rs.
+                  {product?.variants[0]?.discount - product?.variants[0]?.price}
                 </Typography>
               </Box>
             </CardContent>

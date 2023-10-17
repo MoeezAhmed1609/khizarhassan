@@ -9,7 +9,6 @@ import {
   Box,
   Tooltip,
   CircularProgress,
-  Paper,
 } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -45,6 +44,25 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
           </CardContent>
         ) : (
           <>
+            {product?.quantity < 0 && (
+              <Box
+                sx={{
+                  width: "80px",
+                  height: "30px",
+                  position: "absolute",
+                  top: "10px",
+                  left: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#e63146",
+                  color: "white",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                Sold Out
+              </Box>
+            )}
             <Box
               sx={{
                 position: "absolute",
@@ -78,9 +96,9 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
             </Box>
             <CardMedia
               sx={{
-                height: "40vh",
+                height: "33vh",
                 backgroundSize: "contain",
-                marginBottom: "6px",
+                marginY: "10px",
               }}
               image={product?.variants[0]?.images[0]?.url}
               title={product?.variants[0]?.size}
@@ -98,10 +116,11 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
               }}
             >
               <Typography
-                variant="body2"
+                variant="body1"
                 sx={{
                   textTransform: "capitalize",
                   display: { xs: "none", sm: "block" },
+                  fontFamily: "Poppins, sans-serif",
                 }}
               >
                 {product?.category}
@@ -109,10 +128,11 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  fontWeight: "600",
-                  maxWidth: { sm: "75%" },
-                  fontSize: { xs: "13px" },
-                  minHeight: { xs: "75px" },
+                  fontWeight: "bold",
+                  fontSize: { xs: "13px", sm: "16px" },
+                  height: { xs: "14vh", sm: "11vh" },
+                  textTransform: "capitalize",
+                  fontFamily: "Poppins, sans-serif",
                 }}
               >
                 {product?.name}
@@ -125,27 +145,57 @@ const ProductCard = ({ product, loading, handleAddToFavorites }) => {
                 sx={{ color: "#e63146" }}
                 emptyIcon={<StarBorderIcon sx={{ fontSize: "inherit" }} />}
               />
-              <Typography sx={{ fontSize: "12px" }}>
+              <Typography
+                sx={{ fontSize: "14px", fontFamily: "Poppins, sans-serif" }}
+              >
                 {product?.reviews?.length} Reviews
               </Typography>
-              <Box sx={{ display: "flex" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
                 <Typography
-                  variant="body2"
+                  variant="h6"
                   component="div"
-                  sx={{ fontWeight: 800, color: "#e63146" }}
+                  sx={{
+                    fontWeight: 800,
+                    color: "#e63146",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
                 >
                   Rs.{product?.variants[0]?.price}
                 </Typography>
                 <Typography
-                  variant="body2"
+                  variant="h6"
                   sx={{
                     textDecoration: "line-through",
                     marginLeft: "8px",
+                    fontWeight: "bold",
+                    fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   Rs.{product?.variants[0]?.discount}
                 </Typography>
               </Box>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                  fontFamily: "Poppins, sans-serif",
+                  background: "#e63146",
+                  color: "white",
+                  borderRadius: "5px",
+                  padding: "0 8px",
+                  margin: { xs: "0 5px", sm: "0" },
+                  fontSize: { xs: "16px", sm: "20px" },
+                }}
+              >
+                Save Rs.
+                {product?.variants[0]?.discount - product?.variants[0]?.price}
+              </Typography>
             </CardContent>
           </>
         )}

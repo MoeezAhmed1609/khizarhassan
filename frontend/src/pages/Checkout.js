@@ -52,7 +52,7 @@ const Checkout = () => {
       : method === "EasyPaisa"
       ? "<p>Please share screenshot of transaction slip with your Order ID at Whatsapp 0333-2117276 or Email at xtrack.pk@gmail.com.<br /> Easypaisa account details:<br /> Account Title: Khizar Hasan<br /> Mobile Number: 0333-2117276</p>"
       : method === "Bank Transfer"
-      ? "<p>Please share screenshot of transaction slip with your Order ID at Whatsapp 0333-2117276 or Email at xtrack.pk@gmail.com.<br /> Your order will not be dispatch until the amount have cleared in our bank account.<br /> Bank account details:<br /> Account Title: Khizar Hasan<br /> Account Number: 0172 0106782669<br /> IBAN Number: 0333-2117276<br /> BANK: 0333-2117276</p>"
+      ? "<p>Please share screenshot of transaction slip with your Order ID at Whatsapp 0333-2117276 or Email at xtrack.pk@gmail.com.<br /> Your order will not be dispatch until the amount have cleared in our bank account.<br /> Bank account details:<br /> Account Title: Khizar Hasan<br /> Account Number: 0172 0106782669<br /> IBAN Number: PK60 MEZN 0001 7201 0678 2669<br /> BANK: Meezan Bank</p>"
       : null;
 
   const handleCreateOrder = () => {
@@ -177,11 +177,20 @@ const Checkout = () => {
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  sx={{
+                    padding: "0 8px",
+                    marginBottom: { xs: "10px", sm: "0" },
+                  }}
+                >
                   <AutoCompleteSelect
                     options={cities}
                     value={city}
                     setValue={setCity}
+                    placeholder={"City"}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} sx={{ padding: "0 8px" }}>

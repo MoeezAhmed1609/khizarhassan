@@ -65,8 +65,8 @@ const CategoriesSlider = ({ cards, brand }) => {
       <Swiper
         breakpoints={{
           0: {
-            slidesPerView: 1,
-            spaceBetween: 30,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           768: {
             slidesPerView: 2,
@@ -108,8 +108,8 @@ const CategoriesSlider = ({ cards, brand }) => {
             >
               <Box
                 sx={{
-                  height: "180px",
-                  width: "180px",
+                  height: "160px",
+                  width: "160px",
                   backgroundImage: `url(${cat?.image?.url})`,
                   backgroundSize: "contain",
                   backgroundPosition: "center",

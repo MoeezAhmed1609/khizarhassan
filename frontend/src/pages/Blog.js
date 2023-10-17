@@ -35,11 +35,17 @@ const Blog = () => {
           >
             {data?.title}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              padding: { xs: "5px", sm: "0 7%", md: "0 12%" },
+            }}
+          >
             <img
               src={data?.banner?.url}
               alt={data?.title}
-              style={{ height: "60vh" }}
+              style={{ width: "100%" }}
             />
           </Box>
         </Grid>

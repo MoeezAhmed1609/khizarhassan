@@ -7,7 +7,9 @@ import { useSelector } from "react-redux";
 const BestSellersSlider = ({ category, favorite }) => {
   const { loading, data } = useSelector((state) => state.products);
   const bestProducts = data?.products?.filter(
-    (product) => product?.best === true && product?.category === category
+    (product) =>
+      product?.best === true &&
+      product?.category?.toLowerCase() === category?.toLowerCase()
   );
   return (
     <>
@@ -21,13 +23,16 @@ const BestSellersSlider = ({ category, favorite }) => {
             alignItems: "center",
             flexDirection: "column",
             marginBottom: { xs: "15px", sm: "0" },
+            background: "#e63146",
+            color: "white",
+            borderRadius: "5px",
+            // padding: "0 8px",
           }}
         >
           <Link
             to={`/shop`}
             state={{ category: category?.toLowerCase() }}
             style={{ textAlign: "center", textDecoration: "none" }}
-            className="category-header"
           >
             <Typography
               variant="h5"
@@ -35,8 +40,7 @@ const BestSellersSlider = ({ category, favorite }) => {
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: "bold",
                 textTransform: "capitalize",
-                color: "black",
-                background: "white",
+                color: "white",
               }}
             >
               {category}
@@ -45,8 +49,7 @@ const BestSellersSlider = ({ category, favorite }) => {
               variant="subtitle2"
               sx={{
                 fontFamily: "Poppins, sans-serif",
-                color: "black",
-                background: "white",
+                color: "white",
               }}
             >
               View More
@@ -69,11 +72,7 @@ const BestSellersSlider = ({ category, favorite }) => {
           <CircularProgress color="inherit" size={"8.5vh"} />
         </Grid>
       ) : (
-        <Grid
-          item
-          xs={12}
-          sx={{ minHeight: "70vh" }}
-        >
+        <Grid item xs={12} sx={{ minHeight: "70vh" }}>
           <ProductSlider products={bestProducts} favorite={favorite} />
         </Grid>
       )}

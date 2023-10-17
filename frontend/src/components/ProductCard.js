@@ -35,7 +35,7 @@ const ProductCard = ({ product, favorite, addToCart }) => {
         }}
       >
         <CardActionArea>
-          {product?.variants[0]?.quantity < 0 && (
+          {product?.quantity < 0 && (
             <Box
               sx={{
                 width: "80px",
@@ -48,6 +48,7 @@ const ProductCard = ({ product, favorite, addToCart }) => {
                 alignItems: "center",
                 background: "#e63146",
                 color: "white",
+                fontFamily: "Poppins, sans-serif",
               }}
             >
               Sold Out

@@ -272,7 +272,7 @@ const Product = ({ handleAddToFavorites }) => {
                           }`,
                           borderRadius: "7px",
                           textAlign: "center",
-                          height: "40px",
+                          minHeight: "40px",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",

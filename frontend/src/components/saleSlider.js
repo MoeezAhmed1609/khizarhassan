@@ -15,7 +15,7 @@ export default function SaleSlider({ products, handleAddToFavorites }) {
     <Swiper
       navigation={true}
       modules={[Navigation]}
-      style={{ height: "60vh", width: "100%" }}
+      style={{ height: { xs: "auto", sm: "60vh" }, width: "100%" }}
     >
       {products?.map((product, i) => (
         <SwiperSlide key={i}>
