@@ -66,6 +66,7 @@ export default function FadeSlider({
                 src={sneaker}
                 alt="sneaker"
                 style={{ height: "75vh", width: "auto" }}
+                loading="lazy"
               />
               {button && (
                 <Button
@@ -115,6 +116,7 @@ export default function FadeSlider({
                 src={sneaker2}
                 alt="sneaker"
                 style={{ height: "75vh", width: "auto" }}
+                loading="lazy"
               />
               {button && (
                 <Button

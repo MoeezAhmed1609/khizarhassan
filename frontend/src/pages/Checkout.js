@@ -20,11 +20,12 @@ import RawHTMLRenderer from "../components/HtmlRenderer";
 import toast from "react-hot-toast";
 import AutoCompleteSelect from "../components/AutoComplete";
 import cities from "../assets/cities";
+import Metadata from "../components/metadata";
 
 const Checkout = () => {
   const navigate = useNavigate();
   // Getting User
-  const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   // Getting cart items
   const { cart } = useSelector((state) => state.cart);
   let subtotal = 0;
@@ -105,6 +106,7 @@ const Checkout = () => {
   }, [cart?.length]);
   return (
     <>
+      <Metadata title={"Checkout - Xtrack.pk"} />
       <Box sx={{ height: "13vh", width: "100%" }}></Box>
       {!cart ? (
         <Box

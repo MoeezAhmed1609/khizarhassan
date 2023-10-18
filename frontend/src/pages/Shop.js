@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ProductCard from "../components/card";
 import { useLocation } from "react-router-dom";
+import Metadata from "../components/metadata";
 
 const Shop = ({ handleAddToFavorites }) => {
   const location = useLocation();
@@ -86,6 +87,7 @@ const Shop = ({ handleAddToFavorites }) => {
   }, [location.state?.category, location.state?.brand]);
   return (
     <>
+      <Metadata title={"Shop - Xtrack.pk"} />
       <Box sx={{ height: "18vh", width: "100%" }} />
       <Grid
         container

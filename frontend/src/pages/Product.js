@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   IconButton,
+  Divider,
 } from "@mui/material";
 
 // Components Import
@@ -24,6 +25,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RelatedSlider from "../components/ProductsSlider";
 import ReviewSection from "../components/ReviewSection";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import Metadata from "../components/metadata";
 
 const Product = ({ handleAddToFavorites }) => {
   const navigate = useNavigate();
@@ -64,6 +66,11 @@ const Product = ({ handleAddToFavorites }) => {
   }, [data, size]);
   return (
     <>
+      <Metadata
+        title={`${data?.name} - Xtrack.pk`}
+        description={data?.description}
+        image={data?.variants[0]?.images[0]?.url}
+      />
       <Box
         sx={{
           height: "13vh",
@@ -182,7 +189,25 @@ const Product = ({ handleAddToFavorites }) => {
                       data?.variants[size]?.price}
                   </Typography>
                 </Box>
-
+                {data?.variants[size]?.expiry && (
+                  <Typography
+                    component="h1"
+                    variant="h6"
+                    sx={{
+                      fontFamily: "Poppins, sans-serif",
+                      // display: "flex",
+                      // alignItems: "center",
+                      marginY: "10px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <span style={{ color: "#e63146", paddingX: 2 }}>
+                      Expiry:
+                    </span>{" "}
+                    {data?.variants[size]?.expiry}
+                  </Typography>
+                )}
+                <Divider />
                 <Typography
                   component="h1"
                   variant="subtitle1"
@@ -200,6 +225,7 @@ const Product = ({ handleAddToFavorites }) => {
                     ? "Free Delivery All Over Pakistan"
                     : `Delivery for only Rs.${data?.shipping} All Over Pakistan`}
                 </Typography>
+                <Divider />
 
                 <Typography
                   sx={{ marginTop: "5px", fontFamily: "Poppins, sans-serif" }}

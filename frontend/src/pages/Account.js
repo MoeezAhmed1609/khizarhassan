@@ -6,10 +6,11 @@ import { loginUser, registerUser } from "../redux/actions/userActions";
 import isEmail from "validator/lib/isEmail";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Metadata from "../components/metadata";
 
 const Account = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   // Getting user
   const { isAuthenticated, error } = useSelector((state) => state.user);
@@ -20,6 +21,7 @@ const Account = () => {
   }, [isAuthenticated]);
   return (
     <>
+      <Metadata title={"Account - Xtrack.pk"} />
       <Box sx={{ height: "18vh", width: "100%" }}></Box>
       {isAuthenticated ? (
         <Box

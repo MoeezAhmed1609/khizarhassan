@@ -3,11 +3,13 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import RawHTMLRenderer from "../components/HtmlRenderer";
 import { Link } from "react-router-dom";
+import Metadata from "../components/metadata";
 
 const Blogs = () => {
   const { data } = useSelector((state) => state.blogs);
   return (
     <>
+      <Metadata title={"Blogs - Xtrack.pk"} />
       <Box sx={{ height: "18vh", width: "100%" }}></Box>
       <Grid
         container
@@ -22,7 +24,11 @@ const Blogs = () => {
           <Grid
             item
             xs={12}
-            sx={{ padding: "10px", height: {xs: '70vh', sm: "50vh"}, overflow: "hidden" }}
+            sx={{
+              padding: "10px",
+              height: { xs: "70vh", sm: "50vh" },
+              overflow: "hidden",
+            }}
           >
             <Link
               to={`/blog/${blog._id}`}
@@ -34,6 +40,7 @@ const Blogs = () => {
                     src={blog.banner.url}
                     alt={blog.title}
                     style={{ width: "100%" }}
+                    loading="lazy"
                   />
                 </Grid>
                 <Grid

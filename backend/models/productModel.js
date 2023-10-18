@@ -24,6 +24,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      expiry: {
+        type: String,
+      },
       quantity: {
         type: Number,
         required: [true, "Product Quantity is required!"],

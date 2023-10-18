@@ -104,7 +104,7 @@ const Blogs = () => {
                 height: "56px",
               }}
             >
-              <img src={banner} alt="Banner" style={{ height: "50px" }} />
+              <img src={banner} alt="Banner" style={{ height: "50px" }} loading="lazy" />
               <Box
                 sx={{
                   display: "flex",

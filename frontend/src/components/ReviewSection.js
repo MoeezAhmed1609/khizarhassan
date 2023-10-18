@@ -237,6 +237,7 @@ const ReviewSection = ({ reviews, id }) => {
                   >
                     <img
                       src={image}
+                      loading="lazy"
                       alt="Product"
                       style={{ height: "68px", margin: "0 3px" }}
                     />
@@ -344,6 +345,7 @@ const ReviewSection = ({ reviews, id }) => {
                     src={review?.image?.url}
                     alt={`review ${index}`}
                     style={{ height: "35vh" }}
+                    loading="lazy"
                   />
                 </Grid>
               )}

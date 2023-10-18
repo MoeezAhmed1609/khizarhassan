@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import AutoCompleteSelect from "./AutoComplete";
 import EditIcon from "@mui/icons-material/Edit";
+import "datejs";
 
 const CreateProduct = () => {
   // Categories
@@ -39,6 +40,7 @@ const CreateProduct = () => {
   const [usage, setUsage] = useState("");
   const [size, setSize] = useState("");
   const [quantityV, setQuantityV] = useState(0);
+  const [expiry, setExpiry] = useState("");
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [images, setImages] = useState([]);
@@ -150,6 +152,7 @@ const CreateProduct = () => {
       discount,
       images: uploads,
       flavors,
+      expiry,
     };
     setVariants((variants) => [...variants, data]);
     setSize("");
@@ -158,6 +161,7 @@ const CreateProduct = () => {
     setDiscount(0);
     setImages([]);
     setFlavors([]);
+    setExpiry("");
     toast.dismiss(loading);
     toast.success("Added!");
   };
@@ -184,10 +188,6 @@ const CreateProduct = () => {
       toast.error("Add at least 1 variant!");
       return;
     }
-    // if (related.length === 0) {
-    //   toast.error("Add related products!");
-    //   return;
-    // }
     if (!name || !description || !category || !brand || !quantity) {
       toast.error("Complete form!");
       return;
@@ -211,6 +211,7 @@ const CreateProduct = () => {
     };
     dispatch(createProduct(product));
   };
+  console.log({ variants });
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -301,7 +302,7 @@ const CreateProduct = () => {
           onChange={(e) => setQuantityV(e.target.value)}
         />
       </Grid>
-      <Grid item sm={6} sx={{ padding: "10px" }}>
+      <Grid item sm={4} sx={{ padding: "10px" }}>
         <StyledTextField
           title={"Variant Price"}
           type={"number"}
@@ -309,12 +310,20 @@ const CreateProduct = () => {
           onChange={(e) => setPrice(e.target.value)}
         />
       </Grid>
-      <Grid item sm={6} sx={{ padding: "10px" }}>
+      <Grid item sm={4} sx={{ padding: "10px" }}>
         <StyledTextField
           title={"Variant Discount"}
           type={"number"}
           value={discount}
           onChange={(e) => setDiscount(e.target.value)}
+        />
+      </Grid>
+      <Grid item sm={4} sx={{ padding: "10px" }}>
+        <input
+          type="date"
+          className="datePicker"
+          min={Date.today().toString("yyyy-MM-dd")}
+          onChange={(e) => setExpiry(e.target.value)}
         />
       </Grid>
       <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -355,6 +364,7 @@ const CreateProduct = () => {
                       src={image?.url ? image?.url : image}
                       alt="Product"
                       style={{ height: "68px", margin: "0 3px" }}
+                      loading="lazy"
                     />
                   </Badge>
                 ))
@@ -518,6 +528,7 @@ const CreateProduct = () => {
                   src={step?.images[0]?.url}
                   alt={step.size}
                   style={{ height: "9vh" }}
+                  loading="lazy"
                 />
               </Grid>
               <Grid item sm={2}>
@@ -532,17 +543,23 @@ const CreateProduct = () => {
                 </Typography>
                 <Typography>{step.quantity}</Typography>
               </Grid>
-              <Grid item sm={2}>
+              <Grid item sm={1}>
                 <Typography sx={{ fontWeight: "bold", marginBottom: "4px" }}>
                   Price
                 </Typography>
                 <Typography>{step.price}</Typography>
               </Grid>
-              <Grid item sm={2}>
+              <Grid item sm={1}>
                 <Typography sx={{ fontWeight: "bold", marginBottom: "4px" }}>
                   Discount
                 </Typography>
                 <Typography>{step.discount}</Typography>
+              </Grid>
+              <Grid item sm={2}>
+                <Typography sx={{ fontWeight: "bold", marginBottom: "4px" }}>
+                  Expiry
+                </Typography>
+                <Typography>{step.expiry}</Typography>
               </Grid>
               <Grid item sm={3}>
                 <Typography sx={{ fontWeight: "bold", marginBottom: "4px" }}>

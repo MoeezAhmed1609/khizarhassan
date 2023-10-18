@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import RawHTMLRenderer from "../components/HtmlRenderer";
+import Metadata from "../components/metadata";
 
 const Terms = () => {
   const contents = useSelector((state) => state.content?.data);
@@ -13,6 +14,7 @@ const Terms = () => {
   });
   return (
     <>
+      <Metadata title={"Terms & Conditions - Xtrack.pk"} />
       <Box
         sx={{
           height: "12.3vh",

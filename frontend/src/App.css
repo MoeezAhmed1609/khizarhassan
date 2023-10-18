@@ -170,3 +170,16 @@ input[type="radio"]:checked + label {
     font-size: 1.25rem;
   }
 }
+.datePicker {
+  width: 90.5%;
+  padding: 15.5px 14px;
+  border: 1.5px solid #e63146;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: Poppins, sans-serif;
+  outline: none;
+}
+
+.datePicker:focus {
+  border: 1.5px solid #e63146;
+}

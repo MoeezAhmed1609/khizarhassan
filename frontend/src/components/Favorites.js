@@ -7,10 +7,8 @@ import {
   CardActionArea,
   CardMedia,
   CardContent,
-  CardActions,
   Paper,
 } from "@mui/material";
-import StyledButton from "./styledButton";
 
 import { Link } from "react-router-dom";
 const Favorites = ({ user }) => {

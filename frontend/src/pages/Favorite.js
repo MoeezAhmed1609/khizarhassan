@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 // Material UI
 import {
   Box,
-  CircularProgress,
   Grid,
   CardContent,
   CardMedia,
@@ -10,12 +9,12 @@ import {
   CardActionArea,
   Card,
   CardActions,
-  Button,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromFavorites } from "../redux/actions/userActions";
 import StyledButton from "../components/styledButton";
+import Metadata from "../components/metadata";
 
 const Favorite = () => {
   const navigate = useNavigate();
@@ -33,6 +32,7 @@ const Favorite = () => {
   }, []);
   return (
     <>
+      <Metadata title={"Favorites - Xtrack.pk"} />
       <Box sx={{ height: "18vh", width: "100%" }}></Box>
       {user?.favorites?.length === 0 ? (
         <Box

@@ -106,6 +106,7 @@ const Category = () => {
                     src={image}
                     alt="Product"
                     style={{ height: "68px", margin: "0 3px" }}
+                    loading="lazy"
                   />
                 </Badge>
               ) : (
@@ -201,6 +202,7 @@ const Category = () => {
                     src={image}
                     alt="Product"
                     style={{ height: "68px", margin: "0 3px" }}
+                    loading="lazy"
                   />
                 </Badge>
               ) : (

@@ -1,4 +1,5 @@
 import axios from "axios";
+import emailjs from "@emailjs/browser";
 import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
@@ -252,6 +253,7 @@ export const removeFromFavorites = (productId) => async (dispatch) => {
 // Update user profile
 export const createOrder = (info) => async (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
+  const loading = toast.loading("Loading...");
   const data = await axios({
     url: "/api/v1/user/orders/new",
     method: "PUT",
@@ -260,13 +262,29 @@ export const createOrder = (info) => async (dispatch) => {
       data: info,
     },
   })
-    .then((res) => {
+    .then(async (res) => {
+      toast.dismiss(loading);
       dispatch({ type: CREATE_ORDER_SUCCESS, payload: res?.data });
-      window.localStorage.setItem("cart", JSON.stringify([]));
-      toast.success("Order Created!");
-      window.setTimeout(function () {
-        window.location.replace("/");
-      }, 2000);
+      const params = {
+        customer: info?.shipping?.name,
+        amount: info?.totalPrice,
+        quantity: info?.items?.length,
+        method: info?.payment,
+      };
+      await emailjs
+        .send(
+          "service_2ceha86",
+          "template_4a6ftfp",
+          params,
+          "-tJB3Q51ddpz99KGg"
+        )
+        .then(() => {
+          window.localStorage.setItem("cart", JSON.stringify([]));
+          toast.success("Order Created!");
+          window.setTimeout(function () {
+            window.location.replace("/");
+          }, 2000);
+        });
     })
     .catch((err) => {
       dispatch({ type: CREATE_ORDER_FAIL, payload: err.message });
@@ -393,7 +411,6 @@ export const createReview = (review) => async (dispatch) => {
       dispatch({ type: CREATE_REVIEW_FAIL, payload: err?.message });
       toast.error("Something went wrong!");
       console.log(err);
-
     });
 };
 

@@ -20,10 +20,11 @@ import Dash from "../components/Dash";
 import Product from "../components/Product";
 import Users from "../components/Users";
 import AdminOrders from "../components/AdminOrders";
-import Reviews from "../components/Reviews";
+// import Reviews from "../components/Reviews";
 import Blogs from "../components/Blogs";
 import Content from "../components/Content";
 import Category from "../components/Category";
+import Metadata from "../components/metadata";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ const Dashboard = () => {
   }, [window.sessionStorage]);
   return (
     <>
+      <Metadata title={"Dashboard - Xtrack.pk"} />
+
       <Box sx={{ height: "10vh", width: "100%" }}></Box>
       {loading ? (
         <Box
@@ -128,7 +131,7 @@ const Dashboard = () => {
                   sx={{
                     my: 2,
                     color: "black",
-                    display: { xs: "none", sm: "block" },
+                    display: "block",
                     letterSpacing: "1.5px",
                     fontWeight: "100",
                     margin: "0 15px",
@@ -208,6 +211,7 @@ const Admin = ({ user }) => {
     "Blogs",
     "Contents",
   ];
+  const optionsXs = ["Dashboard", "Users", "Orders"];
   useEffect(() => {
     const m = window.sessionStorage.getItem("admin");
     if (m) {
@@ -220,20 +224,44 @@ const Admin = ({ user }) => {
         minHeight: "75vh",
         width: "100%",
         display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
       }}
     >
-      <Stack direction="column" sx={{ width: "15vw", marginTop: "15px" }}>
+      <Stack
+        direction={{ xs: "row", sm: "column" }}
+        sx={{ width: { xs: "100%", sm: "15vw" }, marginTop: "15px" }}
+      >
         {options.map((option, i) => (
           <Button
             key={i}
             sx={{
               color: "black",
-              display: "block",
               letterSpacing: "1.5px",
               fontWeight: "100",
               border:
                 mode === option.toLowerCase() ? "1.5px solid black" : "none",
               margin: "8px 15px",
+              display: { xs: "none", sm: "block" },
+            }}
+            onClick={() => {
+              setMode(option.toLowerCase());
+              window.sessionStorage.setItem("admin", option.toLowerCase());
+            }}
+          >
+            {option}
+          </Button>
+        ))}
+        {optionsXs.map((option, i) => (
+          <Button
+            key={i}
+            sx={{
+              color: "black",
+              letterSpacing: "1.5px",
+              fontWeight: "100",
+              border:
+                mode === option.toLowerCase() ? "1.5px solid black" : "none",
+              margin: "8px 15px",
+              display: { xs: "block", sm: "none" },
             }}
             onClick={() => {
               setMode(option.toLowerCase());

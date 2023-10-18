@@ -9,16 +9,14 @@ import {
   Typography,
   CardActionArea,
   Card,
-  Button,
   Tooltip,
   IconButton,
   Divider,
   CardActions,
 } from "@mui/material";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 import HelpIcon from "@mui/icons-material/Help";
 import StyledButton from "../components/styledButton";
+import Metadata from "../components/metadata";
 
 import { Link } from "react-router-dom";
 
@@ -52,6 +50,7 @@ const Cart = () => {
 
   return (
     <>
+      <Metadata title={"Cart - Xtrack.pk"} />
       <Box sx={{ height: "14vh", width: "100%" }}></Box>
       {!cart ? (
         <Box
@@ -134,9 +133,7 @@ const Cart = () => {
                     <CardMedia
                       component="img"
                       height="200px"
-                      image={
-                        item?.product?.variants[indexed]?.images[0]?.url
-                      }
+                      image={item?.product?.variants[indexed]?.images[0]?.url}
                       alt={item?.product?.variants[indexed]?.size}
                       sx={{ objectFit: "contain" }}
                     />

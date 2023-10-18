@@ -19,17 +19,13 @@ import {
 import TextEditor from "../components/TextEditor";
 import toast from "react-hot-toast";
 import axios from "axios";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
-import AutoCompleteSelect from "./AutoComplete";
 import EditIcon from "@mui/icons-material/Edit";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   getProductDetails,
   updateProduct,
@@ -295,6 +291,7 @@ const UpdateProduct = () => {
                       src={category?.image?.url}
                       alt={category?.title}
                       style={{ height: "9vh" }}
+                      loading="lazy"
                     />
                     <Typography>{category?.title}</Typography>
                   </MenuItem>
@@ -332,6 +329,7 @@ const UpdateProduct = () => {
                       src={category?.image?.url}
                       alt={category?.title}
                       style={{ height: "9vh" }}
+                      loading="lazy"
                     />
                     <Typography>{category?.title}</Typography>
                   </MenuItem>
@@ -456,6 +454,7 @@ const UpdateProduct = () => {
                           src={image?.url ? image?.url : image}
                           alt="Product"
                           style={{ height: "68px", margin: "0 3px" }}
+                          loading="lazy"
                         />
                       </Badge>
                     ))
@@ -625,6 +624,7 @@ const UpdateProduct = () => {
                       src={step?.images[0]?.url}
                       alt={step.size}
                       style={{ height: "9vh" }}
+                      loading="lazy"
                     />
                   </Grid>
                   <Grid item sm={2}>

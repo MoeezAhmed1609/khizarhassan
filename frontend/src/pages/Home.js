@@ -25,8 +25,7 @@ import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
-
-import RawHTMLRenderer from "../components/HtmlRenderer";
+import Metadata from "../components/metadata";
 
 const Home = ({ handleAddToFavorites }) => {
   const dispatch = useDispatch();
@@ -60,6 +59,7 @@ const Home = ({ handleAddToFavorites }) => {
 
   return (
     <>
+      <Metadata title={"Home - Xtrack.pk"} />
       <Box
         sx={{
           height: "12.3vh",
@@ -275,7 +275,7 @@ const Home = ({ handleAddToFavorites }) => {
                 backgroundColor: "#e63146",
               }}
             >
-              <CircularProgress sx={{color: 'white'}} />
+              <CircularProgress sx={{ color: "white" }} />
             </Box>
           ) : (
             <SaleSlider
@@ -562,7 +562,12 @@ const Home = ({ handleAddToFavorites }) => {
                 padding: "24px",
               }}
             >
-              <img src={xtrack} style={{ height: "25vh" }} alt="boom wear" />
+              <img
+                src={xtrack}
+                style={{ height: "25vh" }}
+                alt="xtrack"
+                loading="lazy"
+              />
             </Box>
           </Grid>
         </Grid>

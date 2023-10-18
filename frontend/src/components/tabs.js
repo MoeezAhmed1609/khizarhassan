@@ -4,7 +4,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Rating, colors } from "@mui/material";
 import RawHTMLRenderer from "./HtmlRenderer";
 
 function CustomTabPanel(props) {
@@ -90,46 +89,6 @@ export default function ProductTabs({ data }) {
           </Typography>
         )}
       </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={2}>
-        <Box sx={{ paddingX: 2 }}>
-          {data?.reviews?.length > 0 ? (
-            data?.reviews?.map((review, index) => (
-              <Box key={index} sx={{ minHeight: "120px", width: "100%" }}>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Typography variant="h6">{review.customer}</Typography>
-                  <Rating
-                    name="read-only"
-                    value={review.rating}
-                    readOnly
-                    size="small"
-                    sx={{ color: "golden" }}
-                  />
-                </Box>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ marginTop: "8px", marginLeft: "8px" }}
-                >
-                  {review.comment}
-                </Typography>
-              </Box>
-            ))
-          ) : (
-            <Box
-              sx={{
-                height: "37vh",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h6" sx={{ textAlign: "center" }}>
-                No reviews for this product!
-              </Typography>
-            </Box>
-          )}
-        </Box>
-      </CustomTabPanel> */}
     </Box>
   );
 }

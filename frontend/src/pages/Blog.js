@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RawHTMLRenderer from "../components/HtmlRenderer";
 import { getBlog } from "../redux/actions/blogActions";
 import { useParams } from "react-router-dom";
+import Metadata from "../components/metadata";
 
 const Blog = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Blog = () => {
   }, [dispatch, id]);
   return (
     <>
+      <Metadata title={`${data?.title} - Xtrack.pk`} />
       <Box sx={{ height: "18vh", width: "100%" }}></Box>
       <Grid
         container
@@ -46,6 +48,7 @@ const Blog = () => {
               src={data?.banner?.url}
               alt={data?.title}
               style={{ width: "100%" }}
+              loading="lazy"
             />
           </Box>
         </Grid>

@@ -54,7 +54,8 @@ export default function ProductSlider({ images }) {
           {images?.map((image, i) => (
             <img
               src={image?.url}
-              alt={"Product"}
+              loading="lazy"
+              alt={`Product${i}`}
               style={{ height: "14vh", margin: "10px", cursor: "pointer" }}
               onClick={() => openInNewTab(image?.url)}
               key={i}

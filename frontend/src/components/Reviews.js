@@ -23,7 +23,7 @@ const Reviews = () => {
   // Mode
   const [mode, setMode] = useState("pending");
   // Getting user orders
-  const { user, loading } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const pendingItems = [];
   const postedItems = [];
   user?.orders?.filter((order) => {

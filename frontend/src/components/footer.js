@@ -9,7 +9,6 @@ import {
   Button,
 } from "@mui/material";
 import xtrack from "../assets/xtrack.png";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -78,7 +77,7 @@ const Footer = () => {
         }}
       >
         <Box>
-          <img src={xtrack} alt="Boom Wear" style={{ height: "8vh" }} />
+          <img src={xtrack} alt="Boom Wear" style={{ height: "8vh" }} loading="lazy" />
         </Box>
         <Stack direction="row" spacing={2}>
           <Typography

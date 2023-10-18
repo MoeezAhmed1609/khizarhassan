@@ -37,6 +37,7 @@ export default function OrderTable({ order }) {
                   src={item?.product?.variants[index]?.images[0]?.url}
                   alt={item?.product?.name}
                   style={{ height: "70px" }}
+                  loading="lazy"
                 />
               </TableCell>
               <TableCell align="left">{item?.product?.name}</TableCell>

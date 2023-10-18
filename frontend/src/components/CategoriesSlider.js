@@ -8,7 +8,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
 import { Pagination, Navigation } from "swiper";
-import { useSelector } from "react-redux";
 
 const CategoriesSlider = ({ cards, brand }) => {
   // Categories

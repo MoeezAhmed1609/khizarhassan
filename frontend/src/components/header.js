@@ -214,6 +214,38 @@ const Header = () => {
                     "aria-labelledby": "basic-button",
                   }}
                 >
+                  <>
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                      }}
+                      to={"/shop"}
+                    >
+                      <MenuItem
+                        onClick={handleCloseAnchor}
+                        sx={{
+                          textTransform: "capitalize",
+                          fontFamily: "Poppins, sans-serif",
+                          fontWeight: "bold",
+                          width: "25vw",
+                          paddingLeft: "30px",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <TokenIcon
+                          sx={{
+                            color: "#aab2bb",
+                            fontSize: "14px",
+                            marginRight: "12px",
+                          }}
+                        />
+                        Shop
+                      </MenuItem>
+                    </Link>
+                    <Divider />
+                  </>
                   {categories?.map((cat, i) => (
                     <>
                       <Link
@@ -284,7 +316,12 @@ const Header = () => {
           }}
         >
           <Link to={"/"}>
-            <img src={xtrack} alt="Z" style={{ height: "7vh" }} />
+            <img
+              src={xtrack}
+              alt="Z"
+              style={{ height: "7vh" }}
+              loading="lazy"
+            />
           </Link>
         </Box>
         <Box

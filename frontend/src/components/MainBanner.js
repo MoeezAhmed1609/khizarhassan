@@ -30,7 +30,7 @@ export default function MainBanner() {
           <SwiperSlide key={i}>
             <picture>
               <source media="(min-width:600px)" srcset={ban?.sm} />
-              <img alt={`banner${i}`} src={ban?.xs} />
+              <img alt={`banner${i}`} src={ban?.xs} loading="lazy" />
             </picture>
           </SwiperSlide>
         ))}

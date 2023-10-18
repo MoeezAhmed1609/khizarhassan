@@ -13,7 +13,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import StyledButton from "./styledButton";
 import {
-  changeBanner,
   deleteBanner,
   updateContent,
   uploadBanner,
@@ -55,9 +54,6 @@ const Content = () => {
 
   const handleImageRemove = (index) => {
     index === 0 ? setBannerSm("") : setBannerXs("");
-  };
-  const handleBannerUpdate = () => {
-    // dispatch(changeBanner(banner));
   };
   const handleDeleteBanner = (id) => {
     dispatch(deleteBanner(id));
@@ -179,6 +175,7 @@ const Content = () => {
                             objectFit: "contain",
                             marginBottom: "15px",
                           }}
+                          loading="lazy"
                         />
                       </Grid>
                       <Grid sm={5}>
@@ -190,6 +187,7 @@ const Content = () => {
                             objectFit: "contain",
                             marginBottom: "15px",
                           }}
+                          loading="lazy"
                         />
                       </Grid>
                     </Grid>
@@ -246,6 +244,7 @@ const Content = () => {
                           objectFit: "contain",
                           marginBottom: "15px",
                         }}
+                        loading="lazy"
                       />
                     </Badge>
                   )}
@@ -305,6 +304,7 @@ const Content = () => {
                           objectFit: "contain",
                           marginBottom: "15px",
                         }}
+                        loading="lazy"
                       />
                     </Badge>
                   )}

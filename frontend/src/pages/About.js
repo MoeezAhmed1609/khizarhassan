@@ -1,7 +1,8 @@
 import React from "react";
-import { Typography, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import RawHTMLRenderer from "../components/HtmlRenderer";
+import MetaData from "../components/metadata";
 
 const About = () => {
   const contents = useSelector((state) => state.content?.data);
@@ -13,6 +14,7 @@ const About = () => {
   });
   return (
     <>
+      <MetaData title={"About - Xtrack.pk"} />
       <Box
         sx={{
           height: "12.3vh",

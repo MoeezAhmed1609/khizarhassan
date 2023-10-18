@@ -12,7 +12,6 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  Pagination,
   Rating,
   Tooltip,
 } from "@mui/material";
@@ -44,9 +43,6 @@ const Product = () => {
   const productsCount = data?.productsCount;
   // Search
   const [search, setSearch] = useState("");
-  // Pagination
-  const [page, setPage] = useState(1);
-  const perPage = 6;
   const dispatch = useDispatch();
 
   // Getting product reviews

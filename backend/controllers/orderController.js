@@ -21,7 +21,7 @@ exports.createNewOrder = catchAsyncError(async (req, res, next) => {
 
 // Get all order details
 exports.getAllOrderDetails = catchAsyncError(async (req, res, next) => {
-  const orders = await Order.find();
+  const orders = await Order.find().populate("items.product");
   res.status(200).json({ orders });
 });
 

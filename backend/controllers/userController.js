@@ -6,6 +6,7 @@ const sendToken = require("../utils/JWTToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const Order = require("../models/orderModel");
+const emailjs = require("@emailjs/nodejs");
 
 // Register User
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -254,6 +255,7 @@ exports.createOrder = catchAsyncError(async (req, res, next) => {
     totalPrice,
     payment,
   });
+  
   let user;
   if (req.user) {
     user = await User.findById(req.user.id);
