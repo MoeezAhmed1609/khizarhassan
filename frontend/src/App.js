@@ -10,6 +10,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsApp from "./components/WhatsApp";
+import MetaPixel from "./assets/pixel";
 // Pages import
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -33,7 +34,7 @@ import { getAllBanners, getAllContents } from "./redux/actions/contentActions";
 import { getAllCategories } from "./redux/actions/categoryActions";
 import { getAllBrands } from "./redux/actions/brandsActions";
 
-function App() {
+function Root() {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
   // Add to favorites
@@ -75,6 +76,7 @@ function App() {
   return (
     <>
       <Router>
+        <MetaPixel />
         <Toaster />
         <ScrollToTop />
         <Header />
@@ -111,4 +113,4 @@ function App() {
   );
 }
 
-export default App;
+export default Root;

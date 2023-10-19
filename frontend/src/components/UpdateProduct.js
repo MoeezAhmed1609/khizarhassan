@@ -23,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import StyledButton from "../components/styledButton";
 import StyledTextField from "../components/styledTextField";
 import EditIcon from "@mui/icons-material/Edit";
+import "datejs";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -47,6 +48,7 @@ const UpdateProduct = () => {
   const [quantityV, setQuantityV] = useState(0);
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [expiry, setExpiry] = useState("");
   const [images, setImages] = useState([]);
   const [flavors, setFlavors] = useState([]);
   const [flavor, setFlavor] = useState("");
@@ -130,21 +132,25 @@ const UpdateProduct = () => {
 
     const uploads = [];
     for (let i = 0; i < images.length; i++) {
-      const formData = new FormData();
-      formData.append("file", images[i]);
-      formData.append("upload_preset", "xtrack-products-variants");
-      await axios
-        .post(
-          "https://api.cloudinary.com/v1_1/dptwxpos1/image/upload",
-          formData
-        )
-        .then((res) => {
-          const result = {
-            public_id: res.data.public_id,
-            url: res.data.secure_url,
-          };
-          uploads.push(result);
-        });
+      if (images[i]?.url) {
+        uploads.push(images[i]);
+      } else {
+        const formData = new FormData();
+        formData.append("file", images[i]);
+        formData.append("upload_preset", "xtrack-products-variants");
+        await axios
+          .post(
+            "https://api.cloudinary.com/v1_1/dptwxpos1/image/upload",
+            formData
+          )
+          .then((res) => {
+            const result = {
+              public_id: res.data.public_id,
+              url: res.data.secure_url,
+            };
+            uploads.push(result);
+          });
+      }
     }
     const data = {
       size,
@@ -153,6 +159,7 @@ const UpdateProduct = () => {
       discount,
       images: uploads,
       flavors,
+      expiry,
     };
     setVariants((variants) => [...variants, data]);
     setSize("");
@@ -400,7 +407,7 @@ const UpdateProduct = () => {
               onChange={(e) => setQuantityV(e.target.value)}
             />
           </Grid>
-          <Grid item sm={6} sx={{ padding: "10px" }}>
+          <Grid item sm={4} sx={{ padding: "10px" }}>
             <StyledTextField
               title={"Variant Price"}
               type={"number"}
@@ -408,12 +415,20 @@ const UpdateProduct = () => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </Grid>
-          <Grid item sm={6} sx={{ padding: "10px" }}>
+          <Grid item sm={4} sx={{ padding: "10px" }}>
             <StyledTextField
               title={"Variant Discount"}
               type={"number"}
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
+            />
+          </Grid>
+          <Grid item sm={4} sx={{ padding: "10px" }}>
+            <input
+              type="date"
+              className="datePicker"
+              min={Date.today().toString("yyyy-MM-dd")}
+              onChange={(e) => setExpiry(e.target.value)}
             />
           </Grid>
           <Grid item sm={6} sx={{ padding: "10px" }}>
@@ -643,7 +658,7 @@ const UpdateProduct = () => {
                     </Typography>
                     <Typography>{step.quantity}</Typography>
                   </Grid>
-                  <Grid item sm={2}>
+                  <Grid item sm={1}>
                     <Typography
                       sx={{ fontWeight: "bold", marginBottom: "4px" }}
                     >
@@ -651,13 +666,21 @@ const UpdateProduct = () => {
                     </Typography>
                     <Typography>{step.price}</Typography>
                   </Grid>
-                  <Grid item sm={2}>
+                  <Grid item sm={1}>
                     <Typography
                       sx={{ fontWeight: "bold", marginBottom: "4px" }}
                     >
                       Discount
                     </Typography>
                     <Typography>{step.discount}</Typography>
+                  </Grid>
+                  <Grid item sm={2}>
+                    <Typography
+                      sx={{ fontWeight: "bold", marginBottom: "4px" }}
+                    >
+                      Expiry
+                    </Typography>
+                    <Typography>{step.expiry}</Typography>
                   </Grid>
                   <Grid item sm={3}>
                     <Typography

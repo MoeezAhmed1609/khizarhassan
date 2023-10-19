@@ -1,16 +1,22 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import Root from "./App";
+import { hydrate, render } from "react-dom";
 // Redux Import
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+const App = (
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <Root />
     </React.StrictMode>
   </Provider>
 );
+
+const rootElement = document.getElementById("root");
+if (rootElement.hasChildNodes()) {
+  hydrate(App, rootElement);
+} else {
+  render(App, rootElement);
+}
