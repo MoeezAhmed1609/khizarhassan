@@ -309,7 +309,7 @@ const Header = () => {
         </Box>
         <Box
           sx={{
-            display: "flex",
+            display: {xs:'none', sm:"flex"},
             width: "33%",
             justifyContent: "center",
             alignItems: "center",
@@ -320,6 +320,23 @@ const Header = () => {
               src={xtrack}
               alt="Z"
               style={{ height: "7vh" }}
+              loading="lazy"
+            />
+          </Link>
+        </Box>
+        <Box
+          sx={{
+            display: {xs:'flex', sm:"none"},
+            width: "33%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Link to={"/"}>
+            <img
+              src={xtrack}
+              alt="Z"
+              style={{ height: "5vh" }}
               loading="lazy"
             />
           </Link>
@@ -443,6 +460,7 @@ const Header = () => {
             display: { xs: "flex", sm: "none" },
             width: "30%",
             justifyContent: "flex-end",
+            alignItems: "center"
           }}
         >
           <Services />

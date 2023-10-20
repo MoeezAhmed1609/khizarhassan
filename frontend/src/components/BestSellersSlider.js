@@ -63,7 +63,7 @@ const BestSellersSlider = ({ category, favorite }) => {
           xs={12}
           sx={{
             paddingLeft: { xs: "0", sm: "10px" },
-            minHeight: "70vh",
+            minHeight: "45vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -72,7 +72,7 @@ const BestSellersSlider = ({ category, favorite }) => {
           <CircularProgress color="inherit" size={"8.5vh"} />
         </Grid>
       ) : (
-        <Grid item xs={12} sx={{ minHeight: "70vh" }}>
+        <Grid item xs={12} sx={{ minHeight: "45vh" }}>
           <ProductSlider products={bestProducts} favorite={favorite} />
         </Grid>
       )}

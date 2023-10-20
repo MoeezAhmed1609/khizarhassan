@@ -244,9 +244,9 @@ function MobileDrawer(props) {
         color="inherit"
         onClick={handleDrawerToggle}
         sx={{ display: { md: "none" }, paddingLeft: "25px" }}
-        edge={"end"}
+        // edge={"end"}
       >
-        <MenuIcon sx={{ fontSize: "5.6vh" }} />
+        <MenuIcon />
       </IconButton>
       <Box
         component="nav"

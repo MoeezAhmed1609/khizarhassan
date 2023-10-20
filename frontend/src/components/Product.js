@@ -116,6 +116,25 @@ const Product = () => {
                   >
                     <Card sx={{ boxShadow: "none" }}>
                       <CardActionArea>
+                        {product?.quantity < 0 && (
+                          <Box
+                            sx={{
+                              width: "80px",
+                              height: "30px",
+                              position: "absolute",
+                              top: "10px",
+                              left: "10px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              background: "#e63146",
+                              color: "white",
+                              fontFamily: "Poppins, sans-serif",
+                            }}
+                          >
+                            Sold Out
+                          </Box>
+                        )}
                         <Link
                           style={{ textDecoration: "none", color: "black" }}
                           to={`/product/${product?._id}`}

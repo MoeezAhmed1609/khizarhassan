@@ -66,13 +66,8 @@ const Services = () => {
   ];
 
   return (
-    <Box sx={{ position: "relative" }}>
-      <IconButton
-        sx={{
-          padding: "8px",
-          borderRadius: "50%",
-        }}
-      >
+    <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
+      <IconButton sx={{ paddingTop: "15px" }}>
         <Link
           style={{ textDecoration: "none", color: "black" }}
           to={"/account"}
@@ -83,7 +78,7 @@ const Services = () => {
               sx={{ background: "#e63146", color: "white" }}
             />
           ) : (
-            <PersonOutlineOutlinedIcon sx={{ color: "inherit" }} />
+            <PersonOutlineOutlinedIcon sx={{ color: "white" }} />
           )}
         </Link>
       </IconButton>

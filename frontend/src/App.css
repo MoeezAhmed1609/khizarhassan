@@ -79,7 +79,7 @@ input[type="radio"]:checked + label {
 }
 /* category-slider */
 .category-slider {
-  height: 50vh;
+  max-height: 50vh;
 }
 /* product-slider */
 .product-slider {

@@ -164,7 +164,7 @@ const Home = ({ handleAddToFavorites }) => {
       {/* Banner Slider */}
       <MainBanner />
       {/* Categories */}
-      <Box sx={{ minHeight: "60vh", padding: "25px 0" }}>
+      <Box sx={{ minHeight: "30vh", padding: "25px 0" }}>
         <Box
           sx={{
             minHeight: "15vh",
@@ -206,7 +206,7 @@ const Home = ({ handleAddToFavorites }) => {
       {/* Sale Wrapper */}
       <Grid
         container
-        sx={{ minHeight: "60vh", width: "100%", background: "#e63146" }}
+        sx={{ minHeight: "30vh", width: "100%", background: "#e63146" }}
       >
         <Grid
           item
@@ -267,7 +267,7 @@ const Home = ({ handleAddToFavorites }) => {
             <Box
               sx={{
                 textAlign: "center",
-                height: "60vh",
+                height: "50vh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
