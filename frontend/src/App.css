@@ -13,12 +13,7 @@
   display: block;
   width: 100%;
 }
-.swiper-bg {
-  background-image: url("./assets/paint.jpg");
-  background-repeat: no-repeat;
-  background-size: 80%;
-  background-position: center;
-}
+
 .swiper-transparent-bg {
   background-color: #ededed;
 }

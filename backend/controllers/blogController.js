@@ -2,6 +2,7 @@ const Blog = require("../models/blogModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const cloudinary = require("cloudinary");
+const generateSitemap = require("../utils/generate-sitemap.js")
 
 // Create Blog
 exports.createBlog = catchAsyncError(async (req, res, next) => {
@@ -19,6 +20,8 @@ exports.createBlog = catchAsyncError(async (req, res, next) => {
     banner,
     content,
     admin: req.user.id,
+  }).then(() => {
+    generateSitemap();
   });
   res.status(200).json({ blog });
 });

@@ -1,6 +1,8 @@
 const app = require("./app");
 const connectMongoDB = require("./config/mongodb.js");
 const cloudinary = require("cloudinary");
+// const generateSitemap = require("./utils/generate-sitemap.js");
+
 
 // Handling Uncaught exceptions
 process.on("uncaughtException", (err) => {
@@ -17,6 +19,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // MongoDB connection
 connectMongoDB();
+// generateSitemap()
 
 // Cloudinary configuration
 cloudinary.config({

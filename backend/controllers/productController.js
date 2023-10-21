@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/features");
 const cloudinary = require("cloudinary");
+const generateSitemap = require("../utils/generate-sitemap.js")
 
 // Create Product | Admin
 exports.createProduct = catchAsyncError(async (req, res) => {
@@ -32,6 +33,8 @@ exports.createProduct = catchAsyncError(async (req, res) => {
     shipping,
     brand,
     admin: req.user.id,
+  }).then(() => {
+    generateSitemap();
   });
   res.status(200).json({ message: "Product created successfully!", product });
 });
