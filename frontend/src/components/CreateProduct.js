@@ -188,7 +188,7 @@ const CreateProduct = () => {
       toast.error("Add at least 1 variant!");
       return;
     }
-    if (!name || !description || !category || !brand || !quantity) {
+    if (!name || !description || !category || !quantity) {
       toast.error("Complete form!");
       return;
     }

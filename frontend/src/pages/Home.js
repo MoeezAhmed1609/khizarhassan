@@ -320,22 +320,22 @@ const Home = ({ handleAddToFavorites }) => {
         </Grid>
         <BestSellersSlider
           favorite={handleAddToFavorites}
-          category={"proteins"}
+          category={"protein"}
         />
 
         <BestSellersSlider
           favorite={handleAddToFavorites}
-          category={"weight gainers"}
+          category={"mass gainer"}
         />
 
         <BestSellersSlider
           favorite={handleAddToFavorites}
-          category={"pre workouts"}
+          category={"pre-workout"}
         />
 
         <BestSellersSlider
           favorite={handleAddToFavorites}
-          category={"fat loss products"}
+          category={"fat burners"}
         />
 
         <BestSellersSlider
