@@ -302,7 +302,7 @@ const Shop = ({ handleAddToFavorites }) => {
           </Grid>
         ) : products?.length > 0 ? (
           products?.map((product, i) => (
-            <Grid item xs={6} sm={4} md={3} key={i} sx={{ padding: "10px" }}>
+            <Grid item xs={6} sm={4} md={3} key={i} sx={{ padding: "6px" }}>
               <ProductCard
                 handleAddToFavorites={handleAddToFavorites}
                 loading={loading}

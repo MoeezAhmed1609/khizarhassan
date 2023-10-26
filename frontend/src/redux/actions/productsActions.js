@@ -38,6 +38,7 @@ export const getAllProducts = () => async (dispatch) => {
 
 // Create new product
 export const createProduct = (product) => async (dispatch) => {
+  const loading = toast.loading("Loading...");
   dispatch({ type: CREATE_PRODUCT_REQUEST });
   const data = await axios({
     url: "/api/v1/products/create",
@@ -48,6 +49,7 @@ export const createProduct = (product) => async (dispatch) => {
     },
   })
     .then((res) => {
+      toast.dismiss(loading);
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: res.data });
       toast.success("Product Created, reloading!");
       window.setTimeout(function () {
@@ -55,6 +57,7 @@ export const createProduct = (product) => async (dispatch) => {
       }, 2000);
     })
     .catch((err) => {
+      toast.dismiss(loading);
       dispatch({ type: CREATE_PRODUCT_FAIL, payload: err });
       toast.error("Something went wrong, Reload!");
     });
@@ -71,13 +74,14 @@ export const getProductDetails = (id) => async (dispatch) => {
       type: GET_PRODUCT_DETAILS_FAIL,
       payload: error.response.data.message,
     });
-    toast.error("Not Found!")
+    toast.error("Not Found!");
   }
 };
 
 // Update product
 export const updateProduct = (id, product) => async (dispatch) => {
   dispatch({ type: UPDATE_PRODUCT_REQUEST });
+  const loading = toast.loading("Loading...");
   const data = await axios({
     url: `/api/v1/products/update/${id}`,
     method: "PUT",
@@ -87,6 +91,7 @@ export const updateProduct = (id, product) => async (dispatch) => {
     },
   })
     .then((res) => {
+      toast.dismiss(loading);
       dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res });
       toast.success("Product Updated, reloading!");
       window.setTimeout(function () {
@@ -94,9 +99,10 @@ export const updateProduct = (id, product) => async (dispatch) => {
       }, 2000);
     })
     .catch((err) => {
+      toast.dismiss(loading);
       dispatch({ type: UPDATE_PRODUCT_FAIL, payload: err });
       toast.error("Something went wrong, Reload!");
-      console.log(err)
+      console.log(err);
     });
 };
 

@@ -20,29 +20,28 @@ export default function ProductSlider({ products, favorite }) {
           },
           480: {
             slidesPerView: 2,
-            spaceBetween: 30,
+            spaceBetween: 10,
           },
           768: {
             slidesPerView: 3,
-            spaceBetween: 40,
+            spaceBetween: 12,
           },
           1024: {
             slidesPerView: 4,
-            spaceBetween: 40,
+            spaceBetween: 12,
           },
         }}
         navigation={true}
         modules={[Navigation]}
         className="product-slider"
-        style={{ padding: '15px 0'}}
+        style={{ padding: "15px 0" }}
       >
         {products?.map((product, i) => (
-          <SwiperSlide key={i} >
+          <SwiperSlide key={i}>
             <ProductCard handleAddToFavorites={favorite} product={product} />
           </SwiperSlide>
         ))}
       </Swiper>
     </>
-    
   );
 }

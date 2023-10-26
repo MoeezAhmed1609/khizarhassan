@@ -113,7 +113,7 @@ const UpdateProduct = () => {
 
   //   handle add variant
   const handleAddVariant = async () => {
-    if (!size) {
+    if (category?.toLowerCase() !== "accessories" && !size) {
       toast.error("Describe variant size!");
       return;
     }

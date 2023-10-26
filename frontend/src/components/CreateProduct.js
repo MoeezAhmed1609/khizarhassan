@@ -104,7 +104,7 @@ const CreateProduct = () => {
 
   //   handle add variant
   const handleAddVariant = async () => {
-    if (!size) {
+    if (category?.toLowerCase() !== "accessories" && !size) {
       toast.error("Describe variant size!");
       return;
     }
@@ -175,6 +175,7 @@ const CreateProduct = () => {
     handleRemoveVariant(variant);
   };
   const dispatch = useDispatch();
+  console.log(category);
   const handleCreateProduct = () => {
     if (name.length === 0) {
       toast.error("Enter product name!");
@@ -184,10 +185,11 @@ const CreateProduct = () => {
       toast.error("Enter proper description! (min 20 letters)");
       return;
     }
-    if (variants.length < 1) {
+    if (category?.toLowerCase() !== "accessories" && variants?.length < 1) {
       toast.error("Add at least 1 variant!");
       return;
     }
+
     if (!name || !description || !category || !quantity) {
       toast.error("Complete form!");
       return;
@@ -211,7 +213,6 @@ const CreateProduct = () => {
     };
     dispatch(createProduct(product));
   };
-  console.log({ variants });
   return (
     <Grid container>
       <Grid item sm={6} sx={{ padding: "10px" }}>

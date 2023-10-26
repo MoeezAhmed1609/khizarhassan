@@ -22,18 +22,15 @@ const productSchema = new mongoose.Schema({
     {
       size: {
         type: String,
-        required: true,
       },
       expiry: {
         type: String,
       },
       quantity: {
         type: Number,
-        required: [true, "Product Quantity is required!"],
       },
       price: {
         type: Number,
-        required: [true, "Product Price is required!"],
       },
       discount: {
         type: Number,
@@ -42,11 +39,9 @@ const productSchema = new mongoose.Schema({
         {
           public_id: {
             type: String,
-            required: true,
           },
           url: {
             type: String,
-            required: true,
           },
         },
       ],
